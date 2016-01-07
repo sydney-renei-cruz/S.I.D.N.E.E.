@@ -62,8 +62,11 @@ public class AddProduct extends HttpServlet {
         Statement stmt = null;
         ResultSet rs = null;
         
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
+        String pID = request.getParameter("productID");
+        String pName = request.getParameter("productName");
+        float MSRP = Float.parseFloat(request.getParameter("MSRP"));
+        String description = request.getParameter("description");
+        float discountRate = Float.parseFloat(request.getParameter("discountRate"));
         InputStream inputStream = null;
         Part filePart = request.getPart("photo");
         
@@ -72,29 +75,32 @@ public class AddProduct extends HttpServlet {
         }
         
         try {
-                String inText = "INSERT INTO contacts (first_name, last_name, photo) values (?, ?, ?)";
+                String inText = "INSERT INTO product (productID, productName, MSRP, description, discountRate, image) values (?, ?, ?, ?, ?)";
                 
-                PreparedStatement pstmtSave = conn.prepareStatement(inText);
-                pstmtSave.setString(1, firstName);
-                pstmtSave.setString(2, lastName);
+                PreparedStatement ps = conn.prepareStatement(inText);
+                ps.setString(1, pID);
+                ps.setString(2, pName);
+                ps.setFloat(3, MSRP);
+                ps.setString(4, description);
+                ps.setFloat(5, discountRate);
                 
                 if(inputStream!=null){
-                    pstmtSave.setBlob(3, inputStream);
+                    ps.setBlob(6, inputStream);
                 }
+                
             //sends the statement to the database server
-            int row = pstmtSave.executeUpdate();
-            if(row>0){
-                request.setAttribute("msg", "Sucess");
-            }
-            else{
-                request.setAttribute("msg", "Failure");
-            }
+                if(ps.executeUpdate()>0){
+                    request.setAttribute("msg", "Sucess");
+                }
             
-            request.getRequestDispatcher("WEB-INF/Output.jsp").forward(request, response);
+                else{
+                    request.setAttribute("msg", "Failure");
+                }
+            
+                request.getRequestDispatcher("WEB-INF/Output.jsp").forward(request, response);
                 
-            stmt.close();
-            conn.close();
-                
+                stmt.close();
+                conn.close();
 	}
         
 	catch (Exception ex){
