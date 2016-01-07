@@ -35,7 +35,7 @@
             <div class="content">
             <div class="col-md-7">
             <a href="branchProductRetrieve?branch=<%=branch.getBranchNum()%>">
-            <img class="img-responsive" src="img/branches/<%=branch.getBranchNum()%>.png" alt="">
+            <img class="img-responsive" src="image?branchNum=<%=branch.getBranchNum()%>" alt="">
             </a>
             </div>
             <div class="col-md-5">

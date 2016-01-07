@@ -56,7 +56,7 @@
 								<h4 class="productName"><%=productList.get(i).getProductName()%></h4>
 								<p><a href="productRetrieve?pid=<%=productList.get(i).getProductID()%>" class="label label-danger" rel="tooltip" title="View Product"> View Product</a>
 							</div>
-							<img class="img-responsive img" src="img/products/<%=productList.get(i).getProductID()%>.png" alt="">
+							<img class="img-responsive img" src="image?pid=<%=productList.get(i).getProductID()%>" alt="">
 						</div>
 					</div>
 				</div>

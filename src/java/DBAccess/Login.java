@@ -16,6 +16,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -116,6 +117,7 @@ public class Login extends HttpServlet {
                     rs.first();
                     if(rs.getString("username").equalsIgnoreCase(input)){
                         response.addCookie(new Cookie("userID", rs.getString("userID")));
+                        request.getSession(true).setAttribute("userID", rs.getString("userID"));
                         response.sendRedirect("index.html");
                     }
                 }

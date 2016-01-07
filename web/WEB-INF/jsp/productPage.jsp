@@ -41,7 +41,7 @@
 				<div class="row" style="margin-top: 35px;">
 					<div class="col-sm-6">
 						<span class="thumbnail">
-							<img class="featurette-image img-responsive pull-left productimg" src="img/products/<%=product.getProductID()%>.png">
+							<img class="featurette-image img-responsive pull-left productimg" src="image?pid=<%=product.getProductID()%>">
 						</span>
 					</div>
                                     

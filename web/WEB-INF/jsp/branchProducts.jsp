@@ -64,7 +64,7 @@
                                     <h3 class="productName"><%=branchProductList.get(i).getProductName()%></h3>
                                     <p><a href="productRetrieve?pid=<%=branchProductList.get(i).getProductID()%>" class="label label-danger" rel="tooltip" title="View Product"> View Product</a>
 				</div>
-                                <img class="img-responsive img" src="img/products/<%=branchProductList.get(i).getProductID()%>.png" alt="">
+                                <img class="img-responsive img" src="image?pid=<%=branchProductList.get(i).getProductID()%>" alt="">
                             </div>
 			</div>
                     </div>
