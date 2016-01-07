@@ -69,7 +69,8 @@ public class Login extends HttpServlet {
         
         response.setContentType("text/html");
         
-        
+        Cookie cookie = new Cookie("userID", null);
+        response.addCookie(cookie);
         //---------------
         
         response.setCharacterEncoding("UTF-8");
@@ -108,13 +109,13 @@ public class Login extends HttpServlet {
                     hashed = Hashing.sha1().hashString(pass + rs.getString("salt"), Charsets.UTF_8).toString();
                 }
                 
-                inText = "select username from user where username = \"" + input +"\" and passHash = \"" + hashed +"\";";
+                inText = "select username, userID from user where username = \"" + input +"\" and passHash = \"" + hashed +"\";";
                 
                 if(stmt.execute(inText)){
                     rs = stmt.getResultSet();
                     rs.first();
                     if(rs.getString("username").equalsIgnoreCase(input)){
-                        response.addCookie(new Cookie("username", input));
+                        response.addCookie(new Cookie("userID", rs.getString("userID")));
                         response.sendRedirect("index.html");
                     }
                 }

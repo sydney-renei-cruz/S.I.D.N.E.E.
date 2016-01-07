@@ -71,7 +71,7 @@ public class allProductsRetrieve extends HttpServlet {
                     rs = stmt.getResultSet();
                 ArrayList<ProductBean> resultList = new ArrayList<>();
                 while(rs.next()){
-                    resultList.add(new ProductBean(rs.getString("productID"), rs.getString("productName"), rs.getDouble("MSRP"), rs.getString("Description")));
+                    resultList.add(new ProductBean(rs.getString("productID"), rs.getString("productName"), rs.getDouble("MSRP"), rs.getString("Description"), rs.getDouble("discountRate")));
                     
                 }
                 

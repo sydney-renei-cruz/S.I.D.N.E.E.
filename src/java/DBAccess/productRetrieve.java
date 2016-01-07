@@ -86,7 +86,7 @@ public class productRetrieve extends HttpServlet {
 			rs = stmt.getResultSet();
 		}
                 rs.first();
-                request.setAttribute("product",(new ProductBean(rs.getString("productID"),rs.getString("productName"), rs.getDouble("MSRP"),rs.getString("Description"))));
+                request.setAttribute("product",(new ProductBean(rs.getString("productID"),rs.getString("productName"), rs.getDouble("MSRP"),rs.getString("Description"), rs.getDouble("DiscountRate"))));
                 
                 inText = "SELECT * FROM branchInventory WHERE productID = " + pidinput + ";";
                 
@@ -111,7 +111,7 @@ public class productRetrieve extends HttpServlet {
 	}
 	catch (Exception ex){
 	// handle any errors
-		out.write("Error 1: " + ex);
+		out.write("Error: empty parameters or no product ID with that name");
 	}
 	finally {
 	// it is a good idea to release

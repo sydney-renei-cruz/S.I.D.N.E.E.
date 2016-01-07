@@ -46,13 +46,13 @@
 					</div>
                                     
 					<div class="col-sm-6">
-                                            
+                                            <% DecimalFormat df = new DecimalFormat("#.##");%>
 						<h2 class="featurette-heading productName"><%=product.getProductName()%></h2>
 						<h5 style="margin-top:-10px"><label class="description Headtext">
                                                         <%=product.getDescription().split("[.]+")[0]%>.
                                                     </label></h5>
 						<hr style="margin: 0px 0px 70px 0px;">
-						<p class="lead" style="font-size: 2em;">MSRP: <label class="MSRP"><%=product.getMSRP()%></label></p>
+						<p class="lead" style="font-size: 2em;"> Price: <label class="MSRP"><%= df.format(product.getMSRP() - (product.getMSRP()*product.getDiscountRate())/100)%></label> <br> MSRP:<%=product.getMSRP()%> Discount rate: <%=product.getDiscountRate()%>%</p>
 						<hr style="margin: 70px 0px 0px 0px;">
 						<input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href='editProduct.html';" style="margin-top: 10px;">
 					</div>
@@ -102,7 +102,7 @@
                                                                                                     <%=productData.get(j).getBranchNum()%>
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    <% DecimalFormat df = new DecimalFormat("#.##");%>
+                                                                                                    
                                                                                                     <%=df.format(product.getMSRP() - ((product.getMSRP()*productData.get(j).getBranchDiscountRate())/100))%>
                                                                                                 </td>
                                                                                                 <td>
