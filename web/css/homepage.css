@@ -1,0 +1,85 @@
+/*fonts*/
+body{
+	font-family: Segoe UI, impact;
+}
+h1{
+	font-size: 6em;
+
+}
+h2{
+	font-size: 2.4em;
+}
+h3{
+	font-size: 1.5em;
+}
+/*size of the glyphicon-info-sign*/
+.logo{
+	font-size: 12em;
+}
+
+/*homepage background*/
+.bg-red{
+	background-color: #E4717A !important;
+	color: white !important;
+}
+
+/*sizes*/
+#home{
+	padding: 14.65% 0;
+}
+.fill {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+	padding: 5% 0 4%;
+}
+.carousel-content{
+	display: flex;
+	align-items: center;
+}
+
+/*resizers*/
+@media(max-width:1200px) {
+    h1{
+        font-size: 5.1em;
+    }
+	h2{
+		font-size: 2.1em;
+	}
+	h3{
+		font-size: 1.1em;
+	}
+
+}
+@media(max-width:991px) {
+    h1{
+        font-size: 4.1em;
+    }
+	h2{
+		font-size: 1.7em;
+	}
+
+}
+@media(max-width:768px) {
+    h1{
+        font-size: 3.6em;
+    }
+	h2{
+		font-size: 1.3em;
+	}
+	.fill{
+		padding: 1% 0 0.5%;
+	}
+}
+@media(max-width:668px) {
+    h1{
+        font-size: 2.9em;
+    }
+	
+
+}
+

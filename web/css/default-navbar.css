@@ -1,0 +1,54 @@
+/*color of icon bar*/
+.icon-bar{
+    background-color: white !important;
+}
+.navbar-toggle{
+	border: 1px solid #E4717A !important;
+}
+
+/*navbar style*/
+.navbar-fixed-top{
+	background-color: #E4717A;
+	margin-bottom: 0;
+	letter-spacing: 0.3px;
+	border: 0;
+	font-family: Segoe UI, impact;
+	font-size: 1.2em;
+}
+
+.navbar-brand{
+    font-size: 1.7em;
+    color: white;
+    font-variant: small-caps;
+    text-align: justify;
+}
+/*put font-color on links*/
+.navbar li a, .navbar .navbar-brand { 
+    color: #e6e6e6 !important;
+}
+/*hover color*/
+.navbar-nav li a:hover, .navbar-toggle:hover {
+    background-color: #D2B55B !important;
+    color: white !important;
+}
+/* The active link */
+.navbar-nav li.active a, .navbar-toggle:focus{
+    color: white !important;
+    background-color: #D2B55B  !important;
+}
+/* Remove border color from the collapsible button */
+.navbar-default .navbar-toggle {
+    border-color: #E4717A !important;
+}
+/* Dropdown */
+.open .dropdown-toggle {
+    color: #fff ;
+    background-color: #D2B55B !important;
+}
+/*bgcolor of the dropdown-menu*/
+.dropdown-menu{
+	font-family: Segoe UI, impact;
+	font-size: 1em;
+    background-color: #E4717A;
+}
+
