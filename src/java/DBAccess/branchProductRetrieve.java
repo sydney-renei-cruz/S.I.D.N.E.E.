@@ -6,7 +6,6 @@
 package DBAccess;
 
 import Beans.ProductBean;
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
