@@ -52,7 +52,7 @@
                                                         <%=product.getDescription().split("[.]+")[0]%>.
                                                     </label></h5>
 						<hr style="margin: 0px 0px 70px 0px;">
-						<p class="lead" style="font-size: 2em;"> Price: <label class="MSRP"><%= df.format(product.getMSRP() - (product.getMSRP()*product.getDiscountRate())/100)%></label> <br> MSRP:<%=product.getMSRP()%> Discount rate: <%=product.getDiscountRate()%>%</p>
+						<p class="lead" style="font-size: 2em;"> Price: <label class="MSRP"><%= df.format(product.getMSRP() - (product.getMSRP()*product.getDiscountRate())/100)%></label> <br> MSRP: <%=product.getMSRP()%> Discount rate: <%=product.getDiscountRate()%>%</p>
 						<hr style="margin: 70px 0px 0px 0px;">
 						<input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href='editProduct.html';" style="margin-top: 10px;">
 					</div>

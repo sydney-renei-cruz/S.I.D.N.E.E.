@@ -38,26 +38,12 @@ public class AddProduct extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         ServletContext context = request.getSession().getServletContext();
         PrintWriter out = response.getWriter();
-        
-        try {
-            //Class.forName("com.mysql.jdbc.Driver");
-            Class.forName(context.getInitParameter("jdbcDriver"));
-        } catch(Exception ex) {
-            out.println("1");
-        }
-        
-        Connection conn = null;
-        
-        try {
-            conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
-        } catch(SQLException ex) {
-            out.println(ex);
-        }
         
         Statement stmt = null;
         ResultSet rs = null;
@@ -67,11 +53,30 @@ public class AddProduct extends HttpServlet {
         float MSRP = Float.parseFloat(request.getParameter("MSRP"));
         String description = request.getParameter("description");
         float discountRate = Float.parseFloat(request.getParameter("discountRate"));
+        
         InputStream inputStream = null;
+        
         Part filePart = request.getPart("photo");
         
         if(filePart!=null){
             inputStream = filePart.getInputStream();
+        }
+        
+        try {
+            //Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(context.getInitParameter("jdbcDriver"));
+        } catch(Exception ex) {
+            out.println("Error (jdbcDriver):\n");
+            ex.printStackTrace(out);
+        }
+        
+        Connection conn = null;
+        
+        try {
+            conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
+        } catch(SQLException ex) {
+            out.println("Error (conn): \n");
+            ex.printStackTrace(out);
         }
         
         try {
@@ -105,9 +110,12 @@ public class AddProduct extends HttpServlet {
         
 	catch (Exception ex){
 	// handle any errors
-            request.setAttribute("msg", " Error: " + ex);
-            request.getRequestDispatcher("WEB-INF/Output.jsp").forward(request, response);
+            /**request.setAttribute("msg", " Error: " + ex);
+            request.getRequestDispatcher("WEB-INF/Output.jsp").forward(request, response);**/
+            out.println("Error (DB connection): ");
+            ex.printStackTrace(out);
 	}
+        
 	finally {
 	// it is a good idea to release
 	// resources in a finally{} block
@@ -118,7 +126,6 @@ public class AddProduct extends HttpServlet {
 			try {
 				rs.close();
 			} catch (SQLException sqlEx) { } // ignore
-
 			rs = null;
 		}
 
@@ -126,12 +133,12 @@ public class AddProduct extends HttpServlet {
 			try {
 				stmt.close();
 			} catch (SQLException sqlEx) { } // ignore
-
 			stmt = null;
 			}
 		}
     }
 
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

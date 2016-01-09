@@ -1,4 +1,4 @@
-/*
+/*    
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -37,8 +37,20 @@ public class ImageUpload extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {ServletContext context = request.getSession().getServletContext();
+            throws ServletException, IOException {
+        
+        ServletContext context = request.getSession().getServletContext();
         PrintWriter out = response.getWriter();
+       
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        InputStream inputStream = null;
+        String pid = request.getParameter("branchNum");
+        Part filePart = request.getPart("image");
+        
+        if(filePart!=null){
+            inputStream = filePart.getInputStream();
+        }
         
         try {
             //Class.forName("com.mysql.jdbc.Driver");
@@ -55,46 +67,35 @@ public class ImageUpload extends HttpServlet {
             out.println(ex);
         }
         
-        Statement stmt = null;
-        ResultSet rs = null;
-        
-        String pid = request.getParameter("branchNum");
-        InputStream inputStream = null;
-        Part filePart = request.getPart("image");
-        String msg = request.getPart("image").getName();
-        if(filePart!=null){
-            inputStream = filePart.getInputStream();
-        }
-        
         try {
                 String inText = "UPDATE branch SET image=? where branchNum=?";
                 
-                PreparedStatement pstmtSave = conn.prepareStatement(inText);
-                pstmtSave.setString(2, pid);
+                ps = conn.prepareStatement(inText);
+                ps.setString(2, pid);
                 
                 if(inputStream!=null){
-                    pstmtSave.setBlob(1, inputStream);
+                    ps.setBlob(1, inputStream);
                 }
                 out.write("2");
             //sends the statement to the database server
-            int row = pstmtSave.executeUpdate();
+            int row = ps.executeUpdate();
             if(row>0){
-                request.setAttribute("msg", msg+"\nSucess");
+                request.setAttribute("msg", "\nSucess");
             }
             else{
-                request.setAttribute("msg", msg+"\nFailure");
+                request.setAttribute("msg", "\nFailure");
             }
             out.write("3");
             request.getRequestDispatcher("WEB-INF/jsp/Output.jsp").forward(request, response);
                 
-            stmt.close();
+            ps.close();
             conn.close();
                 
 	}
         
 	catch (Exception ex){
 	// handle any errors
-            request.setAttribute("msg", msg+"\nError: " + ex);
+            request.setAttribute("msg", "\nError: " + ex);
             request.getRequestDispatcher("WEB-INF/jsp/Output.jsp").forward(request, response);
 	}
 	finally {
@@ -111,12 +112,12 @@ public class ImageUpload extends HttpServlet {
 			rs = null;
 		}
 
-		if (stmt != null) {
+		if (ps != null) {
 			try {
-				stmt.close();
+				ps.close();
 			} catch (SQLException sqlEx) { } // ignore
 
-			stmt = null;
+			ps = null;
 			}
 		}
     }
