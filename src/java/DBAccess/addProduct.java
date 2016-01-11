@@ -102,7 +102,7 @@ public class addProduct extends HttpServlet {
             //Class.forName("com.mysql.jdbc.Driver");
             Class.forName(context.getInitParameter("jdbcDriver"));
         } catch(Exception ex) {
-            out.println("1");
+            ex.printStackTrace(out);
         }
         
         Connection conn = null;
@@ -130,14 +130,8 @@ public class addProduct extends HttpServlet {
                 }
                 //sends the statement to the database server
                 int row = ps.executeUpdate();
-                if(row>0){
-                    request.setAttribute("msg", "\nSucess");
-                }
-                else{
-                    request.setAttribute("msg", "\nFailure");
-                }
                 
-                request.getRequestDispatcher("WEB-INF/jsp/Output.jsp").forward(request, response);
+                response.sendRedirect("productRetrieve?pid=" + productID);
 
                 ps.close();
                 conn.close();
@@ -145,8 +139,7 @@ public class addProduct extends HttpServlet {
         
 	catch (Exception ex){
 	// handle any errors
-            request.setAttribute("msg", "\nError: " + ex);
-            request.getRequestDispatcher("WEB-INF/jsp/Output.jsp").forward(request, response);
+            ex.printStackTrace(out);
 	}
         
 	finally {

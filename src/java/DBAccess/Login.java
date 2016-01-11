@@ -84,15 +84,18 @@ public class Login extends HttpServlet {
         } catch(Exception ex) {
             out.print(ex);
         }
+        
         Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        
         try {
             conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
         } catch(SQLException ex) {
             out.println(ex);
         }
         
-        Statement stmt = null;
-        ResultSet rs = null;
+        
     
         String input = request.getParameter("username");
         String pass =  request.getParameter("password");
