@@ -32,6 +32,10 @@
         <servlet-name>ImageFileRetrieve</servlet-name>
         <servlet-class>DBAccess.ImageRetrieve</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>addProduct</servlet-name>
+        <servlet-class>DBAccess.addProduct</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>ImageFileRetrieve</servlet-name>
         <url-pattern>/image</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addProduct</servlet-name>
+        <url-pattern>/addProduct</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
