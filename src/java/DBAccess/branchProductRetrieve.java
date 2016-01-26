@@ -5,16 +5,13 @@
  */
 package DBAccess;
 
+import Beans.ConnectionBean;
 import Beans.ProductBean;
+import Utilities.MySQL;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,34 +35,9 @@ public class branchProductRetrieve extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         
-        //--------------
-        //Get servlet context from the session
-        ServletContext context = request.getSession().getServletContext();
-        //set the MIME type for the response message
-        
-        response.setContentType("text/plain");
-        
-        
-        //---------------
-        
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         
-        try {
-            //Class.forName("com.mysql.jdbc.Driver");
-            Class.forName(context.getInitParameter("jdbcDriver"));
-        } catch(Exception ex) {
-            out.print(ex);
-        }
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
-        } catch(SQLException ex) {
-            out.println(ex);
-        }
-        
-        Statement stmt = null;
-        ResultSet rs = null;
     
         String branchinput = request.getParameter("branch");
         
@@ -73,72 +45,42 @@ public class branchProductRetrieve extends HttpServlet {
             request.getRequestDispatcher("/allBranchesRetrieve").forward(request, response);
         }
         
-        int branchInt;
+        String inText = "SELECT DISTINCT b.productID, p.productName from branchInventory b,product p where b.productID = p.productID and b.branchNum = "+ branchinput + ";";
         
-        try{
-            branchInt = Integer.parseInt(branchinput);
-        }
-        catch(Exception e){
-            branchInt= 0;
-        }
-        
+        ResultSet rs = null;
+        ConnectionBean cb = new ConnectionBean();
         try {
-                
-        	String inText = "SELECT DISTINCT b.productID, p.productName from branchInventory b,product p where b.productID = p.productID and b.branchNum = "+ branchinput + ";";
-                
-		stmt = conn.createStatement();
-		
-		if (stmt.execute(inText)) {
-			rs = stmt.getResultSet();
-		}
+                cb = MySQL.query(inText,request,response);
+                rs = cb.getRS();
                 ArrayList<ProductBean> resultList = new ArrayList<>();
                 
                 while(rs.next()){
                     resultList.add(new ProductBean(rs.getString("productID"),rs.getString("productName")));
                 }
-                inText = "SELECT branchName FROM branch WHERE branchNum = " + branchinput;
                 
-                if(stmt.execute(inText)){
-                    rs = stmt.getResultSet();
-                }
+                rs.close();
+                cb.close();
                 
                 request.setAttribute("branchProductList", resultList);
                 
+                inText = "SELECT branchName FROM branch WHERE branchNum = " + branchinput + ";";
+                cb = MySQL.query(inText,request,response);
+                rs = cb.getRS();
+                
                 rs.first();
+                
                 request.setAttribute("branchName",rs.getString("branchName"));
                 
-                request.getRequestDispatcher("WEB-INF/jsp/branchProducts.jsp").forward(request, response);
+                rs.close();
+                cb.close();
                 
-	stmt.close();
-	conn.close();
+                request.getRequestDispatcher("WEB-INF/jsp/branchProducts.jsp").forward(request, response);
 	}
 	catch (Exception ex){
 	// handle any errors
 		request.getRequestDispatcher("/allBranchesRetrieve").forward(request, response);
 	}
-	finally {
-	// it is a good idea to release
-	// resources in a finally{} block
-	// in reverse-order of their creation
-	// if they are no-longer needed
-
-		if (rs != null) {
-			try {
-				rs.close();
-			} catch (SQLException sqlEx) { } // ignore
-
-			rs = null;
-		}
-
-		if (stmt != null) {
-			try {
-				stmt.close();
-			} catch (SQLException sqlEx) { } // ignore
-
-			stmt = null;
-			}
-		}
-        
+        cb.close();
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

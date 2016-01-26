@@ -5,18 +5,14 @@
  */
 package DBAccess;
 
-import com.google.common.base.Charsets;
-import com.google.common.hash.*;
+import Beans.LoginBean;
+import Utilities.MySQL;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.*;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -66,7 +62,6 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServletContext context = request.getSession().getServletContext();
         //set the MIME type for the response message
         
         response.setContentType("text/html");
@@ -76,86 +71,26 @@ public class Login extends HttpServlet {
         //---------------
         
         response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
-        
-        try {
-            //Class.forName("com.mysql.jdbc.Driver");
-            Class.forName(context.getInitParameter("jdbcDriver"));
-        } catch(Exception ex) {
-            out.print(ex);
-        }
-        
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        
-        try {
-            conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
-        } catch(SQLException ex) {
-            out.println(ex);
-        }
-        
-        
     
         String input = request.getParameter("username");
         String pass =  request.getParameter("password");
-        
+        LoginBean lb = new LoginBean();
         try {
-        	String inText = "select salt, passHash from user where username = \"" + input + "\";";
-		String hashed = "junktext";
-                
-                stmt = conn.createStatement();
-                
-		if (stmt.execute(inText)) {
-			rs = stmt.getResultSet();
-		}
-                
-                if(rs.next()){
-                    hashed = Hashing.sha1().hashString(pass + rs.getString("salt"), Charsets.UTF_8).toString();
-                }
-                
-                inText = "select username, userID from user where username = \"" + input +"\" and passHash = \"" + hashed +"\";";
-                
-                if(stmt.execute(inText)){
-                    rs = stmt.getResultSet();
-                    rs.first();
-                    if(rs.getString("username").equalsIgnoreCase(input)){
-                        response.addCookie(new Cookie("userID", rs.getString("userID")));
-                        request.getSession(true).setAttribute("userID", rs.getString("userID"));
-                        response.sendRedirect("index.html");
-                    }
-                }
-            stmt.close();
-            conn.close();
+            lb = MySQL.login(input, pass, request, response);
+        } catch (Exception ex) {
+           
+        }
         
-	}
+        if(lb.getStatus()){
+        response.addCookie(new Cookie("userID", lb.getUserID()));
+        request.getSession(true).setAttribute("userID", lb.getUserID());
+        response.sendRedirect("index.html");
+        }
         
-	catch (Exception ex){
-	// handle any errors
-		request.setAttribute("errorMessage", "Wrong username/password");
-                request.getRequestDispatcher("WEB-INF/jsp/loginPage.jsp").forward(request, response);
+        else{
+            request.setAttribute("errorMessage", "Wrong username/password");
+            request.getRequestDispatcher("WEB-INF/jsp/loginPage.jsp").forward(request, response);
 	}
-	finally {
-	// it is a good idea to release
-	// resources in a finally{} block
-	// in reverse-order of their creation
-	// if they are no-longer needed
-		if (rs != null) {
-			try {
-				rs.close();
-			} catch (SQLException sqlEx) { } // ignore
-
-			rs = null;
-		}
-
-		if (stmt != null) {
-			try {
-				stmt.close();
-			} catch (SQLException sqlEx) { } // ignore
-
-			stmt = null;
-			}
-		}
         
     }
         

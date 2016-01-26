@@ -17,11 +17,11 @@ import java.io.Serializable;
 public class ProductInventoryBean implements Serializable{
     
     private int BranchNum;
-    private int ProductID;
+    private String ProductID;
     private float BranchDiscountRate;
     private int Stock;
     
-    public ProductInventoryBean(int bn, int pid, float bdr, int st){
+    public ProductInventoryBean(int bn, String pid, float bdr, int st){
         BranchNum = bn;
         ProductID = pid;
         BranchDiscountRate = bdr;
@@ -32,7 +32,7 @@ public class ProductInventoryBean implements Serializable{
 	return BranchNum;
     }
     
-    public int getProductID(){
+    public String getProductID(){
 	return ProductID;
     }
 

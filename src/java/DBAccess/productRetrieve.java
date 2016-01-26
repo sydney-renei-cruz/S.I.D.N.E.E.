@@ -9,17 +9,14 @@ import Beans.ProductBean;
 import Beans.ProductInventoryBean;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import Beans.*;
+import Utilities.MySQL;
 /**
  *
  * @author host
@@ -40,11 +37,6 @@ public class productRetrieve extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         
-        //--------------
-        //Get servlet context from the session
-        ServletContext context = request.getSession().getServletContext();
-        //set the MIME type for the response message
-        
         response.setContentType("text/plain");
         
         
@@ -53,89 +45,48 @@ public class productRetrieve extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         
-        try {
-            //Class.forName("com.mysql.jdbc.Driver");
-            Class.forName(context.getInitParameter("jdbcDriver"));
-        } catch(Exception ex) {
-            out.print("Error 3: " + ex);
-        }
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
-        } catch(SQLException ex) {
-            out.write("Error 2: " + ex);
-        }
+        ConnectionBean cb = new ConnectionBean();
         
-        Statement stmt = null;
-        ResultSet rs = null;
-    
         String pidinput = request.getParameter("pid");
         
-        int pidInt;
-        try{
-            pidInt = Integer.parseInt(pidinput);
-        }
-        catch(Exception e){
-            pidInt = 0;
-        }
+        ResultSet rs = null;
+        
         try {
-        	String inText = "SELECT * FROM product WHERE productID = " + pidInt + ";";
-		stmt = conn.createStatement();
-		
-		if (stmt.execute(inText)) {
-			rs = stmt.getResultSet();
-		}
+                
+        	String inText = "SELECT * FROM product WHERE productID = \"" + pidinput + "\";";
+		cb = MySQL.query(inText,request,response);
+                
+                rs = cb.getRS();
+                
                 rs.first();
+                
                 request.setAttribute("product",(new ProductBean(rs.getString("productID"),rs.getString("productName"), rs.getDouble("MSRP"),rs.getString("Description"), rs.getDouble("DiscountRate"))));
                 
-                inText = "SELECT * FROM branchInventory WHERE productID = " + pidinput + ";";
+                rs.close();
+                cb.close();
                 
-                if (stmt.execute(inText)) {
-			rs = stmt.getResultSet();
-		}
+                inText = "SELECT * FROM branchInventory WHERE productID = \"" + pidinput + "\";";
+                cb = MySQL.query(inText,request,response);
+                
+                rs = cb.getRS();
                 
                 ArrayList<ProductInventoryBean> resultList = new ArrayList<>();
                 
                 while(rs.next()){
-                    resultList.add(new ProductInventoryBean(rs.getInt("branchNum"), rs.getInt("productID"), rs.getFloat("branchDiscountRate"), rs.getInt("stock")));
+                    resultList.add(new ProductInventoryBean(rs.getInt("branchNum"), rs.getString("productID"), rs.getFloat("branchDiscountRate"), rs.getInt("stock")));
                 }
                 
                 request.setAttribute("productBranchData",resultList);
-                if (stmt.execute(inText)) {
-			rs = stmt.getResultSet();
-		}
+                rs.close();
+                cb.close();
                 
                 request.getRequestDispatcher("WEB-INF/jsp/productPage.jsp").forward(request, response);
-                stmt.close();
-                conn.close();
 	}
 	catch (Exception ex){
 	// handle any errors
 		out.write("Error: empty parameters or no product ID with that name");
 	}
-	finally {
-	// it is a good idea to release
-	// resources in a finally{} block
-	// in reverse-order of their creation
-	// if they are no-longer needed
-
-		if (rs != null) {
-			try {
-				rs.close();
-			} catch (SQLException sqlEx) { } // ignore
-
-			rs = null;
-		}
-
-		if (stmt != null) {
-			try {
-				stmt.close();
-			} catch (SQLException sqlEx) { } // ignore
-
-			stmt = null;
-			}
-		}
-        
+        cb.close();
     }
     
     
