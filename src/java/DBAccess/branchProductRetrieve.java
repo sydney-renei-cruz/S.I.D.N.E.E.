@@ -7,7 +7,7 @@ package DBAccess;
 
 import Beans.ConnectionBean;
 import Beans.ProductBean;
-import Utilities.MySQL;
+import Utilities.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
@@ -55,7 +55,7 @@ public class branchProductRetrieve extends HttpServlet {
                 ArrayList<ProductBean> resultList = new ArrayList<>();
                 
                 while(rs.next()){
-                    resultList.add(new ProductBean(rs.getString("productID"),rs.getString("productName")));
+                    resultList.add(BeanUtils.createPartialProductBean(rs.getString("productID"),rs.getString("productName")));
                 }
                 
                 rs.close();

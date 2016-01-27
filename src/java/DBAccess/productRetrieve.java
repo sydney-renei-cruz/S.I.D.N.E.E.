@@ -5,7 +5,6 @@
  */
 package DBAccess;
 
-import Beans.ProductBean;
 import Beans.ProductInventoryBean;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import Beans.*;
-import Utilities.MySQL;
+import Utilities.*;
 /**
  *
  * @author host
@@ -60,7 +59,7 @@ public class productRetrieve extends HttpServlet {
                 
                 rs.first();
                 
-                request.setAttribute("product",(new ProductBean(rs.getString("productID"),rs.getString("productName"), rs.getDouble("MSRP"),rs.getString("Description"), rs.getDouble("DiscountRate"))));
+                request.setAttribute("product",(BeanUtils.createProductBean(rs.getString("productID"),rs.getString("productName"), rs.getDouble("MSRP"),rs.getString("Description"), rs.getDouble("DiscountRate"))));
                 
                 rs.close();
                 cb.close();
@@ -73,7 +72,7 @@ public class productRetrieve extends HttpServlet {
                 ArrayList<ProductInventoryBean> resultList = new ArrayList<>();
                 
                 while(rs.next()){
-                    resultList.add(new ProductInventoryBean(rs.getInt("branchNum"), rs.getString("productID"), rs.getFloat("branchDiscountRate"), rs.getInt("stock")));
+                    resultList.add(BeanUtils.createProductInventoryBean(rs.getString("branchNum"), rs.getString("productID"), rs.getFloat("branchDiscountRate"), rs.getInt("stock")));
                 }
                 
                 request.setAttribute("productBranchData",resultList);
@@ -85,6 +84,7 @@ public class productRetrieve extends HttpServlet {
 	catch (Exception ex){
 	// handle any errors
 		out.write("Error: empty parameters or no product ID with that name");
+                ex.printStackTrace(out);
 	}
         cb.close();
     }

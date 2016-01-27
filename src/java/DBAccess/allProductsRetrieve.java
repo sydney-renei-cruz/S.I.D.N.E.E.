@@ -7,7 +7,7 @@ package DBAccess;
 
 import Beans.ConnectionBean;
 import Beans.ProductBean;
-import Utilities.MySQL;
+import Utilities.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
@@ -45,7 +45,7 @@ public class allProductsRetrieve extends HttpServlet {
         try {
                 ArrayList<ProductBean> resultList = new ArrayList<>();
                 while(rs.next()){
-                    resultList.add(new ProductBean(rs.getString("productID"), rs.getString("productName"), rs.getDouble("MSRP"), rs.getString("Description"), rs.getDouble("discountRate")));
+                    resultList.add(BeanUtils.createProductBean(rs.getString("productID"), rs.getString("productName"), rs.getDouble("MSRP"), rs.getString("Description"), rs.getDouble("discountRate")));
                     
                 }
                 rs.close();

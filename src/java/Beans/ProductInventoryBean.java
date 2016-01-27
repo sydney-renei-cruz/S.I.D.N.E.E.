@@ -16,31 +16,39 @@ import java.io.Serializable;
 
 public class ProductInventoryBean implements Serializable{
     
-    private int BranchNum;
-    private String ProductID;
-    private float BranchDiscountRate;
-    private int Stock;
-    
-    public ProductInventoryBean(int bn, String pid, float bdr, int st){
-        BranchNum = bn;
-        ProductID = pid;
-        BranchDiscountRate = bdr;
-        Stock = st;
-    }
+    private String branchNum;
+    private String productID;
+    private float branchDiscountRate;
+    private int stock;
 
-    public int getBranchNum(){
-	return BranchNum;
+    public ProductInventoryBean(){
+        branchNum = null;
+        productID = null;
     }
     
+    public String getBranchNum(){
+	return branchNum;
+    }
     public String getProductID(){
-	return ProductID;
+	return productID;
     }
-
     public float getBranchDiscountRate(){
-	return BranchDiscountRate;
+	return branchDiscountRate;
     }
-
     public int getStock(){
-	return Stock;
+	return stock;
+    }
+    
+    public void setBranchNum(String bnumin){
+        branchNum = bnumin;
+    }
+    public void setProductID(String pidin){
+        productID = pidin;
+    }
+    public void setBranchDiscountRate(float bdrin){
+        branchDiscountRate = bdrin;
+    }
+    public void setStock(int stkin){
+        stock = stkin;
     }
 }

@@ -6,7 +6,7 @@
 package DBAccess;
 
 import Beans.*;
-import Utilities.MySQL;
+import Utilities.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
@@ -66,7 +66,7 @@ public class allBranchesRetrieve extends HttpServlet {
                 ArrayList<BranchBean> resultList = new ArrayList<>();
                 
                 while(rs.next()){
-                    resultList.add(new BranchBean(rs.getString("branchNum"), rs.getString("branchName"), rs.getString("branchAddress"), rs.getString("branchPhoneNum")));
+                    resultList.add(BeanUtils.createBranchBean(rs.getString("branchNum"), rs.getString("branchName"), rs.getString("branchAddress"), rs.getString("branchPhoneNum")));
                 }
                 
                 rs.close();

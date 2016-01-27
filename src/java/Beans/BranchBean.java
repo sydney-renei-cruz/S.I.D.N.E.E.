@@ -16,11 +16,11 @@ public class BranchBean implements Serializable{
     private String branchAddress;
     private String branchPhoneNum;
     
-    public BranchBean(String bNum, String bName, String bAdd, String bPNum){
-        branchNum = bNum;
-        branchName = bName;
-        branchAddress = bAdd;
-        branchPhoneNum = bPNum;
+    public BranchBean(){
+        branchNum = null;
+        branchName = null;
+        branchAddress = null;
+        branchPhoneNum = null;
     }
     
     public String getBranchNum(){
@@ -39,4 +39,16 @@ public class BranchBean implements Serializable{
 	return branchPhoneNum;
     }
     
+    public void setBranchNum(String bnin){
+        branchNum = bnin;  
+    }
+    public void setBranchName(String bnamin){
+        branchName = bnamin;  
+    }
+    public void setBranchAddress(String baddin){
+        branchAddress = baddin;  
+    }
+    public void setBranchPhoneNum(String bpin){
+        branchPhoneNum = bpin;
+    }
 }
