@@ -56,61 +56,6 @@ public class ImageRetrieve extends HttpServlet {
         
 	File file = new File(imagePath);
         
-        if(!file.exists()){
-            file.createNewFile();
-            String inText ="";
-            Connection conn = null;
-            Statement stmt = null;
-            ResultSet rs = null;
-            
-            if(request.getParameter("pid")!=null){
-                inText = "SELECT image FROM product where productID=\"" + request.getParameter("pid")+ "\";";
-            }
-            else if(request.getParameter("branchNum")!=null){
-                inText = "SELECT image FROM branch where branchNum=\"" + request.getParameter("branchNum") +"\";";
-            }
-             try {
-                Class.forName(context.getInitParameter("jdbcDriver"));
-            } catch(Exception ex) {
-
-            }
-            
-            try {
-                conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
-            } catch(SQLException ex) {
-
-            }
-
-            try {
-                
-                stmt = conn.createStatement();
-                
-                if(stmt.execute(inText))
-                    rs = stmt.getResultSet();
-                
-                rs.first();
-                
-                Blob photo = rs.getBlob("image");
-                
-                FileOutputStream outFile = new FileOutputStream(file);
-                InputStream in = photo.getBinaryStream();             
-                
-                int length = (int) photo.length();              
-                int bufferSize = 1024;             
-                byte[] buffer = new byte[bufferSize];              
-                while ((length = in.read(buffer)) != -1) {    
-                    outFile.write(buffer, 0, length);             
-                }              
-                in.close(); 
-                outFile.close();
-                stmt.close();
-                conn.close();
-            }
-            catch(Exception e){
-                
-            }
-        }
-        
 	BufferedImage bi = ImageIO.read(file);
         
 	OutputStream out = response.getOutputStream();
