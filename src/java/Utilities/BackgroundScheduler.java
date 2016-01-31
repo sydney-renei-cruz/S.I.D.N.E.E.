@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.sql.*;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -72,7 +71,7 @@ class ImageStore implements Runnable{
                 FileOutputStream outFile = new FileOutputStream(file);
                 InputStream in = photo.getBinaryStream();             
 
-                int length = (int) photo.length();              
+                int length = 0;            
                 int bufferSize = 1024;             
                 byte[] buffer = new byte[bufferSize];              
                 while ((length = in.read(buffer)) != -1) {    
@@ -100,7 +99,7 @@ class ImageStore implements Runnable{
                 FileOutputStream outFile = new FileOutputStream(file);
                 InputStream in = photo.getBinaryStream();             
 
-                int length = (int) photo.length();              
+                int length = 0;              
                 int bufferSize = 1024;             
                 byte[] buffer = new byte[bufferSize];              
                 while ((length = in.read(buffer)) != -1) {    

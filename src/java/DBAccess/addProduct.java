@@ -5,6 +5,8 @@
  */
 package DBAccess;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -15,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +27,7 @@ import javax.servlet.http.Part;
  *
  * @author host
  */
+@WebServlet(name = "AddProduct", urlPatterns = {"/AddProduct"})
 public class addProduct extends HttpServlet {
 
     /**
@@ -35,23 +39,116 @@ public class addProduct extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet addProduct</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet addProduct at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        
+        ServletContext context = request.getSession().getServletContext();
+        PrintWriter out = response.getWriter();
+        
+        ResultSet rs = null;
+        
+        String pID = request.getParameter("productID");
+        String pName = request.getParameter("productName");
+        float MSRP = Float.parseFloat(request.getParameter("MSRP"));
+        String description = request.getParameter("description");
+        float discountRate = Float.parseFloat(request.getParameter("discountRate"));
+        PreparedStatement ps = null;
+        InputStream inputStream = null;
+        
+        Part filePart = request.getPart("image");
+        
+        if(filePart!=null){
+            inputStream = filePart.getInputStream();
         }
+        
+        try {
+            //Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(context.getInitParameter("jdbcDriver"));
+        } catch(Exception ex) {
+            out.println("Error (jdbcDriver):\n");
+            ex.printStackTrace(out);
+        }
+        
+        Connection conn = null;
+        
+        try {
+            conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
+        } catch(SQLException ex) {
+            out.println("Error (conn): \n");
+            ex.printStackTrace(out);
+        }
+        
+        try {
+                String inText = "INSERT INTO product (productID, productName, MSRP, description, discountRate, image) values (?, ?, ?, ?, ?, ?)";
+                
+                ps = conn.prepareStatement(inText);
+                ps.setString(1, pID);
+                ps.setString(2, pName);
+                ps.setFloat(3, MSRP);
+                ps.setString(4, description);
+                ps.setFloat(5, discountRate);
+                
+                if(inputStream!=null){
+                    ps.setBlob(6, inputStream);
+                }
+                
+            //sends the statement to the database server
+                ps.executeUpdate();
+                
+                String imagePath =  context.getInitParameter("imgPath") + "product/" + pID +".png";
+                File file = new File(imagePath);
+
+                FileOutputStream outFile = new FileOutputStream(file);
+                inputStream = filePart.getInputStream();          
+
+                int read = 0;         
+                int bufferSize = 1024;             
+                byte[] buffer = new byte[bufferSize];              
+                while ((read = inputStream.read(buffer)) != -1) {    
+                    outFile.write(buffer, 0, read);             
+                }
+                
+                inputStream.close(); 
+                outFile.close();
+                
+                ps.close();
+                conn.close();
+                response.sendRedirect("productRetrieve?pid=" + pID);
+	}
+        
+	catch (Exception ex){
+	// handle any errors
+            /**request.setAttribute("msg", " Error: " + ex);
+            request.getRequestDispatcher("WEB-INF/Output.jsp").forward(request, response);**/
+            out.println("Error (DB connection): ");
+            ex.printStackTrace(out);
+	}
+        
+	finally {
+	// it is a good idea to release
+	// resources in a finally{} block
+	// in reverse-order of their creation
+	// if they are no-longer needed
+
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException sqlEx) { } // ignore
+			rs = null;
+		}
+
+		if (ps != null) {
+			try {
+				ps.close();
+			} catch (SQLException sqlEx) { } // ignore
+			ps = null;
+			}
+		}
+        
     }
 
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -78,92 +175,7 @@ public class addProduct extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        int productID = Integer.parseInt(request.getParameter("productID"));
-        String productName = request.getParameter("productName");
-        String description = request.getParameter("description");
-        float MSRP =  Float.parseFloat(request.getParameter("MSRP"));
-        float discountRate = Float.parseFloat(request.getParameter("discountRate"));
-        
-        PrintWriter out = response.getWriter();
-        Part filePart = request.getPart("image");
-        InputStream is = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        InputStream inputStream = null;
-        
-        ServletContext context = request.getSession().getServletContext();
-        
-        if(filePart!=null){
-            is = filePart.getInputStream();
-        }
-        
-        try {
-            //Class.forName("com.mysql.jdbc.Driver");
-            Class.forName(context.getInitParameter("jdbcDriver"));
-        } catch(Exception ex) {
-            ex.printStackTrace(out);
-        }
-        
-        Connection conn = null;
-        
-        try {
-            conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
-        } catch(SQLException ex) {
-            out.println(ex);
-        }
-        
-        try {
-                String inText = "INSERT INTO product(productID, productName, MSRP, description, discountRate, image) VALUES(?, ?, ?, ?, ?, ?);";
-                
-                
-                ps = conn.prepareStatement(inText);
-                
-                ps.setInt(1, productID);
-                ps.setString(2, productName);
-                ps.setFloat(3, MSRP);
-                ps.setString(4, description);
-                ps.setFloat(5, discountRate);
-                
-                if(is!=null){
-                    ps.setBlob(6, is);
-                }
-                //sends the statement to the database server
-                int row = ps.executeUpdate();
-                
-                response.sendRedirect("productRetrieve?pid=" + productID);
-
-                ps.close();
-                conn.close();
-	}
-        
-	catch (Exception ex){
-	// handle any errors
-            ex.printStackTrace(out);
-	}
-        
-	finally {
-	// it is a good idea to release
-	// resources in a finally{} block
-	// in reverse-order of their creation
-	// if they are no-longer needed
-
-		if (rs != null) {
-			try {
-				rs.close();
-			} catch (SQLException sqlEx) { } // ignore
-
-			rs = null;
-		}
-
-		if (ps != null) {
-			try {
-				ps.close();
-			} catch (SQLException sqlEx) { } // ignore
-
-			ps = null;
-			}
-		}
+        processRequest(request, response);
     }
 
     /**
