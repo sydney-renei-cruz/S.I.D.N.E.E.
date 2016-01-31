@@ -4,6 +4,7 @@
 		<script src="js/main.js"></script>
 		<script>
 			topBar();
+                        replace();
 		</script>
 		<link rel="stylesheet" type="text/css" href="css/homepage.css"/>
     
@@ -99,12 +100,12 @@
 					$(this).css('height',max+'px');
 				});
 			}
-		</script>
+            </script>
 		
 		
 		
 		<!-- slide over effect when you click SIDNEE and about button -->
-		<script>
+	<script>
             // Add scrollspy to <body>
             $('body').scrollspy({target: ".navbar", offset: 50});
 
@@ -146,14 +147,14 @@
 			</a>
 		</span>
         <script>
-			// Only enable if the document has a long scroll bar
-			// Note the window height + offset
-			if ( ($(window).height() + 100) < $(document).height() ) {
-				$('#top-link-block').removeClass('hidden').affix({
-			// how far to scroll down before link "slides" into view
-				offset: {top:100}
-				});
-			}
-		</script>
+            // Only enable if the document has a long scroll bar
+            // Note the window height + offset
+            if ( ($(window).height() + 100) < $(document).height() ) {
+                $('#top-link-block').removeClass('hidden').affix({
+                // how far to scroll down before link "slides" into view
+		offset: {top:100}
+		});
+            }
+	</script>
     </body>
 </html>

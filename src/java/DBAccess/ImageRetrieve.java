@@ -45,24 +45,31 @@ public class ImageRetrieve extends HttpServlet {
         ServletContext context = request.getSession().getServletContext();
         
         response.setContentType("image/png");
-        String imagePath = "/home/host/img/error.png";
+        String imagePath = context.getInitParameter("imgPath") + "error.png";
         
         if(request.getParameter("pid")!=null){
-            imagePath = "/home/host/img/product/" + request.getParameter("pid") + ".png";
+            imagePath = context.getInitParameter("imgPath") + "product/" + request.getParameter("pid") + ".png";
         }
         else if(request.getParameter("branchNum")!=null){
-            imagePath = "/home/host/img/branch/" + request.getParameter("branchNum") + ".png";
+            imagePath = context.getInitParameter("imgPath") + "branch/" + request.getParameter("branchNum") + ".png";
         }
         
 	File file = new File(imagePath);
+        BufferedImage bi;
+        try{
+            bi = ImageIO.read(file);
+        }
+        catch(javax.imageio.IIOException ex){
+            file = new File(context.getInitParameter("imgPath") + "error.png");
+            bi = ImageIO.read(file);
+        }
         
-	BufferedImage bi = ImageIO.read(file);
+	OutputStream outImg = response.getOutputStream();
+        File cacheDir = new File(context.getInitParameter("imgPath") +"cache");
+	ImageIO.setCacheDirectory(cacheDir);
+        ImageIO.write(bi, "png", outImg);
         
-	OutputStream out = response.getOutputStream();
-	
-        ImageIO.write(bi, "png", out);
-        
-	out.close();
+	outImg.close();
         
     }
 

@@ -5,8 +5,11 @@
  */
 package DBAccess;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -104,6 +108,27 @@ public class AddProduct extends HttpServlet {
             
                 request.getRequestDispatcher("WEB-INF/Output.jsp").forward(request, response);
                 
+                response.setContentType("image/png");
+                String imagePath = context.getInitParameter("imgPath") + "product/" + pID + ".png";
+
+                File file = new File(imagePath);
+                BufferedImage bi;
+
+                try{
+                    bi = ImageIO.read(file);
+                }
+                catch(javax.imageio.IIOException ex){
+                    file = new File(context.getInitParameter("imgPath") + "error.png");
+                    bi = ImageIO.read(file);
+                }
+
+                OutputStream outImg = response.getOutputStream();
+                File cacheDir = new File(context.getInitParameter("imgPath") +"cache");
+                ImageIO.setCacheDirectory(cacheDir);
+                ImageIO.write(bi, "png", outImg);
+
+                outImg.close();
+                
                 stmt.close();
                 conn.close();
 	}
@@ -136,6 +161,7 @@ public class AddProduct extends HttpServlet {
 			stmt = null;
 			}
 		}
+        
     }
 
     

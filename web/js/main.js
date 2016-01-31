@@ -1,3 +1,14 @@
+function getCookie(cname){
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "Account";
+}
+
 function topBar(){
     document.write('<meta charset="utf-8">\
 			<title>S.I.D.N.E.E.</title>\
@@ -66,11 +77,11 @@ function topBar(){
 								</ul>\
 							</li>\
 							<li>\
-                                <a href="Login"><span class="glyphicon glyphicon-user"></span> Account</a>\
+                                <a href="Login"><span class="glyphicon glyphicon-user"></span> <element id="uname">' + getCookie("username") +'</element></a>\
 							</li>\
 						</ul>\
 					</div>\
 				</div>\
 			</nav>\
-	');}
-	
+	');
+}
