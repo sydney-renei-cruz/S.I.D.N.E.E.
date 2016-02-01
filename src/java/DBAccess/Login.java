@@ -8,11 +8,13 @@ package DBAccess;
 import Beans.LoginBean;
 import Utilities.MySQL;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,8 +33,54 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("WEB-INF/jsp/loginPage.jsp").forward(request, response);
+        
+        HttpSession session = request.getSession(false);
+        
+        if(session.getAttribute("userID")!=null){
+            Cookie uCookie = new Cookie("userID", null);
+            uCookie.setMaxAge(0);
+            response.addCookie(uCookie);
+            
+            Cookie unCookie = new Cookie("username",null);
+            unCookie.setMaxAge(0);
+            response.addCookie(unCookie);
+            session.invalidate();
+            response.sendRedirect("allProductsRetrieve");
+        }
+        
+        else if(request.getParameter("username")==null){
+            request.getRequestDispatcher("WEB-INF/jsp/loginPage.jsp").forward(request,response);
+        }
+        
+        else{
+            session = request.getSession(true);
+            Cookie cookie = new Cookie("userID", null);
+            response.addCookie(cookie);
+            //---------------
+
+            response.setCharacterEncoding("UTF-8");
+
+            String input = request.getParameter("username");
+            String pass =  request.getParameter("password");
+            LoginBean lb = new LoginBean();
+            try {
+                lb = MySQL.login(input, pass, request, response);
+            } catch (Exception ex) {
+
+            }
+
+            if(lb.getStatus()){
+            response.addCookie(new Cookie("userID", lb.getUserID()));
+            response.addCookie(new Cookie("username", lb.getUsername()));
+            session.setAttribute("userID", lb.getUserID());
+            response.sendRedirect("index.html");
+            }
+
+            else{
+                request.setAttribute("errorMessage", "Wrong username/password");
+                request.getRequestDispatcher("WEB-INF/jsp/loginPage.jsp").forward(request, response);
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -64,34 +112,7 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         //set the MIME type for the response message
         
-        response.setContentType("text/html");
-        
-        Cookie cookie = new Cookie("userID", null);
-        response.addCookie(cookie);
-        //---------------
-        
-        response.setCharacterEncoding("UTF-8");
-    
-        String input = request.getParameter("username");
-        String pass =  request.getParameter("password");
-        LoginBean lb = new LoginBean();
-        try {
-            lb = MySQL.login(input, pass, request, response);
-        } catch (Exception ex) {
-           
-        }
-        
-        if(lb.getStatus()){
-        response.addCookie(new Cookie("userID", lb.getUserID()));
-        response.addCookie(new Cookie("username", lb.getUsername()));
-        request.getSession(true).setAttribute("userID", lb.getUserID());
-        response.sendRedirect("index.html");
-        }
-        
-        else{
-            request.setAttribute("errorMessage", "Wrong username/password");
-            request.getRequestDispatcher("WEB-INF/jsp/loginPage.jsp").forward(request, response);
-	}
+        processRequest(request, response);
         
     }
         

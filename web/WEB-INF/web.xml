@@ -41,6 +41,10 @@
         <servlet-name>addProduct</servlet-name>
         <servlet-class>DBAccess.addProduct</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>editProduct</servlet-name>
+        <servlet-class>DBAccess.editProduct</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -68,6 +72,10 @@
     <servlet-mapping>
         <servlet-name>addProduct</servlet-name>
         <url-pattern>/addProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editProduct</servlet-name>
+        <url-pattern>/editProduct</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

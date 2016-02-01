@@ -55,7 +55,10 @@
 						<p class="lead" style="font-size: 2em;"> Price: <label class="MSRP"><%= df.format(product.getMSRP() - (product.getMSRP()*product.getDiscountRate())/100)%></label> <br> MSRP: <%=product.getMSRP()%> Discount rate: <%=product.getDiscountRate()%>%</p>
 						<hr style="margin: 70px 0px 0px 0px;">
                                                 <%  if(session.getAttribute("userID")!=null){  %>
-                                                <input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href='editProduct.html';" style="margin-top: 10px;">
+                                                <form action="editProduct" method="post">
+                                                    <input type="hidden" name="prodID" value="<%=product.getProductID()%>">
+                                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                                </form>
                                                 <%}
                                                 %>
 					</div>
