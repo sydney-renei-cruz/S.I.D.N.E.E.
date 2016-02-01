@@ -65,7 +65,7 @@ function topBar(){
 								</a>\
 								<ul class="dropdown-menu">\
 									<li><a href="allProductsRetrieve"><span class="glyphicon glyphicon-eye-open"> All Products</span></a></li>\
-									<li><a href="addProduct.html"><span class="glyphicon glyphicon-plus"> Add Product</span></a></li>\
+									<li><a href="addProduct"><span class="glyphicon glyphicon-plus"> Add Product</span></a></li>\
 								</ul>\
 							</li>\
 							<li class="dropdown">\

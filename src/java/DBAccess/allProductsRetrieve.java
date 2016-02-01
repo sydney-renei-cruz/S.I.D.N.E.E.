@@ -37,7 +37,7 @@ public class allProductsRetrieve extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         
-        String inText = "SELECT * FROM product;";
+        String inText = "SELECT * FROM product order by addDate desc;";
         ConnectionBean cb = MySQL.query(inText, request, response);
         
         ResultSet rs = cb.getRS();

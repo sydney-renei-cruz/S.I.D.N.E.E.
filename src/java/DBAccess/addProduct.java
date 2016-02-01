@@ -43,108 +43,114 @@ public class addProduct extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        ServletContext context = request.getSession().getServletContext();
-        PrintWriter out = response.getWriter();
-        
-        ResultSet rs = null;
-        
-        String pID = request.getParameter("productID");
-        String pName = request.getParameter("productName");
-        float MSRP = Float.parseFloat(request.getParameter("MSRP"));
-        String description = request.getParameter("description");
-        float discountRate = Float.parseFloat(request.getParameter("discountRate"));
-        PreparedStatement ps = null;
-        InputStream inputStream = null;
-        
-        Part filePart = request.getPart("image");
-        
-        if(filePart!=null){
-            inputStream = filePart.getInputStream();
+        if(request.getParameter("submitted")!=null){
+            ServletContext context = request.getSession().getServletContext();
+            PrintWriter out = response.getWriter();
+
+            ResultSet rs = null;
+
+            String pID = request.getParameter("productID");
+            String pName = request.getParameter("productName");
+            float MSRP = Float.parseFloat(request.getParameter("MSRP"));
+            String description = request.getParameter("description");
+            float discountRate = Float.parseFloat(request.getParameter("discountRate"));
+            PreparedStatement ps = null;
+            InputStream inputStream = null;
+
+            Part filePart = request.getPart("image");
+
+            if(filePart!=null){
+                inputStream = filePart.getInputStream();
+            }
+
+            try {
+                //Class.forName("com.mysql.jdbc.Driver");
+                Class.forName(context.getInitParameter("jdbcDriver"));
+            } catch(Exception ex) {
+                out.println("Error (jdbcDriver):\n");
+                ex.printStackTrace(out);
+            }
+
+            Connection conn = null;
+
+            try {
+                conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
+            } catch(SQLException ex) {
+                out.println("Error (conn): \n");
+                ex.printStackTrace(out);
+            }
+
+            try {
+                    String inText = "INSERT INTO product (productID, productName, MSRP, description, discountRate, image) values (?, ?, ?, ?, ?, ?)";
+
+                    ps = conn.prepareStatement(inText);
+                    ps.setString(1, pID);
+                    ps.setString(2, pName);
+                    ps.setFloat(3, MSRP);
+                    ps.setString(4, description);
+                    ps.setFloat(5, discountRate);
+
+                    if(inputStream!=null){
+                        ps.setBlob(6, inputStream);
+                    }
+
+                //sends the statement to the database server
+                    ps.executeUpdate();
+
+                    String imagePath =  context.getInitParameter("imgPath") + "product/" + pID +".png";
+                    File file = new File(imagePath);
+
+                    FileOutputStream outFile = new FileOutputStream(file);
+                    inputStream = filePart.getInputStream();          
+
+                    int read = 0;         
+                    int bufferSize = 1024;             
+                    byte[] buffer = new byte[bufferSize];              
+                    while ((read = inputStream.read(buffer)) != -1) {    
+                        outFile.write(buffer, 0, read);             
+                    }
+
+                    inputStream.close(); 
+                    outFile.close();
+
+                    ps.close();
+                    conn.close();
+                    response.sendRedirect("productRetrieve?pid=" + pID);
+            }
+
+            catch (Exception ex){
+            // handle any errors
+                /**request.setAttribute("msg", " Error: " + ex);
+                request.getRequestDispatcher("WEB-INF/Output.jsp").forward(request, response);**/
+                out.println("Error (DB connection): ");
+                ex.printStackTrace(out);
+            }
+
+            finally {
+            // it is a good idea to release
+            // resources in a finally{} block
+            // in reverse-order of their creation
+            // if they are no-longer needed
+
+                    if (rs != null) {
+                            try {
+                                    rs.close();
+                            } catch (SQLException sqlEx) { } // ignore
+                            rs = null;
+                    }
+
+                    if (ps != null) {
+                            try {
+                                    ps.close();
+                            } catch (SQLException sqlEx) { } // ignore
+                            ps = null;
+                            }
+            }
         }
         
-        try {
-            //Class.forName("com.mysql.jdbc.Driver");
-            Class.forName(context.getInitParameter("jdbcDriver"));
-        } catch(Exception ex) {
-            out.println("Error (jdbcDriver):\n");
-            ex.printStackTrace(out);
+        else{
+            request.getRequestDispatcher("WEB-INF/jsp/addProduct.jsp").forward(request,response);
         }
-        
-        Connection conn = null;
-        
-        try {
-            conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
-        } catch(SQLException ex) {
-            out.println("Error (conn): \n");
-            ex.printStackTrace(out);
-        }
-        
-        try {
-                String inText = "INSERT INTO product (productID, productName, MSRP, description, discountRate, image) values (?, ?, ?, ?, ?, ?)";
-                
-                ps = conn.prepareStatement(inText);
-                ps.setString(1, pID);
-                ps.setString(2, pName);
-                ps.setFloat(3, MSRP);
-                ps.setString(4, description);
-                ps.setFloat(5, discountRate);
-                
-                if(inputStream!=null){
-                    ps.setBlob(6, inputStream);
-                }
-                
-            //sends the statement to the database server
-                ps.executeUpdate();
-                
-                String imagePath =  context.getInitParameter("imgPath") + "product/" + pID +".png";
-                File file = new File(imagePath);
-
-                FileOutputStream outFile = new FileOutputStream(file);
-                inputStream = filePart.getInputStream();          
-
-                int read = 0;         
-                int bufferSize = 1024;             
-                byte[] buffer = new byte[bufferSize];              
-                while ((read = inputStream.read(buffer)) != -1) {    
-                    outFile.write(buffer, 0, read);             
-                }
-                
-                inputStream.close(); 
-                outFile.close();
-                
-                ps.close();
-                conn.close();
-                response.sendRedirect("productRetrieve?pid=" + pID);
-	}
-        
-	catch (Exception ex){
-	// handle any errors
-            /**request.setAttribute("msg", " Error: " + ex);
-            request.getRequestDispatcher("WEB-INF/Output.jsp").forward(request, response);**/
-            out.println("Error (DB connection): ");
-            ex.printStackTrace(out);
-	}
-        
-	finally {
-	// it is a good idea to release
-	// resources in a finally{} block
-	// in reverse-order of their creation
-	// if they are no-longer needed
-
-		if (rs != null) {
-			try {
-				rs.close();
-			} catch (SQLException sqlEx) { } // ignore
-			rs = null;
-		}
-
-		if (ps != null) {
-			try {
-				ps.close();
-			} catch (SQLException sqlEx) { } // ignore
-			ps = null;
-			}
-		}
         
     }
 

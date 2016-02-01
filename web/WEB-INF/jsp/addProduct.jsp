@@ -14,6 +14,7 @@
 				</div>
 			</div>
                         <form class="form-horizontal" role="form" style="font-size: 1.1em; font-family: 'arial' !important;" action="addProduct" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="submitted" value="true">
                             <div class="row">
                                     <!-- left column -->
                                     <div class="col-md-3">
