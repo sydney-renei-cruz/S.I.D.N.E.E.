@@ -10,15 +10,15 @@
 		<div class="container text-center">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header"> Edit Product ${productID}</h1>
+					<h1 class="page-header"> Edit Branch ${branchNum}</h1>
 				</div>
 			</div>
-                        <form class="form-horizontal" role="form" action = "editProduct" method = "post" style="font-size: 1.1em; font-family: 'arial' !important;" enctype="multipart/form-data">
+                        <form class="form-horizontal" role="form" action = "editBranch" method = "post" style="font-size: 1.1em; font-family: 'arial' !important;" enctype="multipart/form-data">
 			<div class="row">
 				<!-- left column -->
 				<div class="col-md-3">
 					<div class="text-center">
-						<img src="image?pid=${productID}" class="avatar img-circle" alt="avatar">
+						<img src="image?branchNum=${branchNum}" class="avatar img-circle" alt="avatar">
 						<h6 style="font-family: arial !important;">Upload product photo...</h6>
 						<input type="file" class="form-control" name="image">
 					</div>
@@ -29,36 +29,29 @@
 						<i class="fa fa-coffee"></i>
 							<strong> Everything but image </strong> is required.
 					</div>
-					<h3>Product Info </h3>
-        
+					<h3>Branch Info </h3>
 						<div class="form-group">
-							<label class="col-lg-3 control-label">Product Name:</label>
+							<label class="col-lg-3 control-label">Branch Name:</label>
 							<div class="col-lg-8">
-								<input class="form-control" type="text" name="productName" value="${productName}" required>
+								<input class="form-control" type="text" name="branchName" value="${branchName}" required>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-lg-3 control-label">Discount Rate:</label>
+							<label class="col-lg-3 control-label">Branch Address:</label>
 							<div class="col-lg-8">
-								<input class="form-control" type="text" name="discountRate" value="${discountRate}" required>
+								<input class="form-control" type="text" name="branchAddress" value="${branchAddress}" required>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-lg-3 control-label">MSRP:</label>
+							<label class="col-lg-3 control-label">Branch Phone Number:</label>
 							<div class="col-lg-8">
-								<input class="form-control" type="text" name="MSRP" value="${MSRP}" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-3 control-label">Description:</label>
-							<div class="col-lg-8">
-								<input class="form-control" type="text" name="description" value='${description}' required>
+								<input class="form-control" type="text" name="branchPhoneNum" value="${branchPhoneNum}" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-3 control-label"></label>
 							<div class="col-md-8">
-                                                            <input type="hidden" value="${productID}" name="pid">
+                                                            <input type="hidden" value="${branchNum}" name="branchNum">
                                                             <input type="submit" class="btn btn-primary" value="Submit">
 								<span></span>
 								<input type="reset" class="btn btn-default" value="Cancel">

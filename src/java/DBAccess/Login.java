@@ -70,10 +70,14 @@ public class Login extends HttpServlet {
             }
 
             if(lb.getStatus()){
-            response.addCookie(new Cookie("userID", lb.getUserID()));
-            response.addCookie(new Cookie("username", lb.getUsername()));
-            session.setAttribute("userID", lb.getUserID());
-            response.sendRedirect("index.html");
+                Cookie uiCookie = new Cookie("userID", lb.getUserID());
+                uiCookie.setMaxAge(-1);
+                Cookie unCookie = new Cookie("username", lb.getUsername());
+                uiCookie.setMaxAge(-1);
+                response.addCookie(uiCookie);
+                response.addCookie(unCookie);
+                session.setAttribute("userID", lb.getUserID());
+                response.sendRedirect("index.html");
             }
 
             else{

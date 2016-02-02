@@ -10,7 +10,7 @@
 		<div class="container text-center">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header"> ADD Product </h1>
+					<h1 class="page-header"> Add Product </h1>
 				</div>
 			</div>
                         <form class="form-horizontal" role="form" style="font-size: 1.1em; font-family: 'arial' !important;" action="addProduct" method="post" enctype="multipart/form-data">

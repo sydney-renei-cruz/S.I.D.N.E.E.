@@ -5,6 +5,10 @@
  */
 package DBAccess;
 
+import Beans.ConnectionBean;
+import Utilities.MySQL;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -15,21 +19,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import Utilities.MySQL;
-import Beans.*;
-import java.io.File;
-import java.io.FileOutputStream;
+
 /**
  *
- * @author user
+ * @author host
  */
-@WebServlet(name = "editProduct", urlPatterns = {"/editProduct"})
-public class editProduct extends HttpServlet {
+public class EditBranch extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,19 +41,9 @@ public class editProduct extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet editProduct</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet editProduct at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -86,12 +75,11 @@ public class editProduct extends HttpServlet {
         
         ServletContext context = request.getSession().getServletContext();
         
-        if(request.getParameter("pid") != null){
-            String productID = request.getParameter("pid");
-            String productName = request.getParameter("productName");
-            String description = request.getParameter("description");
-            float discountRate = Float.parseFloat(request.getParameter("discountRate"));
-            float MSRP =  Float.parseFloat(request.getParameter("MSRP"));
+        if(request.getParameter("branchName") != null){
+            String branchNum = request.getParameter("branchNum");
+            String branchName = request.getParameter("branchName");
+            String branchAddress = request.getParameter("branchAddress");
+            String branchPhoneNum = request.getParameter("branchPhoneNum");
 
             PrintWriter out = response.getWriter();
             Part filePart = request.getPart("image");
@@ -118,29 +106,28 @@ public class editProduct extends HttpServlet {
                     String inText;
                     if(filePart!=null){
                         is = filePart.getInputStream();
-                        inText = "UPDATE product SET productName=?, description=?, discountRate=?, MSRP=?, image=? WHERE productID=?;";
+                        inText = "UPDATE branch SET branchName=?, branchAddress=?, branchPhoneNum=?, image=? WHERE branchNum=?;";
                         ps = conn.prepareStatement(inText);
-                        ps.setBlob(5, is);
-                        ps.setString(6, productID);
+                        ps.setBlob(4, is);
+                        ps.setString(5, branchName);
                         
                     }
                      
                     else{
-                        inText = "UPDATE product set productName=?, description=?, discountRate=?, MSRP=? WHERE productID=?;";
+                        inText = "UPDATE branch SET branchName=?, branchAddress=?, branchPhoneNum=? WHERE branchNum=?;";
                         ps = conn.prepareStatement(inText);
-                        ps.setString(5, productID);
+                        ps.setString(4, branchName);
                     }
                     
-                    ps.setString(1, productName);
-                    ps.setString(2, description);
-                    ps.setFloat(3, discountRate);
-                    ps.setFloat(4, MSRP);
+                    ps.setString(1, branchName);
+                    ps.setString(2, branchAddress);
+                    ps.setString(3, branchPhoneNum);
                     
                     int row = ps.executeUpdate();
                     
                     
                     if(filePart!=null){
-                        String imagePath =  context.getInitParameter("imgPath") + "product/" + productID +".png";
+                        String imagePath =  context.getInitParameter("imgPath") + "branch/" + branchNum +".png";
                         File file = new File(imagePath);
 
                         FileOutputStream outFile = new FileOutputStream(file);
@@ -159,7 +146,7 @@ public class editProduct extends HttpServlet {
                     
                     ps.close();
                     conn.close();
-                    response.sendRedirect("productRetrieve?pid=" + productID);
+                    response.sendRedirect("branchProductRetrieve?branch=" + branchNum);
             }
 
             catch (Exception ex){
@@ -193,22 +180,21 @@ public class editProduct extends HttpServlet {
         }
         else{
             ConnectionBean cb = new ConnectionBean();
-            cb = MySQL.query("SELECT productName, discountRate, MSRP, description from product where productID = \""+ request.getParameter("prodID") +"\";",request,response);
+            cb = MySQL.query("SELECT branchNum, branchName, branchAddress, branchPhoneNum FROM branch where branchNum = \""+ request.getParameter("branchNum") +"\";",request,response);
             ResultSet rs = cb.getRS();
-            request.setAttribute("productID", request.getParameter("prodID"));
+            request.setAttribute("branchNum", request.getParameter("branchNum"));
             try{
                 rs.first();
-                request.setAttribute("productName", rs.getString("productName"));
-                request.setAttribute("description", rs.getString("description"));
-                request.setAttribute("MSRP", rs.getString("MSRP"));
-                request.setAttribute("discountRate", rs.getString("discountRate"));
+                request.setAttribute("branchName", rs.getString("branchName"));
+                request.setAttribute("branchAddress", rs.getString("branchAddress"));
+                request.setAttribute("branchPhoneNum", rs.getString("branchPhoneNum"));
                 rs.close();
             }
             catch(Exception ex){
                 
             }
             cb.close();
-            request.getRequestDispatcher("WEB-INF/jsp/editProduct.jsp").forward(request,response);
+            request.getRequestDispatcher("WEB-INF/jsp/editBranch.jsp").forward(request,response);
         }
         
     }

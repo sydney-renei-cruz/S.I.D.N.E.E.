@@ -40,7 +40,7 @@
         <%@page import="Beans.*"%>
         <%@page import="DBAccess.*"%>
         <% 
-			List <ProductBean> productList = (List)request.getAttribute("productList"); 
+            List <ProductBean> productList = (List)request.getAttribute("productList"); 
             for(int i = 0; i<productList.size();i++) {
         %>
             <% if(i%4==0&&i>0){ %>

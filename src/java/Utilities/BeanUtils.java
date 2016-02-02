@@ -46,4 +46,17 @@ public class BeanUtils {
         pib.setStock(stock);
         return pib;
     }
+    
+    public static BranchBean createBranchBean(String bNum, String bName){
+        BranchBean bb = new BranchBean();
+        bb.setBranchNum(bNum);
+        bb.setBranchName(bName);
+        return bb;
+    }
+    public static ProductBean createProductBean(String pID, String pName){
+        ProductBean pb = new ProductBean();
+        pb.setProductID(pID);
+        pb.setProductName(pName);
+        return pb;
+    }
 }

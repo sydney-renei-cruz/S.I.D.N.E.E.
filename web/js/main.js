@@ -74,7 +74,9 @@ function topBar(){
 								</a>\
 								<ul class="dropdown-menu">\
 									<li><a href="allBranchesRetrieve"><span class="glyphicon glyphicon-eye-open"> All Branches</span></a></li>\
-								</ul>\
+                                                                        <li><a href="addBranch"><span class="glyphicon glyphicon-eye-open"> Add Branch</span></a></li>\
+                                                                        <li><a href="AddProductBranch"><span class="glyphicon glyphicon-plus"> Add Product to Branch</span></a></li>\
+                                                            </ul>\
 							</li>\
 							<li>\
                                 <a href="Login"><span class="glyphicon glyphicon-user"></span> <element id="uname">' + getCookie("username") +'</element></a>\

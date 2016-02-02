@@ -45,6 +45,18 @@
         <servlet-name>editProduct</servlet-name>
         <servlet-class>DBAccess.editProduct</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditBranch</servlet-name>
+        <servlet-class>DBAccess.EditBranch</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddProductBranch</servlet-name>
+        <servlet-class>DBAccess.AddProductBranch</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddBranch</servlet-name>
+        <servlet-class>DBAccess.AddBranch</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -76,6 +88,18 @@
     <servlet-mapping>
         <servlet-name>editProduct</servlet-name>
         <url-pattern>/editProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditBranch</servlet-name>
+        <url-pattern>/editBranch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddProductBranch</servlet-name>
+        <url-pattern>/AddProductBranch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddBranch</servlet-name>
+        <url-pattern>/addBranch</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

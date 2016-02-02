@@ -44,6 +44,13 @@
             <h5><label class="phoneNumber"><%=branch.getBranchPhoneNum()%></label></h5>
             <p></p>
             <a class="btn btn-primary" href="branchProductRetrieve?branch=<%=branch.getBranchNum()%>">View Products <span class="glyphicon glyphicon-chevron-right"></span></a>
+            <%  if(session.getAttribute("userID")!=null){  %>
+                                                <form action="editBranch" method="post">
+                                                    <input type="hidden" name="branchNum" value="<%=branch.getBranchNum()%>">
+                                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                                </form>
+                                                <%}
+                                                %>
             <hr>
             </div>
             </div>

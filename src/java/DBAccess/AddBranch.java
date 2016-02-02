@@ -17,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,8 +27,7 @@ import javax.servlet.http.Part;
  *
  * @author host
  */
-@WebServlet(name = "AddProduct", urlPatterns = {"/AddProduct"})
-public class addProduct extends HttpServlet {
+public class AddBranch extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,7 +38,6 @@ public class addProduct extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -56,11 +53,11 @@ public class addProduct extends HttpServlet {
 
             ResultSet rs = null;
 
-            String pID = request.getParameter("productID");
-            String pName = request.getParameter("productName");
-            float MSRP = Float.parseFloat(request.getParameter("MSRP"));
-            String description = request.getParameter("description");
-            float discountRate = Float.parseFloat(request.getParameter("discountRate"));
+            int branchNum = Integer.parseInt(request.getParameter("branchNum"));
+            String branchName = request.getParameter("branchName");
+            String branchAddress = request.getParameter("branchAddress");
+            String branchPhoneNum = request.getParameter("branchPhoneNum");
+            
             PreparedStatement ps = null;
             InputStream inputStream = null;
 
@@ -88,23 +85,22 @@ public class addProduct extends HttpServlet {
             }
 
             try {
-                    String inText = "INSERT INTO product (productID, productName, MSRP, description, discountRate, image) values (?, ?, ?, ?, ?, ?)";
+                    String inText = "INSERT INTO branch(branchNum, branchName, branchAddress, branchPhoneNum, image) values (?, ?, ?, ?, ?)";
 
                     ps = conn.prepareStatement(inText);
-                    ps.setString(1, pID);
-                    ps.setString(2, pName);
-                    ps.setFloat(3, MSRP);
-                    ps.setString(4, description);
-                    ps.setFloat(5, discountRate);
+                    ps.setInt(1, branchNum);
+                    ps.setString(2, branchName);
+                    ps.setString(3, branchAddress);
+                    ps.setString(4, branchPhoneNum);
 
                     if(inputStream!=null){
-                        ps.setBlob(6, inputStream);
+                        ps.setBlob(5, inputStream);
                     }
 
                 //sends the statement to the database server
                     ps.executeUpdate();
 
-                    String imagePath =  context.getInitParameter("imgPath") + "product/" + pID +".png";
+                    String imagePath =  context.getInitParameter("imgPath") + "branch/" + branchNum +".png";
                     File file = new File(imagePath);
 
                     FileOutputStream outFile = new FileOutputStream(file);
@@ -122,7 +118,7 @@ public class addProduct extends HttpServlet {
 
                     ps.close();
                     conn.close();
-                    response.sendRedirect("productRetrieve?pid=" + pID);
+                    response.sendRedirect("allBranchesRetrieve?pid=" + branchNum);
             }
 
             catch (Exception ex){
@@ -156,12 +152,11 @@ public class addProduct extends HttpServlet {
         }
         
         else{
-            request.getRequestDispatcher("WEB-INF/jsp/addProduct.jsp").forward(request,response);
+            request.getRequestDispatcher("WEB-INF/jsp/addBranch.jsp").forward(request,response);
         }
         
     }
 
-    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
