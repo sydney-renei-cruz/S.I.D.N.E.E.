@@ -74,15 +74,17 @@ public class EditBranch extends HttpServlet {
             throws ServletException, IOException {
         
         ServletContext context = request.getSession().getServletContext();
+        PrintWriter out = response.getWriter();
         
         if(request.getParameter("branchName") != null){
             String branchNum = request.getParameter("branchNum");
             String branchName = request.getParameter("branchName");
             String branchAddress = request.getParameter("branchAddress");
             String branchPhoneNum = request.getParameter("branchPhoneNum");
-
-            PrintWriter out = response.getWriter();
+            
             Part filePart = request.getPart("image");
+            
+            Connection conn = null;
             InputStream is = null;
             PreparedStatement ps = null;
             ResultSet rs = null;
@@ -93,9 +95,7 @@ public class EditBranch extends HttpServlet {
             } catch(Exception ex) {
                 ex.printStackTrace(out);
             }
-
-            Connection conn = null;
-
+            
             try {
                 conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
             } catch(SQLException ex) {
@@ -109,22 +109,22 @@ public class EditBranch extends HttpServlet {
                         inText = "UPDATE branch SET branchName=?, branchAddress=?, branchPhoneNum=?, image=? WHERE branchNum=?;";
                         ps = conn.prepareStatement(inText);
                         ps.setBlob(4, is);
-                        ps.setString(5, branchName);
-                        
+                        ps.setString(5, branchNum);
+                        out.println("1");
                     }
                      
                     else{
                         inText = "UPDATE branch SET branchName=?, branchAddress=?, branchPhoneNum=? WHERE branchNum=?;";
                         ps = conn.prepareStatement(inText);
-                        ps.setString(4, branchName);
+                        ps.setString(4, branchNum);
+                        out.println("3");
                     }
                     
                     ps.setString(1, branchName);
                     ps.setString(2, branchAddress);
                     ps.setString(3, branchPhoneNum);
                     
-                    int row = ps.executeUpdate();
-                    
+                    ps.executeUpdate();
                     
                     if(filePart!=null){
                         String imagePath =  context.getInitParameter("imgPath") + "branch/" + branchNum +".png";

@@ -92,9 +92,10 @@ public class editProduct extends HttpServlet {
             String description = request.getParameter("description");
             float discountRate = Float.parseFloat(request.getParameter("discountRate"));
             float MSRP =  Float.parseFloat(request.getParameter("MSRP"));
+            Part filePart = request.getPart("image");
 
             PrintWriter out = response.getWriter();
-            Part filePart = request.getPart("image");
+            
             InputStream is = null;
             PreparedStatement ps = null;
             ResultSet rs = null;
@@ -116,6 +117,7 @@ public class editProduct extends HttpServlet {
 
             try {
                     String inText;
+                    
                     if(filePart!=null){
                         is = filePart.getInputStream();
                         inText = "UPDATE product SET productName=?, description=?, discountRate=?, MSRP=?, image=? WHERE productID=?;";

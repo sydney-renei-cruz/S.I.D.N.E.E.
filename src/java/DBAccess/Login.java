@@ -34,7 +34,7 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(true);
         
         if(session.getAttribute("userID")!=null){
             Cookie uCookie = new Cookie("userID", null);
