@@ -5,14 +5,8 @@
  */
 package DBAccess;
 
-import Beans.ConnectionBean;
-import Beans.ProductBean;
-import Utilities.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,53 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author host
+ * @author user
  */
-@WebServlet(name = "AllProductsServlet", urlPatterns = {"/AllProductsServlet"})
-public class allProductsRetrieve extends HttpServlet {
+@WebServlet(name = "Search", urlPatterns = {"/Search"})
+public class Search extends HttpServlet {
 
-    
-    //@Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        response.setContentType("text/plain");
-        
-        
-        //---------------
-        
-        response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
-        
-        String inText = "SELECT * FROM product;";
-        ConnectionBean cb = MySQL.query(inText, request, response);
-        
-        ResultSet rs = cb.getRS();
-        
-        try {
-                ArrayList<ProductBean> resultList = new ArrayList<>();
-                while(rs.next()){
-                    resultList.add(BeanUtils.createProductBean(rs.getString("productID"), rs.getString("productName"), rs.getDouble("MSRP"), rs.getString("Description"), rs.getDouble("discountRate")));
-                    
-                }
-                rs.close();
-                request.setAttribute("productList",resultList);
-                
-                request.getRequestDispatcher("WEB-INF/jsp/allProducts.jsp").forward(request, response);
-                
-	}
-	catch (Exception ex){
-	// handle any errors
-		out.write("1 SQLException: " + ex);
-	}
-        
-        cb.close();
-    }
-    
-    
-    
-    
-    
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -77,14 +29,9 @@ public class allProductsRetrieve extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            processRequest(request,response);
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -96,7 +43,11 @@ public class allProductsRetrieve extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
 
     /**
      * Handles the HTTP <code>POST</code> method.

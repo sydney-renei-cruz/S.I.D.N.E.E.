@@ -3,14 +3,9 @@
     <head>
         <link type="text/css" rel="stylesheet" href="css/main.css"/>
 		
-        
-        <script src="js/main.js"></script>
-		
-		<!-- navbar -->
-		<script>
-            topBar();
-        </script>
-		
+    </head>
+    <body>
+		<%@include file="navbar.jsp" %>
 		<!-- caption will show when you hover on a picture -->
 		<script>
 			$( document ).ready(function() {
@@ -36,30 +31,30 @@
 		
 		<!-- items -->
 		<div class="container">
-		<%@page import="java.util.*"%>
-        <%@page import="Beans.*"%>
-        <%@page import="DBAccess.*"%>
-        <% 
-			List <ProductBean> productList = (List)request.getAttribute("productList"); 
-            for(int i = 0; i<productList.size();i++) {
-        %>
-            <% if(i%4==0&&i>0){ %>
-				</div>    
-            <%} if(i%4==0){ %>
-				<div class="row">
-            <%}%>
-			 <div class=" content">
-					<div class="col-md-3">
-						<div class="thumbnail">
-							<!-- caption will show when you hover on a picture-->
-							<div class="caption">
-								<h4 class="productName"><%=productList.get(i).getProductName()%></h4>
-								<p><a href="productRetrieve?pid=<%=productList.get(i).getProductID()%>" class="label label-danger" rel="tooltip" title="View Product"> View Product</a>
-							</div>
-							<img class="img-responsive img" src="image?pid=<%=productList.get(i).getProductID()%>" alt="">
-						</div>
-					</div>
+                <%@page import="java.util.*"%>
+                <%@page import="Beans.*"%>
+                <%@page import="DBAccess.*"%>
+                <% 
+                    List <ProductBean> productList = (List)request.getAttribute("productList"); 
+                    for(int i = 0; i<productList.size();i++) {
+                %>
+                <% if(i%4==0&&i>0){ %>
+		</div>    
+                <%} if(i%4==0){ %>
+                <div class="row">
+                    <%}%>
+                    <div class=" content">
+			<div class="col-md-3">
+                            <div class="thumbnail">
+				<!-- caption will show when you hover on a picture-->
+                                <div class="caption">
+                                    <h4 class="productName"><%=productList.get(i).getProductName()%></h4>
+                                    <p><a href="productRetrieve?pid=<%=productList.get(i).getProductID()%>" class="label label-danger" rel="tooltip" title="View Product"> View Product</a>
 				</div>
+				<img class="img-responsive img" src="image?pid=<%=productList.get(i).getProductID()%>" alt="">
+                            </div>
+			</div>
+                    </div>
 		<%}%>
 		</div>
 		<!-- pagination -->

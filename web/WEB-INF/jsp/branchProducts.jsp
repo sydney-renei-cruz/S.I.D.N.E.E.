@@ -4,12 +4,9 @@
         <link type="text/css" rel="stylesheet" href="css/main.css"/>
 		
         
-        <script src="js/main.js"></script>
-		
-		<!-- navbar -->
-		<script>
-            topBar();
-        </script>
+    </head>
+    <body>
+		<%@include file="navbar.jsp" %>
 		
 		<!-- caption will show when you hover on a picture -->
 		<script>

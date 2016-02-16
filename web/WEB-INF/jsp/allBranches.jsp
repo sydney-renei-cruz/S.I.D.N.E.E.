@@ -2,7 +2,7 @@
 <html>
     <head>
         <link type="text/css" rel="stylesheet" href="css/main.css"/>
-		
+	
     <style>	
         .phoneNumber, .address{
             color: grey;
@@ -12,12 +12,9 @@
 			margin: 20px;
 		}
     </style>
-    <script src="js/main.js"></script>
-		
-    <script>
-        topBar();
-    </script>
-    
+    </head>
+    <body>
+        <%@include file="navbar.jsp" %>
 		<div class="col-lg-12">
             <h1 class="page-header text-center">
                 All Branches
@@ -44,6 +41,7 @@
             <h5><label class="phoneNumber"><%=branch.getBranchPhoneNum()%></label></h5>
             <p></p>
             <a class="btn btn-primary" href="branchProductRetrieve?branch=<%=branch.getBranchNum()%>">View Products <span class="glyphicon glyphicon-chevron-right"></span></a>
+            <a class="btn btn-primary" href="editBranch.jsp">Edit Branch <span class="glyphicon glyphicon-chevron-right"></span></a>
             <hr>
             </div>
             </div>
@@ -130,23 +128,6 @@
     });
 });
 		</script>
-	
-	
-	<!-- back to top link -->
-		<span id="top-link-block" class="hidden">
-    <a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0},'slow');return false;">
-        <i class="glyphicon glyphicon-chevron-up"></i>
-    </a>
-</span><!-- /top-link-block -->
-        <script>
-			// Only enable if the document has a long scroll bar
-			// Note the window height + offset
-			if ( ($(window).height() + 100) < $(document).height() ) {
-				$('#top-link-block').removeClass('hidden').affix({
-			// how far to scroll down before link "slides" into view
-				offset: {top:100}
-				});
-			}
-		</script>	
+
     </body>
 </html>
