@@ -25,7 +25,7 @@
 							</label>
 						</form>
 					</div>
-					<a href="index.jsp" class="text-center go-back"><span class="glyphicon glyphicon-chevron-left"></span>Go back to home</a>
+					<a href="indexRetrieveProductNBranch" class="text-center go-back"><span class="glyphicon glyphicon-chevron-left"></span>Go back to home</a>
 				</div>
 			</div>
 		</div>

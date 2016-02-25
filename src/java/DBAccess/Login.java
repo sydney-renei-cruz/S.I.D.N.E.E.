@@ -84,7 +84,7 @@ public class Login extends HttpServlet {
         if(lb.getStatus()){
         response.addCookie(new Cookie("userID", lb.getUserID()));
         request.getSession(true).setAttribute("userID", lb.getUserID());
-        response.sendRedirect("index.html");
+        response.sendRedirect("indexRetrieveProductNBranch");
         }
         
         else{

@@ -7,16 +7,8 @@ package DBAccess;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -45,79 +37,31 @@ public class ImageRetrieve extends HttpServlet {
         ServletContext context = request.getSession().getServletContext();
         
         response.setContentType("image/png");
-        String imagePath = "/home/host/img/error.png";
+        String imagePath = context.getInitParameter("imgPath") + "error.png";
         
         if(request.getParameter("pid")!=null){
-            imagePath = "/home/host/img/product/" + request.getParameter("pid") + ".png";
+            imagePath = context.getInitParameter("imgPath") + "products\\" + request.getParameter("pid") + ".png";
         }
         else if(request.getParameter("branchNum")!=null){
-            imagePath = "/home/host/img/branch/" + request.getParameter("branchNum") + ".png";
+            imagePath = context.getInitParameter("imgPath") + "branch\\" + request.getParameter("branchNum") + ".png";
         }
         
 	File file = new File(imagePath);
-        
-        if(!file.exists()){
-            file.createNewFile();
-            String inText ="";
-            Connection conn = null;
-            Statement stmt = null;
-            ResultSet rs = null;
-            
-            if(request.getParameter("pid")!=null){
-                inText = "SELECT image FROM product where productID=\"" + request.getParameter("pid")+ "\";";
-            }
-            else if(request.getParameter("branchNum")!=null){
-                inText = "SELECT image FROM branch where branchNum=\"" + request.getParameter("branchNum") +"\";";
-            }
-             try {
-                Class.forName(context.getInitParameter("jdbcDriver"));
-            } catch(Exception ex) {
-
-            }
-            
-            try {
-                conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
-            } catch(SQLException ex) {
-
-            }
-
-            try {
-                
-                stmt = conn.createStatement();
-                
-                if(stmt.execute(inText))
-                    rs = stmt.getResultSet();
-                
-                rs.first();
-                
-                Blob photo = rs.getBlob("image");
-                
-                FileOutputStream outFile = new FileOutputStream(file);
-                InputStream in = photo.getBinaryStream();             
-                
-                int length = (int) photo.length();              
-                int bufferSize = 1024;             
-                byte[] buffer = new byte[bufferSize];              
-                while ((length = in.read(buffer)) != -1) {    
-                    outFile.write(buffer, 0, length);             
-                }              
-                in.close(); 
-                outFile.close();
-                stmt.close();
-                conn.close();
-            }
-            catch(Exception e){
-                
-            }
+        BufferedImage bi;
+        try{
+            bi = ImageIO.read(file);
+        }
+        catch(javax.imageio.IIOException ex){
+            file = new File(context.getInitParameter("imgPath") + "error.png");
+            bi = ImageIO.read(file);
         }
         
-	BufferedImage bi = ImageIO.read(file);
+	OutputStream outImg = response.getOutputStream();
+        File cacheDir = new File(context.getInitParameter("imgPath") +"cache");
+	ImageIO.setCacheDirectory(cacheDir);
+        ImageIO.write(bi, "png", outImg);
         
-	OutputStream out = response.getOutputStream();
-	
-        ImageIO.write(bi, "png", out);
-        
-	out.close();
+	outImg.close();
         
     }
 

@@ -14,7 +14,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="description" content="">
 	<meta name="author" content="">
-        <link type="text/css" rel="stylesheet" href="css/default-navbar.css">
         <link type="text/css" rel="stylesheet" href="css/backtotop.css">
         <!-- jQuery -->
 	<script src="jquery-1.11.3.min.js"></script>

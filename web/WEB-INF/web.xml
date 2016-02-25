@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/applicationContext.xml</param-value>
     </context-param>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <description>ServletContextListener</description>
+        <listener-class>Utilities.BackgroundScheduler</listener-class>
     </listener>
     <servlet>
         <servlet-name>dispatcher</servlet-name>
@@ -36,6 +41,22 @@
         <servlet-name>addProduct</servlet-name>
         <servlet-class>DBAccess.addProduct</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>editProduct</servlet-name>
+        <servlet-class>DBAccess.editProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditBranch</servlet-name>
+        <servlet-class>DBAccess.EditBranch</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddProductBranch</servlet-name>
+        <servlet-class>DBAccess.AddProductBranch</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddBranch</servlet-name>
+        <servlet-class>DBAccess.AddBranch</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -63,6 +84,22 @@
     <servlet-mapping>
         <servlet-name>addProduct</servlet-name>
         <url-pattern>/addProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editProduct</servlet-name>
+        <url-pattern>/editProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditBranch</servlet-name>
+        <url-pattern>/editBranch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddProductBranch</servlet-name>
+        <url-pattern>/AddProductBranch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddBranch</servlet-name>
+        <url-pattern>/addBranch</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -102,6 +139,10 @@
     </context-param>
     <context-param>
         <param-name>dbURL</param-name>
-        <param-value>jdbc:mysql://localhost:3306/sidnee</param-value>
+        <param-value>jdbc:mysql://10.0.0.150:3306/sidnee</param-value>
+    </context-param>
+    <context-param>
+        <param-name>imgPath</param-name>
+        <param-value>D:\\img\\</param-value>
     </context-param>
 </web-app>

@@ -8,6 +8,7 @@ package Utilities;
 import Beans.*;
 import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,12 +26,13 @@ public class MySQL {
         
         ConnectionBean cb = new ConnectionBean();
         ServletContext context = request.getSession().getServletContext();
-        
+        PrintWriter out = null;
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         
         try {
+            out = response.getWriter();
             //Class.forName("com.mysql.jdbc.Driver");
             Class.forName(context.getInitParameter("jdbcDriver"));
             conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
@@ -49,6 +51,8 @@ public class MySQL {
         catch(Exception ex) {
             cb.setStatus(false);
             cb.setEx(ex);
+            ex.printStackTrace(out);
+            
         }
         
         return cb;

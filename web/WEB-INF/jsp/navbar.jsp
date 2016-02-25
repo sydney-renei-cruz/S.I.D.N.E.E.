@@ -9,6 +9,8 @@
 <html>
     <head>
         <%@include file="commonHeadTags.jsp" %>
+        
+	<link rel="stylesheet" type="text/css" href="css/default-navbar.css"/>
     </head>
     <body>
         <!-- Navigation -->
@@ -22,7 +24,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index.jsp">S.I.D.N.E.E.</a>
+					<a class="navbar-brand" href="indexRetrieveProductNBranch">S.I.D.N.E.E.</a>
 				</div>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -48,7 +50,7 @@
 							</a>
 							<ul class="dropdown-menu">
 								<li><a href="allProductsRetrieve"><span class="glyphicon glyphicon-eye-open"> All Products</span></a></li>
-								<li><a href="addProduct.jsp"><span class="glyphicon glyphicon-plus"> Add Product</span></a></li>
+								<li><a href="AddProduct"><span class="glyphicon glyphicon-plus"> Add Product</span></a></li>
 							</ul>
 						</li>
 						<li class="dropdown">

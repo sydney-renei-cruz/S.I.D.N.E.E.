@@ -23,7 +23,10 @@
             <center>
                 <h1 class="userName">Sydney Cruz</h1>
                 <h2 class="userID" style="font-size: 1.5em;">1111</h2>
-                <h2 class="btn-lg btn"><a href="#"> Log Out </a></h2>
+                <div style="font-size: 2em">
+                    <a class="btn-lg btn btn-info" href="registerUser.jsp" style="color: #fff !important;"> Register Another User </a>
+                    <a class="btn-lg btn btn-warning" href="#" style="color: #fff !important;"> Log Out </a>
+                </div>
             </center> 
         </div>
     </body>

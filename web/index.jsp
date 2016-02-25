@@ -11,7 +11,8 @@
     <head>
         <%@include file="WEB-INF/jsp/commonHeadTags.jsp" %>
 		<link rel="stylesheet" type="text/css" href="css/homepage.css"/>
-		<link type="text/css" rel="stylesheet" href="css/homepage-itemcarousel/css">
+                
+		<link rel="stylesheet" type="text/css" href="css/default-navbar.css"/>
 	</head>
 	<body>
             
@@ -65,7 +66,7 @@
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <h2 class="home_navbut">Branch</h2> </a>
 					<ul class="dropdown-menu" style="margin-left: 0%; padding: 0 20% !important;">
 						<li><a href="allBranchesRetrieve"><h2>All Branches</h2></a></li>
-                                                <li><a href="addBranch"><h2>Add Branch</h2></a></li>
+                                                <li><a href="addBranch.jsp"><h2>Add Branch</h2></a></li>
                                                 <li><a href="AddProductBranch"><h2>Add Product to Branch</h2></a></li>
 					</ul>
 				</div>
@@ -93,7 +94,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index.jsp">S.I.D.N.E.E.</a>
+					<a class="navbar-brand" href="indexRetrieveProductNBranch">S.I.D.N.E.E.</a>
 				</div>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -189,15 +190,16 @@
                                     <div class="row">
                                         <% } %>
                                         <div class="content">
-                                            <div class="col-md-3">
-                                                <div class="thumbnail">
-                                                    <div class="caption">
-                                                        <h4 class="productName"><%= randomProductList.get(i).getProductName() %></h4>
-                                                    </div>
+                                            <div class="col-md-3" style="padding-bottom:20px;">
+                                                <div class="thumbnail" >
+                                                    
                                                     <img class="img-responsive img" src="image?pid=<%=randomProductList.get(i).getProductID()%>" alt="">
                                                 </div>
+                                                <h4 class="productName"><%= randomProductList.get(i).getProductName() %></h4>
+                                                <a href="productRetrieve?pid=<%=randomProductList.get(i).getProductID()%>" class="label label-danger" rel="tooltip" title="View Product"> View Product</a>
                                             </div>
                                         </div>
+                                                
                                         <%}%>
                                     </div>
 				<div class="col-lg-12 bg-red">

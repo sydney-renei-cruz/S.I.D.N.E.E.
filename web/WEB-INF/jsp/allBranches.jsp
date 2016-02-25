@@ -1,21 +1,18 @@
+<%-- 
+    Document   : allBranches
+    Created on : 02 25, 16, 2:19:31 PM
+    Author     : sydne
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <link type="text/css" rel="stylesheet" href="css/main.css"/>
-	
-    <style>	
-        .phoneNumber, .address{
-            color: grey;
-            opacity: 0.9;
-        }
-		.row{
-			margin: 20px;
-		}
-    </style>
     </head>
     <body>
         <%@include file="navbar.jsp" %>
-		<div class="col-lg-12">
+        <div class="col-lg-12">
             <h1 class="page-header text-center">
                 All Branches
 			</h1>
@@ -36,12 +33,18 @@
             </a>
             </div>
             <div class="col-md-5">
-            <h2 style="color: black;"><%=branch.getBranchName()%></h2>
+                <h2 style="color: black;"><%=branch.getBranchName()%></h2>
             <h5><label class="address"><%=branch.getBranchAddress()%></label></h5>
             <h5><label class="phoneNumber"><%=branch.getBranchPhoneNum()%></label></h5>
             <p></p>
             <a class="btn btn-primary" href="branchProductRetrieve?branch=<%=branch.getBranchNum()%>">View Products <span class="glyphicon glyphicon-chevron-right"></span></a>
-            <a class="btn btn-primary" href="editBranch.jsp">Edit Branch <span class="glyphicon glyphicon-chevron-right"></span></a>
+            <%  if(session.getAttribute("userID")!=null){  %>
+                                                <form action="editBranch" method="post">
+                                                    <input type="hidden" name="branchNum" value="<%=branch.getBranchNum()%>">
+                                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                                </form>
+                                                <%}
+                                                %>
             <hr>
             </div>
             </div>
@@ -128,6 +131,5 @@
     });
 });
 		</script>
-
     </body>
 </html>

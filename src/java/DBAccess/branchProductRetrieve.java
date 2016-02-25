@@ -45,7 +45,7 @@ public class branchProductRetrieve extends HttpServlet {
             request.getRequestDispatcher("/allBranchesRetrieve").forward(request, response);
         }
         
-        String inText = "SELECT DISTINCT b.productID, p.productName from branchInventory b,product p where b.productID = p.productID and b.branchNum = "+ branchinput + ";";
+        String inText = "SELECT DISTINCT b.productID, p.productName, p.MSRP, p.discountRate from branchInventory b,product p where b.productID = p.productID and b.branchNum = "+ branchinput + ";";
         
         ResultSet rs = null;
         ConnectionBean cb = new ConnectionBean();
@@ -55,7 +55,7 @@ public class branchProductRetrieve extends HttpServlet {
                 ArrayList<ProductBean> resultList = new ArrayList<>();
                 
                 while(rs.next()){
-                    resultList.add(BeanUtils.createPartialProductBean(rs.getString("productID"),rs.getString("productName")));
+                    resultList.add(BeanUtils.createPartialProductBean(rs.getString("productID"),rs.getString("productName"), rs.getDouble("MSRP"), rs.getDouble("discountRate")));
                 }
                 
                 rs.close();

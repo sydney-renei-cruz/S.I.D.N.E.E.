@@ -21,13 +21,16 @@ public class BeanUtils {
         pb.setDescription(description);
         return pb;
     }
-    public static ProductBean createPartialProductBean(String pID, String pName){
+    
+    
+    public static ProductBean createPartialProductBean(String pID, String pName, double msrp, double dr){
         ProductBean ppb = new ProductBean();
         ppb.setProductID(pID);
         ppb.setProductName(pName);
+        ppb.setMSRP(msrp);
+        ppb.setDiscountRate(dr);
         return ppb;
     }
-    
     public static BranchBean createBranchBean(String bNum, String bName, String bAdd, String bPNum){
         BranchBean bb = new BranchBean();
         bb.setBranchNum(bNum);
@@ -35,6 +38,12 @@ public class BeanUtils {
         bb.setBranchAddress(bAdd);
         bb.setBranchPhoneNum(bPNum);
         
+        return bb;
+    }
+    public static BranchBean createBranchBean(String bNum, String bName){
+        BranchBean bb = new BranchBean();
+        bb.setBranchNum(bNum);
+        bb.setBranchName(bName);
         return bb;
     }
     
@@ -45,5 +54,11 @@ public class BeanUtils {
         pib.setBranchDiscountRate(branchDiscountRate);
         pib.setStock(stock);
         return pib;
+    }
+    public static ProductBean createProductBean(String pID, String pName){
+        ProductBean pb = new ProductBean();
+        pb.setProductID(pID);
+        pb.setProductName(pName);
+        return pb;
     }
 }
