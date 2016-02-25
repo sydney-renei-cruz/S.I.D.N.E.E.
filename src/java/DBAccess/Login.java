@@ -33,58 +33,7 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        HttpSession session = request.getSession(true);
-        
-        if(session.getAttribute("userID")!=null){
-            Cookie uCookie = new Cookie("userID", null);
-            uCookie.setMaxAge(0);
-            response.addCookie(uCookie);
-            
-            Cookie unCookie = new Cookie("username",null);
-            unCookie.setMaxAge(0);
-            response.addCookie(unCookie);
-            session.invalidate();
-            response.sendRedirect("allProductsRetrieve");
-        }
-        
-        else if(request.getParameter("username")==null){
-            request.getRequestDispatcher("WEB-INF/jsp/loginPage.jsp").forward(request,response);
-        }
-        
-        else{
-            session = request.getSession(true);
-            Cookie cookie = new Cookie("userID", null);
-            response.addCookie(cookie);
-            //---------------
-
-            response.setCharacterEncoding("UTF-8");
-
-            String input = request.getParameter("username");
-            String pass =  request.getParameter("password");
-            LoginBean lb = new LoginBean();
-            try {
-                lb = MySQL.login(input, pass, request, response);
-            } catch (Exception ex) {
-
-            }
-
-            if(lb.getStatus()){
-                Cookie uiCookie = new Cookie("userID", lb.getUserID());
-                uiCookie.setMaxAge(-1);
-                Cookie unCookie = new Cookie("username", lb.getUsername());
-                uiCookie.setMaxAge(-1);
-                response.addCookie(uiCookie);
-                response.addCookie(unCookie);
-                session.setAttribute("userID", lb.getUserID());
-                response.sendRedirect("index.html");
-            }
-
-            else{
-                request.setAttribute("errorMessage", "Wrong username/password");
-                request.getRequestDispatcher("WEB-INF/jsp/loginPage.jsp").forward(request, response);
-            }
-        }
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -99,7 +48,23 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession(true);
+        
+        if(session.getAttribute("userID")!=null){
+            Cookie uCookie = new Cookie("userID", null);
+            uCookie.setMaxAge(0);
+            response.addCookie(uCookie);
+            
+            Cookie unCookie = new Cookie("username",null);
+            unCookie.setMaxAge(0);
+            response.addCookie(unCookie);
+            session.invalidate();
+            response.sendRedirect("allProductsRetrieve");
+        }
+        
+        else{
+            request.getRequestDispatcher("WEB-INF/jsp/loginPage.jsp").forward(request,response);
+        }
     }
 
     /**
@@ -115,9 +80,37 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //set the MIME type for the response message
+        HttpSession session = request.getSession(true);
+        session = request.getSession(true);
+        Cookie cookie = new Cookie("userID", null);
+        response.addCookie(cookie);
+            //---------------
+
+        response.setCharacterEncoding("UTF-8");
+
+        String input = request.getParameter("username");
+        String pass =  request.getParameter("password");
+        LoginBean lb = new LoginBean();
+        try {
+            lb = MySQL.login(input, pass, request, response);
+        } catch (Exception ex) {
         
-        processRequest(request, response);
-        
+        }
+
+        if(lb.getStatus()){
+            Cookie uiCookie = new Cookie("userID", lb.getUserID());
+            uiCookie.setMaxAge(3600);
+            Cookie unCookie = new Cookie("username", lb.getUsername());
+            uiCookie.setMaxAge(3600);
+            response.addCookie(uiCookie);
+            response.addCookie(unCookie);
+            session.setAttribute("userID", lb.getUserID());
+            response.sendRedirect("index.html");
+        }
+        else{
+            request.setAttribute("errorMessage", "Wrong username/password");
+            request.getRequestDispatcher("WEB-INF/jsp/loginPage.jsp").forward(request, response);
+        }
     }
         
         

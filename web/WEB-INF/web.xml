@@ -139,10 +139,10 @@
     </context-param>
     <context-param>
         <param-name>dbURL</param-name>
-        <param-value>jdbc:mysql://localhost:3306/sidnee</param-value>
+        <param-value>jdbc:mysql://10.0.0.150:3306/sidnee</param-value>
     </context-param>
     <context-param>
         <param-name>imgPath</param-name>
-        <param-value>/home/host/img/</param-value>
+        <param-value>D:\\Projects\\img\\</param-value>
     </context-param>
 </web-app>
