@@ -37,28 +37,25 @@ public class allProductsRetrieve extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         
-        String inText = "SELECT * FROM product order by addDate desc;";
+        String inText = "SELECT * FROM product order by additionDate desc;";
         ConnectionBean cb = MySQL.query(inText, request, response);
-        
+        ArrayList<ProductBean> resultList = new ArrayList<>();
         ResultSet rs = cb.getRS();
         
         try {
-                ArrayList<ProductBean> resultList = new ArrayList<>();
                 while(rs.next()){
                     resultList.add(BeanUtils.createProductBean(rs.getString("productID"), rs.getString("productName"), rs.getDouble("MSRP"), rs.getString("Description"), rs.getDouble("discountRate")));
                     
                 }
                 rs.close();
-                request.setAttribute("productList",resultList);
-                
-                request.getRequestDispatcher("WEB-INF/jsp/allProducts.jsp").forward(request, response);
 	}
 	catch (Exception ex){
 	// handle any errors
 		out.write("SQLException: " + ex);
 	}
-        
         cb.close();
+        request.setAttribute("productList",resultList);
+        request.getRequestDispatcher("WEB-INF/jsp/allProducts.jsp").forward(request, response);
     }
     
     

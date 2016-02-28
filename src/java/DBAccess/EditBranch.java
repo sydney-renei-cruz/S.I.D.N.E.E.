@@ -104,20 +104,18 @@ public class EditBranch extends HttpServlet {
 
             try {
                     String inText;
-                    if(filePart!=null){
+                    if(filePart.getSize() != 0){
                         is = filePart.getInputStream();
                         inText = "UPDATE branch SET branchName=?, branchAddress=?, branchPhoneNum=?, image=? WHERE branchNum=?;";
                         ps = conn.prepareStatement(inText);
                         ps.setBlob(4, is);
                         ps.setString(5, branchNum);
-                        out.println("1");
                     }
                      
                     else{
                         inText = "UPDATE branch SET branchName=?, branchAddress=?, branchPhoneNum=? WHERE branchNum=?;";
                         ps = conn.prepareStatement(inText);
                         ps.setString(4, branchNum);
-                        out.println("3");
                     }
                     
                     ps.setString(1, branchName);
@@ -126,7 +124,7 @@ public class EditBranch extends HttpServlet {
                     
                     ps.executeUpdate();
                     
-                    if(filePart!=null){
+                    if(filePart.getSize() != 0){
                         String imagePath =  context.getInitParameter("imgPath") + "branch/" + branchNum +".png";
                         File file = new File(imagePath);
 

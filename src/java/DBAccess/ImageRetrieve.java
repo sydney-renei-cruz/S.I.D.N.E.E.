@@ -40,10 +40,10 @@ public class ImageRetrieve extends HttpServlet {
         String imagePath = context.getInitParameter("imgPath") + "error.png";
         
         if(request.getParameter("pid")!=null){
-            imagePath = context.getInitParameter("imgPath") + "product/" + request.getParameter("pid") + ".png";
+            imagePath = context.getInitParameter("imgPath") + "product\\" + request.getParameter("pid") + ".png";
         }
         else if(request.getParameter("branchNum")!=null){
-            imagePath = context.getInitParameter("imgPath") + "branch/" + request.getParameter("branchNum") + ".png";
+            imagePath = context.getInitParameter("imgPath") + "branch\\" + request.getParameter("branchNum") + ".png";
         }
         
 	File file = new File(imagePath);

@@ -65,8 +65,10 @@
 							<label class="col-md-3 control-label"></label>
 							<div class="col-md-8">
                                                             <input type="submit" class="btn btn-primary" value="Submit">
-								<span></span>
-								<input type="reset" class="btn btn-default" value="Cancel">
+                                                            <span></span>
+                                                            <input type="submit" class="btn btn-primary" name="add" value="Add Another">
+                                                            <span></span>
+                                                            <input type="reset" class="btn btn-default" value="Cancel">
 							</div>
 						</div>
 					</form>	

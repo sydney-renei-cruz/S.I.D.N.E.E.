@@ -43,11 +43,11 @@ function topBar(){
 						<!-- navbar buttons-->\
 						<ul class="nav navbar-nav navbar-left">\
 							<li style="margin-left: 20px;">\
-								<form class="search-bar navbar-form" role="search" method="get" action="productRetrieve">\
+								<form class="search-bar navbar-form" role="search" method="post" action="Search">\
 									<div class="input-group">\
-										<input type="text" class="form-control" placeholder="Search Me!" name="pid" id="srch">\
+										<input type="text" class="form-control" placeholder="Search Me!" name="query" id="srch">\
 										<div class="input-group-btn">\
-											<button class="btn btn-default" type="submit" onClick="location.href="productRetrieve"">\
+											<button class="btn btn-default" type="submit">\
 												<i class="glyphicon glyphicon-search"></i>\
 											</button>\
 										</div>\

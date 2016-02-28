@@ -30,10 +30,6 @@
         <servlet-class>DBAccess.allBranchesRetrieve</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ImageUpload</servlet-name>
-        <servlet-class>DBAccess.ImageUpload</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ImageFileRetrieve</servlet-name>
         <servlet-class>DBAccess.ImageRetrieve</servlet-class>
     </servlet>
@@ -57,6 +53,14 @@
         <servlet-name>AddBranch</servlet-name>
         <servlet-class>DBAccess.AddBranch</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Register</servlet-name>
+        <servlet-class>DBAccess.Register</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Search</servlet-name>
+        <servlet-class>DBAccess.Search</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -72,10 +76,6 @@
     <servlet-mapping>
         <servlet-name>allBranchesRetrieve</servlet-name>
         <url-pattern>/allBranchesRetrieve</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ImageUpload</servlet-name>
-        <url-pattern>/ImageUpload</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ImageFileRetrieve</servlet-name>
@@ -100,6 +100,14 @@
     <servlet-mapping>
         <servlet-name>AddBranch</servlet-name>
         <url-pattern>/addBranch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Register</servlet-name>
+        <url-pattern>/Register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Search</servlet-name>
+        <url-pattern>/Search</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -139,7 +147,7 @@
     </context-param>
     <context-param>
         <param-name>dbURL</param-name>
-        <param-value>jdbc:mysql://10.0.0.150:3306/sidnee</param-value>
+        <param-value>jdbc:mysql://10.0.0.150:3306/sidnee2</param-value>
     </context-param>
     <context-param>
         <param-name>imgPath</param-name>

@@ -2,7 +2,7 @@
 <html>
     <head>
         <link type="text/css" rel="stylesheet" href="css/main.css"/>
-		
+	<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
         
         <script src="js/main.js"></script>
 		
@@ -39,28 +39,26 @@
 		<%@page import="java.util.*"%>
         <%@page import="Beans.*"%>
         <%@page import="DBAccess.*"%>
-        <% 
-            List <ProductBean> productList = (List)request.getAttribute("productList"); 
-            for(int i = 0; i<productList.size();i++) {
-        %>
-            <% if(i%4==0&&i>0){ %>
-				</div>    
-            <%} if(i%4==0){ %>
-				<div class="row">
-            <%}%>
+        <c:forEach items="${productList}" var="product" varStatus="prodLp">
+            <c:if test="{prodLp.index%4==0 && prodLp.index>0}">
+		</div>    
+            </c:if>
+            <c:if test="{prodLp.index%4==0}">
+		<div class="row">
+            </c:if>
 			 <div class=" content">
 					<div class="col-md-3">
 						<div class="thumbnail">
 							<!-- caption will show when you hover on a picture-->
 							<div class="caption">
-								<h4 class="productName"><%=productList.get(i).getProductName()%></h4>
-								<p><a href="productRetrieve?pid=<%=productList.get(i).getProductID()%>" class="label label-danger" rel="tooltip" title="View Product"> View Product</a>
+								<h4 class="productName">${product.productName}</h4>
+								<p><a href="productRetrieve?pid=${product.productID}" class="label label-danger" rel="tooltip" title="View Product"> View Product</a>
 							</div>
-							<img class="img-responsive img" src="image?pid=<%=productList.get(i).getProductID()%>" alt="">
+							<img class="img-responsive img" src="image?pid=${product.productID}" alt="">
 						</div>
 					</div>
 				</div>
-		<%}%>
+      </c:forEach>
 		</div>
 		<!-- pagination -->
 		<nav class="text-center">

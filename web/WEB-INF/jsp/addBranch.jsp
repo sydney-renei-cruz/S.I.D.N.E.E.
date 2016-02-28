@@ -21,7 +21,7 @@
 					<div class="text-center">
 						<img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
 						<h6 style="font-family: arial !important;">Upload product photo...</h6>
-						<input type="file" class="form-control" name="image">
+						<input type="file" class="form-control" name="image" required>
 					</div>
 				</div>
 				<div class="col-md-9 personal-info">
@@ -59,8 +59,10 @@
 							<label class="col-md-3 control-label"></label>
 							<div class="col-md-8">
                                                             <input type="submit" class="btn btn-primary" value="Submit">
-								<span></span>
-								<input type="reset" class="btn btn-default" value="Cancel">
+                                                            <span></span>
+                                                            <input type="submit" class="btn btn-primary" name="add" value="Add Another">
+                                                            <span></span>
+                                                            <input type="reset" class="btn btn-default" value="Cancel">
 							</div>
 						</div>
 					</form>

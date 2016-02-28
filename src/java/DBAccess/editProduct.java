@@ -118,7 +118,7 @@ public class editProduct extends HttpServlet {
             try {
                     String inText;
                     
-                    if(filePart!=null){
+                    if(filePart.getSize()!=0){
                         is = filePart.getInputStream();
                         inText = "UPDATE product SET productName=?, description=?, discountRate=?, MSRP=?, image=? WHERE productID=?;";
                         ps = conn.prepareStatement(inText);
@@ -141,7 +141,7 @@ public class editProduct extends HttpServlet {
                     int row = ps.executeUpdate();
                     
                     
-                    if(filePart!=null){
+                    if(filePart.getSize() != 0){
                         String imagePath =  context.getInitParameter("imgPath") + "product/" + productID +".png";
                         File file = new File(imagePath);
 

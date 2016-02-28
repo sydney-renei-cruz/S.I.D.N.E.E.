@@ -6,15 +6,21 @@
 package Utilities;
 
 import Beans.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.LinkedList;
+import java.util.Random;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -54,6 +60,111 @@ public class MySQL {
         return cb;
     }
     
+    public static LoginBean register(String userID, String username, String password, Part image, HttpServletRequest request, HttpServletResponse response){
+        LoginBean lb = new LoginBean();
+        lb.setStatus(false);
+        ServletContext context = request.getSession().getServletContext();
+        
+        PrintWriter out = null;
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            out = response.getWriter();
+            //Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(context.getInitParameter("jdbcDriver"));
+            conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
+            
+            Random rand = new Random();
+            
+            int salt = rand.nextInt(1000);
+            
+            String hashedPass = password + salt;
+            
+            InputStream is = null;
+            
+            
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            md.update(hashedPass.getBytes());
+            byte[] digest = md.digest();
+            
+            char hexDigit[] = {'0', '1', '2', '3', '4', '5', '6', '7',
+                         '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+            StringBuffer buf = new StringBuffer();
+            
+            for (int j=0; j<digest.length; j++) {
+                buf.append(hexDigit[(digest[j] >> 4) & 0x0f]);
+                buf.append(hexDigit[digest[j] & 0x0f]);
+            }
+            
+            hashedPass = buf.toString();
+            
+            String inText; 
+            if(image.getSize() != 0){
+                inText = "INSERT INTO user(userID, username, passHash, salt, image) VALUES(?,?,?,?,?);";
+                ps = conn.prepareStatement(inText);
+                is = image.getInputStream();
+                ps.setBlob(5, is);
+            }
+            else{
+                inText = "INSERT INTO user(userID, username, passHash, salt) VALUES(?,?,?,?);";
+                ps = conn.prepareStatement(inText);
+            }
+            ps.setString(1, userID);
+            ps.setString(2, username);
+            ps.setString(3, hashedPass);
+            ps.setString(4, "" + salt);
+            
+            ps.executeUpdate();
+            
+            inText = "SELECT username, userID FROM user WHERE username=? AND passHash=?;";
+            
+            ps = conn.prepareStatement(inText);
+            
+            ps.setString(1, username);
+            ps.setString(2, hashedPass);
+            
+            rs = ps.executeQuery();
+            
+            rs.first();
+            
+            lb.setUsername(rs.getString("username"));
+            lb.setUserID(rs.getString("userID"));
+            lb.setStatus(true);
+            
+            if(image.getSize()!=0){
+                InputStream inputStream = null;
+                String imagePath =  context.getInitParameter("imgPath") + "user\\" + userID +".png";
+                File file = new File(imagePath);
+
+                FileOutputStream outFile = new FileOutputStream(file);
+                inputStream = image.getInputStream();          
+
+                int read = 0;    
+                int bufferSize = 1024;             
+                byte[] buffer = new byte[bufferSize];              
+                
+                while ((read = inputStream.read(buffer)) != -1) {    
+                    outFile.write(buffer, 0, read);             
+                }
+
+                inputStream.close(); 
+                outFile.close();
+            }
+            
+            rs.close();
+            ps.close();
+            conn.close();
+        }
+        catch(Exception ex) {
+            ex.printStackTrace(out);
+        }
+        return lb;
+        
+    }
+    
     public static LoginBean login(String user, String pass, HttpServletRequest request, HttpServletResponse response) throws Exception{
         
         PrintWriter out = null;
@@ -85,9 +196,9 @@ public class MySQL {
             }
             rs.close();
             ps.close();
-            out.println(pass);
+            
             String hashedPass = pass + salt;
-            out.println(hashedPass);
+            
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             md.update(hashedPass.getBytes());
             byte[] digest = md.digest();
@@ -133,5 +244,39 @@ public class MySQL {
         return lb;
     }
     
-    
+    public static ConnectionBean search(String phrase, HttpServletRequest request, HttpServletResponse response){
+        ConnectionBean cb = new ConnectionBean();
+        
+        ServletContext context = request.getSession().getServletContext();
+        
+        LoginBean lb = new LoginBean();
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
+            //Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(context.getInitParameter("jdbcDriver"));
+            conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
+
+            String inText = "select productID, productName, MSRP, description from product where description like ? or productName like ? or description like ? or productID like ?;";
+            ps = conn.prepareStatement(inText);
+            
+            ps.setString(1, "%" + phrase + "%");
+            ps.setString(2, "%" + phrase + "%");
+            ps.setString(3, "%" + phrase + "%");
+            ps.setString(4, "%" + phrase + "%");
+            
+            rs = ps.executeQuery();
+            cb.setRS(rs);
+            cb.setPS(ps);
+            cb.setConn(conn);
+        }
+        catch(Exception ex){
+            ex.printStackTrace(out);
+        }
+        return cb;
+    }
 }

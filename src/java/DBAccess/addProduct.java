@@ -66,7 +66,7 @@ public class addProduct extends HttpServlet {
 
             Part filePart = request.getPart("image");
 
-            if(filePart!=null){
+            if(filePart.getSize()!=0){
                 inputStream = filePart.getInputStream();
             }
 
@@ -88,41 +88,57 @@ public class addProduct extends HttpServlet {
             }
 
             try {
-                    String inText = "INSERT INTO product (productID, productName, MSRP, description, discountRate, image) values (?, ?, ?, ?, ?, ?)";
-
-                    ps = conn.prepareStatement(inText);
+                    
+                    if(filePart.getSize()!=0){
+                        String inText = "INSERT INTO product (productID, productName, MSRP, description, discountRate, image) values (?, ?, ?, ?, ?, ?)";
+                        ps = conn.prepareStatement(inText);
+                        ps.setBlob(6, inputStream);
+                    }
+                    
+                    else{
+                        String inText = "INSERT INTO product (productID, productName, MSRP, description, discountRate) values (?, ?, ?, ?, ?)";
+                        ps = conn.prepareStatement(inText);
+                    }
+                    
+                    
                     ps.setString(1, pID);
                     ps.setString(2, pName);
                     ps.setFloat(3, MSRP);
                     ps.setString(4, description);
                     ps.setFloat(5, discountRate);
 
-                    if(inputStream!=null){
-                        ps.setBlob(6, inputStream);
-                    }
+                    
 
                 //sends the statement to the database server
                     ps.executeUpdate();
+                    
+                    if(filePart.getSize()!=0){
+                        String imagePath =  context.getInitParameter("imgPath") + "product\\" + pID +".png";
+                        File file = new File(imagePath);
 
-                    String imagePath =  context.getInitParameter("imgPath") + "product/" + pID +".png";
-                    File file = new File(imagePath);
+                        FileOutputStream outFile = new FileOutputStream(file);
+                        inputStream = filePart.getInputStream();          
 
-                    FileOutputStream outFile = new FileOutputStream(file);
-                    inputStream = filePart.getInputStream();          
+                        int read = 0;         
+                        int bufferSize = 1024;             
+                        byte[] buffer = new byte[bufferSize];              
+                        while ((read = inputStream.read(buffer)) != -1) {    
+                            outFile.write(buffer, 0, read);             
+                        }
 
-                    int read = 0;         
-                    int bufferSize = 1024;             
-                    byte[] buffer = new byte[bufferSize];              
-                    while ((read = inputStream.read(buffer)) != -1) {    
-                        outFile.write(buffer, 0, read);             
+                        inputStream.close(); 
+                        outFile.close();
                     }
-
-                    inputStream.close(); 
-                    outFile.close();
 
                     ps.close();
                     conn.close();
-                    response.sendRedirect("productRetrieve?pid=" + pID);
+                    
+                    if(request.getParameter("add")==null){
+                        response.sendRedirect("productRetrieve?pid=" + pID);
+                    }
+                    else{
+                        response.sendRedirect("addProduct");
+                    }
             }
 
             catch (Exception ex){

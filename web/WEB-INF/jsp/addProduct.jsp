@@ -66,6 +66,8 @@
                                                             <div class="col-md-8">
                                                                     <input type="submit" class="btn btn-primary" value="Finish">
                                                                     <span></span>
+                                                                    <input type="submit" class="btn btn-primary" name="add" value="Add Another">
+                                                                    <span></span>
                                                                     <input type="reset" class="btn btn-default" value="Cancel">
                                                     </div>
                                             </div>

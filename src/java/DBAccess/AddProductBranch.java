@@ -9,10 +9,7 @@ import Beans.BranchBean;
 import Beans.ConnectionBean;
 import Beans.ProductBean;
 import Utilities.MySQL;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -25,7 +22,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import Utilities.BeanUtils;
 import javax.servlet.http.HttpSession;
 
@@ -86,7 +82,12 @@ public class AddProductBranch extends HttpServlet {
                     
                     ps.close();
                     conn.close();
-                    response.sendRedirect("branchProductRetrieve?branch=" + branchNum);
+                    if(request.getParameter("add")!=null){
+                        response.sendRedirect("AddProductBranch");
+                    }
+                    else{
+                        response.sendRedirect("branchProductRetrieve?branch=" + branchNum);
+                    }
             }
 
             catch (Exception ex){
@@ -119,9 +120,9 @@ public class AddProductBranch extends HttpServlet {
                     }
         }
         else{
-            ConnectionBean cbB = new ConnectionBean();
-            cbB = MySQL.query("SELECT branchNum, branchName FROM branch;",request,response);
-            ConnectionBean cbP = new ConnectionBean();
+            ConnectionBean cbB = null;
+            cbB = MySQL.query("SELECT b.branchNum, b.branchName FROM branch b, branchUserEdit c WHERE c.branchNum = b.BranchNum AND c.userID = \"" + session.getAttribute("userID") + "\";",request,response);
+            ConnectionBean cbP = null;
             cbP = MySQL.query("SELECT productID, productName FROM product;",request,response);
             ResultSet rs = cbB.getRS();
             LinkedList<BranchBean> branchList = new LinkedList();

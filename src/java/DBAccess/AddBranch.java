@@ -63,7 +63,7 @@ public class AddBranch extends HttpServlet {
 
             Part filePart = request.getPart("image");
 
-            if(filePart!=null){
+            if(filePart.getSize()!=0){
                 inputStream = filePart.getInputStream();
             }
 
@@ -85,40 +85,53 @@ public class AddBranch extends HttpServlet {
             }
 
             try {
-                    String inText = "INSERT INTO branch(branchNum, branchName, branchAddress, branchPhoneNum, image) values (?, ?, ?, ?, ?)";
-
-                    ps = conn.prepareStatement(inText);
+                    String inText = "";
+                    if(filePart.getSize()!=0){
+                        inText = "INSERT INTO branch(branchNum, branchName, branchAddress, branchPhoneNum, image) values (?, ?, ?, ?, ?)";
+                        ps = conn.prepareStatement(inText);
+                        ps.setBlob(5, inputStream);
+                    }
+                    else{
+                        inText = "INSERT INTO branch(branchNum, branchName, branchAddress, branchPhoneNum) values (?, ?, ?, ?)";
+                        ps = conn.prepareStatement(inText);
+                    }
+                    
                     ps.setInt(1, branchNum);
                     ps.setString(2, branchName);
                     ps.setString(3, branchAddress);
                     ps.setString(4, branchPhoneNum);
 
-                    if(inputStream!=null){
-                        ps.setBlob(5, inputStream);
-                    }
+                    
 
                 //sends the statement to the database server
                     ps.executeUpdate();
+                    
+                    if(filePart.getSize()!=0){
+                        String imagePath =  context.getInitParameter("imgPath") + "branch\\" + branchNum +".png";
+                        File file = new File(imagePath);
 
-                    String imagePath =  context.getInitParameter("imgPath") + "branch/" + branchNum +".png";
-                    File file = new File(imagePath);
+                        FileOutputStream outFile = new FileOutputStream(file);
+                        inputStream = filePart.getInputStream();          
 
-                    FileOutputStream outFile = new FileOutputStream(file);
-                    inputStream = filePart.getInputStream();          
+                        int read = 0;         
+                        int bufferSize = 1024;             
+                        byte[] buffer = new byte[bufferSize];              
+                        while ((read = inputStream.read(buffer)) != -1) {    
+                            outFile.write(buffer, 0, read);             
+                        }
 
-                    int read = 0;         
-                    int bufferSize = 1024;             
-                    byte[] buffer = new byte[bufferSize];              
-                    while ((read = inputStream.read(buffer)) != -1) {    
-                        outFile.write(buffer, 0, read);             
+                        inputStream.close(); 
+                        outFile.close();
                     }
-
-                    inputStream.close(); 
-                    outFile.close();
 
                     ps.close();
                     conn.close();
-                    response.sendRedirect("allBranchesRetrieve?pid=" + branchNum);
+                    if(request.getParameter("add")!=null){
+                        response.sendRedirect("addBranch");
+                    }
+                    else{
+                        response.sendRedirect("allBranchesRetrieve?pid=" + branchNum);
+                    }
             }
 
             catch (Exception ex){

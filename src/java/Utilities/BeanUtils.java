@@ -21,6 +21,14 @@ public class BeanUtils {
         pb.setDescription(description);
         return pb;
     }
+    public static ProductBean createProductBean(String productID, String productName, double MSRP, String description){
+        ProductBean pb = new ProductBean();
+        pb.setProductID(productID);
+        pb.setProductName(productName);
+        pb.setMSRP(MSRP);
+        pb.setDescription(description);
+        return pb;
+    }
     public static ProductBean createPartialProductBean(String pID, String pName){
         ProductBean ppb = new ProductBean();
         ppb.setProductID(pID);

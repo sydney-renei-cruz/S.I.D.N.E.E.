@@ -64,7 +64,7 @@ class ImageStore implements Runnable{
                 rs = stmt.getResultSet();
                 
             while(rs.next()){
-                String imagePath =  context.getInitParameter("imgPath") + "product/" + rs.getString("productID")+".png";
+                String imagePath =  context.getInitParameter("imgPath") + "product\\" + rs.getString("productID")+".png";
                 File file = new File(imagePath);
                 Blob photo = rs.getBlob("image");
 
@@ -92,7 +92,34 @@ class ImageStore implements Runnable{
                 rs = stmt.getResultSet();
                 
             while(rs.next()){
-                String imagePath = context.getInitParameter("imgPath") + "branch/" + rs.getString("branchNum")+".png";
+                String imagePath = context.getInitParameter("imgPath") + "branch\\" + rs.getString("branchNum")+".png";
+                File file = new File(imagePath);
+                Blob photo = rs.getBlob("image");
+
+                FileOutputStream outFile = new FileOutputStream(file);
+                InputStream in = photo.getBinaryStream();             
+
+                int length = 0;              
+                int bufferSize = 1024;             
+                byte[] buffer = new byte[bufferSize];              
+                while ((length = in.read(buffer)) != -1) {    
+                    outFile.write(buffer, 0, length);             
+                }
+                in.close(); 
+                outFile.close();
+            }
+            rs.close();
+            stmt.close();
+            
+            stmt = conn.createStatement();
+            
+            inText = "SELECT userID, image from user;";
+            
+            if(stmt.execute(inText))
+                rs = stmt.getResultSet();
+                
+            while(rs.next()){
+                String imagePath = context.getInitParameter("imgPath") + "user\\" + rs.getString("userID") +".png";
                 File file = new File(imagePath);
                 Blob photo = rs.getBlob("image");
 
