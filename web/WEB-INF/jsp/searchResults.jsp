@@ -10,31 +10,33 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Search</title>
+        <link type="text/css" rel="stylesheet" href="css/main.css"/>
+        <title>S.I.D.N.E.E.</title>
     </head>
     <body>
-        <h1>Search: </h1>
-        <form action="Search" method="POST">
-            Query: <input type="search" name="query">
-            <button type="submit"> Submit </button>
-        </form>
-        <br>
-        <br>
-        <table>
+        <%@include file="navbar.jsp" %>
+        <div class="container ">
+            <div class="col-lg-12 page-header text-center">
+                Search Results
+            </div>
+            <table>
             <tr>
-                <th>ID</th>
                 <th>Name</th>
                 <th>MSRP</th>
                 <th>Description</th>
             </tr>
         <c:forEach items="${queryResults}" var="product" varStatus="loop">
             <tr>
-                <td>${product.productID}</td>
                 <td>${product.productName}</td>
                 <td>${product.MSRP}</td>
                 <td>${product.description}</td>
             </tr>
         </c:forEach>
         </table>
+            
+        </div>
+        <br>
+        <br>
+        
     </body>
 </html>

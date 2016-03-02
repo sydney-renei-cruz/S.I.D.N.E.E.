@@ -1,20 +1,24 @@
+<%-- 
+    Document   : addProduct
+    Created on : 02 2, 16, 12:38:49 AM
+    Author     : user
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-		<link rel="stylesheet" type="text/css" href="css/main.css">
-		<script src="js/main.js"></script>
-		<script>
-                    topBar();		
-                </script>
-		
-		<div class="container text-center">
+        <link type="text/css" rel="stylesheet" href="css/main.css"/>
+    </head>
+    <body>
+        <%@include file="navbar.jsp" %>
+        <div class="container text-center">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header"> Add Product </h1>
+					<h1 class="page-header"> ADD Product </h1>
 				</div>
 			</div>
                         <form class="form-horizontal" role="form" style="font-size: 1.1em; font-family: 'arial' !important;" action="addProduct" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="submitted" value="true">
                             <div class="row">
                                     <!-- left column -->
                                     <div class="col-md-3">
@@ -66,8 +70,6 @@
                                                             <div class="col-md-8">
                                                                     <input type="submit" class="btn btn-primary" value="Finish">
                                                                     <span></span>
-                                                                    <input type="submit" class="btn btn-primary" name="add" value="Add Another">
-                                                                    <span></span>
                                                                     <input type="reset" class="btn btn-default" value="Cancel">
                                                     </div>
                                             </div>
@@ -75,20 +77,5 @@
                             </div>
                         </form>
 		</div>
-		<span id="top-link-block" class="hidden">
-    <a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0},'slow');return false;">
-        <i class="glyphicon glyphicon-chevron-up"></i>
-    </a>
-</span><!-- /top-link-block -->
-        <script>
-			// Only enable if the document has a long scroll bar
-			// Note the window height + offset
-			if ( ($(window).height() + 100) < $(document).height() ) {
-				$('#top-link-block').removeClass('hidden').affix({
-			// how far to scroll down before link "slides" into view
-				offset: {top:100}
-				});
-			}
-		</script>
     </body>
 </html>

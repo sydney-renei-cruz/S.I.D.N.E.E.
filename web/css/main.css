@@ -1,8 +1,14 @@
-body{
+*{
 	font-family: Segoe UI, impact;
 }
 
-/*main style of jumbotron in different page */
+/*********************************
+*                                *
+*                                *
+*   default style of the header  *
+*                                *
+*                                *
+*********************************/
 .page-header{
 	background-color: white !important;
 	color: black !important;
@@ -15,7 +21,14 @@ body{
     position:relative;
     overflow:hidden;
 }
- 
+/*********************************
+*                                *
+*                                *
+*   Style of the caption that    *
+*   will appear on when hovering *
+*                                *
+*                                *
+**********************************/
 .caption {
     position:absolute;
     top:0;
@@ -30,17 +43,49 @@ body{
     color:#fff !important;
     z-index:2;
 }
-
+/*adjust search box*/
+.input-group{
+	width: 50%;
+	margin-left: 25%;
+}
+/********************************************
+*                                           *                                           
+*                                           *
+*   Size of the container of the products   *
+*             for the images                *
+*                                           *
+********************************************/
 .col-md-3{
-	height: 200px;
+	height: 250px;
 }
 .col-md-3 img{
 	max-width: 100% !important;
-	height: 160px !important;
+	height: 230px !important;
 }
-
-@media(max-width:768px) {
-    .page-header{
-		margin-top: 15% !important;
-	}
+.branch-img{
+    height: 653px;
+}
+.branch-img img{
+    height: 600px !important;
+    max-width: 100% !important;
+}
+.col-md-6{
+    height: 260px;
+}
+.col-md-6 img{
+    max-width: 100% !important;
+    height: 248px !important;
+}
+/***********************************
+*                                  *
+*                                  *
+* optimized buttons for error page *
+*                                  *
+*                                  *
+************************************/
+.go-back{
+	display: block;
+	margin-top: 10px;
+	color: black;
+	font-size: 1.2em;
 }

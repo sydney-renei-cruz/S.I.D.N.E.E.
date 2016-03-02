@@ -3,11 +3,10 @@
     <head>
 		<link rel="stylesheet" type="text/css" href="css/main.css">
 		<link rel="stylesheet" type="text/css" href="css/one-page-wonder.css">
-		<script src="js/main.js"></script>
-                
-		<script>
-                    topBar();		
-                </script>
+	
+    </head>
+    <body>
+		<%@include file="navbar.jsp" %>
                 
                 <%@page import="java.util.*"%>
                 <%@page import="Beans.*"%>
@@ -55,12 +54,11 @@
 						<p class="lead" style="font-size: 2em;"> Price: <label class="MSRP"><%= df.format(product.getMSRP() - (product.getMSRP()*product.getDiscountRate())/100)%></label> <br> MSRP: <%=product.getMSRP()%> Discount rate: <%=product.getDiscountRate()%>%</p>
 						<hr style="margin: 70px 0px 0px 0px;">
                                                 <%  if(session.getAttribute("userID")!=null){  %>
-                                                <form action="editProduct" method="post">
-                                                    <input type="hidden" name="prodID" value="<%=product.getProductID()%>">
-                                                    <button type="submit" class="btn btn-primary">Edit</button>
-                                                </form>
-                                                <%}
-                                                %>
+                                                    <form action="editProduct">
+                                                        <input type="hidden" name="productID" value="${product.getProductID()}">
+                                                        <button type="submit" class="btn btn-primary">Edit</button>
+                                                    </form>
+                                                <%}%>
 					</div>
 				</div>
 			</div>

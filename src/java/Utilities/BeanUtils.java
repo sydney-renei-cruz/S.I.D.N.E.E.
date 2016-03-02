@@ -17,8 +17,8 @@ public class BeanUtils {
         pb.setProductID(productID);
         pb.setProductName(productName);
         pb.setMSRP(MSRP);
-        pb.setDiscountRate(discountRate);
         pb.setDescription(description);
+        pb.setDiscountRate(discountRate);
         return pb;
     }
     public static ProductBean createProductBean(String productID, String productName, double MSRP, String description){
@@ -29,6 +29,16 @@ public class BeanUtils {
         pb.setDescription(description);
         return pb;
     }
+    public static ProductBean createProductBean(String productID, String productName, double MSRP, double discountRate){
+        
+        ProductBean pb = new ProductBean();
+        pb.setProductID(productID);
+        pb.setProductName(productName);
+        pb.setMSRP(MSRP);
+        pb.setDiscountRate(discountRate);
+        return pb;
+    }
+    
     public static ProductBean createPartialProductBean(String pID, String pName){
         ProductBean ppb = new ProductBean();
         ppb.setProductID(pID);

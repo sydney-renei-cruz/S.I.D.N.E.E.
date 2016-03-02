@@ -64,7 +64,7 @@ class ImageStore implements Runnable{
                 rs = stmt.getResultSet();
                 
             while(rs.next()){
-                String imagePath =  context.getInitParameter("imgPath") + "product\\" + rs.getString("productID")+".png";
+                String imagePath =  context.getInitParameter("imgPath") + "product/" + rs.getString("productID")+".png";
                 File file = new File(imagePath);
                 Blob photo = rs.getBlob("image");
 
@@ -92,7 +92,7 @@ class ImageStore implements Runnable{
                 rs = stmt.getResultSet();
                 
             while(rs.next()){
-                String imagePath = context.getInitParameter("imgPath") + "branch\\" + rs.getString("branchNum")+".png";
+                String imagePath = context.getInitParameter("imgPath") + "branch/" + rs.getString("branchNum")+".png";
                 File file = new File(imagePath);
                 Blob photo = rs.getBlob("image");
 
@@ -119,7 +119,7 @@ class ImageStore implements Runnable{
                 rs = stmt.getResultSet();
                 
             while(rs.next()){
-                String imagePath = context.getInitParameter("imgPath") + "user\\" + rs.getString("userID") +".png";
+                String imagePath = context.getInitParameter("imgPath") + "user/" + rs.getString("userID") +".png";
                 File file = new File(imagePath);
                 Blob photo = rs.getBlob("image");
 

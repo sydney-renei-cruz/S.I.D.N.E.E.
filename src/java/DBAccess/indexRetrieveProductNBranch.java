@@ -5,22 +5,25 @@
  */
 package DBAccess;
 
-import Beans.LoginBean;
-import Utilities.MySQL;
+import Beans.ConnectionBean;
+import Beans.ProductBean;
+import Utilities.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author host
+ * @author user
  */
-public class Login extends HttpServlet {
+@WebServlet(name = "indexRetrieveProductNBranch", urlPatterns = {"/indexRetrieveProductNBranch"})
+public class indexRetrieveProductNBranch extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,7 +36,26 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+        response.setContentType("text/html;charset=UTF-8");
+        
+        PrintWriter out = response.getWriter();
+        
+        String getRandomProductList = "SELECT p.* FROM product AS p ORDER BY RAND() LIMIT 8";
+        ConnectionBean grpl = MySQL.query(getRandomProductList, request, response);
+        ResultSet rs1 = grpl.getRS();
+        
+        try{
+            ArrayList<ProductBean> randomProductList = new ArrayList<>();
+            while(rs1.next()){
+                randomProductList.add(BeanUtils.createProductBean(rs1.getString("productID"), rs1.getString("productName"), rs1.getDouble("MSRP"), rs1.getString("Description"), rs1.getDouble("discountRate")));
+            }
+            rs1.close();
+            request.setAttribute("randomProductList", randomProductList);
+            
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -48,23 +70,7 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
-        
-        if(session.getAttribute("userID")!=null){
-            Cookie uCookie = new Cookie("userID", null);
-            uCookie.setMaxAge(0);
-            response.addCookie(uCookie);
-            
-            Cookie unCookie = new Cookie("username",null);
-            unCookie.setMaxAge(0);
-            response.addCookie(unCookie);
-            session.invalidate();
-            response.sendRedirect("indexRetrieveProductNBranch");
-        }
-        
-        else{
-            request.getRequestDispatcher("WEB-INF/jsp/loginPage.jsp").forward(request,response);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -75,46 +81,11 @@ public class Login extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //set the MIME type for the response message
-        HttpSession session = request.getSession(true);
-        session = request.getSession(true);
-        Cookie cookie = new Cookie("userID", null);
-        response.addCookie(cookie);
-            //---------------
-
-        response.setCharacterEncoding("UTF-8");
-
-        String input = request.getParameter("username");
-        String pass =  request.getParameter("password");
-        LoginBean lb = new LoginBean();
-        try {
-            lb = MySQL.login(input, pass, request, response);
-        } catch (Exception ex) {
-        
-        }
-
-        if(lb.getStatus()){
-            Cookie uiCookie = new Cookie("userID", lb.getUserID());
-            uiCookie.setMaxAge(3600);
-            Cookie unCookie = new Cookie("username", lb.getUsername());
-            uiCookie.setMaxAge(3600);
-            response.addCookie(uiCookie);
-            response.addCookie(unCookie);
-            session.setAttribute("userID", lb.getUserID());
-            response.sendRedirect("indexRetrieveProductNBranch");
-        }
-        else{
-            request.setAttribute("errorMessage", "Wrong username/password");
-            request.getRequestDispatcher("WEB-INF/jsp/loginPage.jsp").forward(request, response);
-        }
+        processRequest(request, response);
     }
-        
-        
-   
 
     /**
      * Returns a short description of the servlet.

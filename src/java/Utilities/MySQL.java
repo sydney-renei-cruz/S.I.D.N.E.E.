@@ -136,7 +136,7 @@ public class MySQL {
             
             if(image.getSize()!=0){
                 InputStream inputStream = null;
-                String imagePath =  context.getInitParameter("imgPath") + "user\\" + userID +".png";
+                String imagePath =  context.getInitParameter("imgPath") + "user/" + userID +".png";
                 File file = new File(imagePath);
 
                 FileOutputStream outFile = new FileOutputStream(file);

@@ -3,6 +3,7 @@
     <head>
         <link type="text/css" rel="stylesheet" href="css/main.css"/>
 		
+        
     </head>
     <body>
 		<%@include file="navbar.jsp" %>
@@ -10,7 +11,7 @@
 		<script>
 			$( document ).ready(function() {
 				$("[rel='tooltip']").tooltip();    
-				
+ 
 				$('.thumbnail').hover(
 					function(){
 						$(this).find('.caption').slideDown(250); //.fadeIn(250)
@@ -23,40 +24,47 @@
 		</script>
 
 		<!-- header -->
+		<%@page import="java.util.*"%>
+		<%@page import="Beans.*"%>
+        <%@page import="DBAccess.*"%>
 		<div class="col-lg-12">
 			<h1 class="page-header text-center">
-				All Products
+                            <%  String branchName = (String)request.getAttribute("branchName");
+                                if(branchName.substring(branchName.length()-1).equals("s")){
+                            %>
+                                <%=branchName%>' Products
+                            <%}
+                                else{
+                            %>
+                                <%=request.getAttribute("branchName")%>'s Products
+                            <%}%>
 			</h1>
 		</div>
 		
 		<!-- items -->
 		<div class="container">
-                <%@page import="java.util.*"%>
-                <%@page import="Beans.*"%>
-                <%@page import="DBAccess.*"%>
-                <% 
-                    List <ProductBean> productList = (List)request.getAttribute("productList"); 
-                    for(int i = 0; i<productList.size();i++) {
+		<% 
+                List <ProductBean> branchProductList = (List)request.getAttribute("branchProductList"); 
+                for(int i = 0; i < branchProductList.size(); i++) {
                 %>
                 <% if(i%4==0&&i>0){ %>
-		</div>    
+                     </div>
                 <%} if(i%4==0){ %>
                 <div class="row">
-                    <%}%>
+                <%}%>
                     <div class=" content">
 			<div class="col-md-3">
                             <div class="thumbnail">
-				<!-- caption will show when you hover on a picture-->
-                                <div class="caption">
-                                    <h4 class="productName"><%=productList.get(i).getProductName()%></h4>
-                                    <p><a href="productRetrieve?pid=<%=productList.get(i).getProductID()%>" class="label label-danger" rel="tooltip" title="View Product"> View Product</a>
+							<!-- caption will show when you hover on a picture-->
+				<div class="caption">
+                                    <h3 class="productName"><%=branchProductList.get(i).getProductName()%></h3>
+                                    <p><a href="productRetrieve?pid=<%=branchProductList.get(i).getProductID()%>" class="label label-danger" rel="tooltip" title="View Product"> View Product</a>
 				</div>
-				<img class="img-responsive img" src="image?pid=<%=productList.get(i).getProductID()%>" alt="">
+                                <img class="img-responsive img" src="image?pid=<%=branchProductList.get(i).getProductID()%>" alt="">
                             </div>
 			</div>
                     </div>
 		<%}%>
-		</div>
 		<!-- pagination -->
 		<nav class="text-center">
 			<div class="col-lg-12">

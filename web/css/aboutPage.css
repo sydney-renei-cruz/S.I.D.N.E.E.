@@ -1,0 +1,98 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 02 3, 16, 3:25:54 PM
+    Author     : user
+*/
+/***********\
+*           *
+*           *
+*   fonts	*
+*           *
+*           *
+\***********/
+*{
+	font-family: Segoe UI, impact;
+}
+h1{
+	font-size: 13em;
+}
+h2{
+    font-size: 2em;
+}
+/***************\
+*				*
+*				*
+*	Containers	*
+*				*
+*				*
+\***************/
+.container-fluid{
+	border: 10px solid #E4717A ;
+}
+/*set size and style of container in page one of carousel*/
+.box-container{
+	border: 1px solid #E4717A;
+	opacity: 0.8;
+	background-color: #E4717A;
+	color: #fff;
+	padding: 5% 0% 5%;
+
+}
+
+/*col-sm-12 style*/
+.col-sm-12{
+	text-align: center;
+	padding: 2%;
+        background-color: #E4717A;
+}
+/***************\
+*				*
+*				*
+*	search bar          	*
+*				*
+*				*
+\***************/
+/*adjust search box*/
+.input-group{
+	width: 50%;
+	margin-left: 25%;
+}
+
+.dropdown-menu li a{
+    color: #fff !important;
+}
+.dropdown-menu li a:hover{
+    color: black !important;
+}
+
+#aboutWebsite{
+    background-color: #fff;
+}
+
+#aboutDevelopers{
+	padding: 0.8% 0;
+        color: white;
+        border: 10px solid white;
+}
+#aboutDevelopers #carousel-text{
+	margin-right: 10%;
+}
+.carousel-inner{
+    margin-left: 30%;
+    height: 400px;
+    width: 400px;
+    overflow: hidden;
+    border-radius: 50%;
+
+}
+.carousel-controls-mini > a {
+	border: 1px solid #eee;
+	color: #E4717A;
+	background-color:white;
+  	width:20px;
+        text-align:center;
+}

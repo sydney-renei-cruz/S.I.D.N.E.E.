@@ -2,11 +2,9 @@
 <html lang="en">
     <head>
 		<link rel="stylesheet" type="text/css" href="css/main.css">
-		<script src="js/main.js"></script>
-		<script>
-                    topBar();		
-                </script>
-		
+    </head>
+    <body>
+		<%@include file="navbar.jsp" %>
 		<div class="container text-center">
 			<div class="row">
 				<div class="col-lg-12">

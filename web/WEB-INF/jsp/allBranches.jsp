@@ -1,24 +1,18 @@
+<%-- 
+    Document   : allBranches
+    Created on : 02 25, 16, 2:19:31 PM
+    Author     : sydne
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <link type="text/css" rel="stylesheet" href="css/main.css"/>
-		
-    <style>	
-        .phoneNumber, .address{
-            color: grey;
-            opacity: 0.9;
-        }
-		.row{
-			margin: 20px;
-		}
-    </style>
-    <script src="js/main.js"></script>
-		
-    <script>
-        topBar();
-    </script>
-    
-		<div class="col-lg-12">
+    </head>
+    <body>
+        <%@include file="navbar.jsp" %>
+        <div class="col-lg-12">
             <h1 class="page-header text-center">
                 All Branches
 			</h1>
@@ -33,13 +27,13 @@
         %>
             <div class="row">
             <div class="content">
-            <div class="col-md-7">
+            <div class="col-md-7 branch-img">
             <a href="branchProductRetrieve?branch=<%=branch.getBranchNum()%>">
             <img class="img-responsive" src="image?branchNum=<%=branch.getBranchNum()%>" alt="">
             </a>
             </div>
             <div class="col-md-5">
-            <h2 style="color: black;"><%=branch.getBranchName()%></h2>
+                <h2 style="color: black;"><%=branch.getBranchName()%></h2>
             <h5><label class="address"><%=branch.getBranchAddress()%></label></h5>
             <h5><label class="phoneNumber"><%=branch.getBranchPhoneNum()%></label></h5>
             <p></p>
@@ -137,23 +131,5 @@
     });
 });
 		</script>
-	
-	
-	<!-- back to top link -->
-		<span id="top-link-block" class="hidden">
-    <a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0},'slow');return false;">
-        <i class="glyphicon glyphicon-chevron-up"></i>
-    </a>
-</span><!-- /top-link-block -->
-        <script>
-			// Only enable if the document has a long scroll bar
-			// Note the window height + offset
-			if ( ($(window).height() + 100) < $(document).height() ) {
-				$('#top-link-block').removeClass('hidden').affix({
-			// how far to scroll down before link "slides" into view
-				offset: {top:100}
-				});
-			}
-		</script>	
     </body>
 </html>

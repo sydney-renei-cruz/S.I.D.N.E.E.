@@ -1,17 +1,21 @@
-<!DOCTYPE html  >
-<html lang="en">
+<%-- 
+    Document   : editBranchProduct
+    Created on : 02 25, 16, 1:18:35 PM
+    Author     : sydne
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
     <head>
-		<link rel="stylesheet" type="text/css" href="css/main.css">
-                
-                <%@page import="java.util.LinkedList"%>
-                <%@page import="Beans.*"%>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
     </head>
     <body>
-		<%@include file="navbar.jsp" %>
-		<div class="container text-center">
+        <%@include file="WEB-INF/jsp/navbar.jsp" %>
+        <div class="container text-center">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header"> Add Product to Branch</h1>
+					<h1 class="page-header"> Edit Product of the Branch Name</h1>
 				</div>
 			</div>
                         <form class="form-horizontal" role="form" action = "AddProductBranch" method = "post" style="font-size: 1.1em; font-family: 'arial' !important;" enctype="multipart/form-data">
@@ -27,25 +31,13 @@
 						<div class="form-group">
 							<label class="col-lg-3 control-label">Branch:</label>
 							<div class="col-lg-8">
-                                                            <select name="branch">
-                                                            <% LinkedList<BranchBean> branchList = (LinkedList) request.getAttribute("branchList"); 
-                                                            for(BranchBean bb: branchList){ %>
-                                                                <option value="<%=bb.getBranchNum()%>"><%=bb.getBranchNum()%>: <%=bb.getBranchName()%></option>
-                                                            <%}
-                                                            %>
-                                                            </select>
+                                                            Name
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-lg-3 control-label">Product:</label>
 							<div class="col-lg-8">
-                                                            <select name="product">
-                                                                    <% LinkedList<ProductBean> productList = (LinkedList) request.getAttribute("productList"); 
-                                                            for(ProductBean pb: productList){ %>
-                                                                <option value="<%=pb.getProductID()%>"><%=pb.getProductID()%>: <%=pb.getProductName()%></option>
-                                                            <%}
-                                                            %>
-                                                            </select>
+                                                            Name
                                                         </div>
 						</div>
                                                 <div class="form-group">

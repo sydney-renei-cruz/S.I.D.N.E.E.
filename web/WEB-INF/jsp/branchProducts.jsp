@@ -4,12 +4,9 @@
         <link type="text/css" rel="stylesheet" href="css/main.css"/>
 		
         
-        <script src="js/main.js"></script>
-		
-		<!-- navbar -->
-		<script>
-            topBar();
-        </script>
+    </head>
+    <body>
+		<%@include file="navbar.jsp" %>
 		
 		<!-- caption will show when you hover on a picture -->
 		<script>
@@ -57,18 +54,23 @@
                 <div class="row">
                 <%}%>
                     <div class=" content">
-			<div class="col-md-3">
-                            <div class="thumbnail">
-							<!-- caption will show when you hover on a picture-->
-				<div class="caption">
-                                    <h3 class="productName"><%=branchProductList.get(i).getProductName()%></h3>
-                                    <p><a href="productRetrieve?pid=<%=branchProductList.get(i).getProductID()%>" class="label label-danger" rel="tooltip" title="View Product"> View Product</a>
-				</div>
+			<div class="col-md-6">
+                            <div class="col-md-6">
                                 <img class="img-responsive img" src="image?pid=<%=branchProductList.get(i).getProductID()%>" alt="">
                             </div>
+                            <div class="col-md-6">
+                                <h3><%=branchProductList.get(i).getProductName()%></h3>
+                                <h4>Price: <%= branchProductList.get(i).getMSRP()%></h4>
+                                <h4>Discount Rate: <%= branchProductList.get(i).getDiscountRate()%>%</h4>
+                                <a href="productRetrieve?pid=<%=branchProductList.get(i).getProductID()%>" class="label label-danger" rel="tooltip" title="View Product"> View Product</a>
+                                
+                                <a href="editBranchProduct.jsp" class="label label-info" rel="tooltip" title="View Product"> Edit Product</a>
+                            </div>
+                            
 			</div>
                     </div>
 		<%}%>
+                </div>
 		<!-- pagination -->
 		<nav class="text-center">
 			<div class="col-lg-12">
@@ -138,23 +140,6 @@
 });
 		</script>
 		
-		
-		<!-- back to top link -->
-		<span id="top-link-block" class="hidden">
-    <a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0},'slow');return false;">
-        <i class="glyphicon glyphicon-chevron-up"></i>
-    </a>
-</span><!-- /top-link-block -->
-        <script>
-			// Only enable if the document has a long scroll bar
-			// Note the window height + offset
-			if ( ($(window).height() + 100) < $(document).height() ) {
-				$('#top-link-block').removeClass('hidden').affix({
-			// how far to scroll down before link "slides" into view
-				offset: {top:100}
-				});
-			}
-		</script>
 		
     </body>
 </html>
