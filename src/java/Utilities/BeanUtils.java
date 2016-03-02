@@ -77,4 +77,10 @@ public class BeanUtils {
         pb.setProductName(pName);
         return pb;
     }
+    public static UserBean createUserBean(String uid, String un){
+        UserBean ub = new UserBean();
+        ub.setUserID(uid);
+        ub.setUsername(un);
+        return ub;
+    }
 }

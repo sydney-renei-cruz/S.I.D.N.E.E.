@@ -55,6 +55,13 @@
 *             for the images                *
 *                                           *
 ********************************************/
+.srch-img{
+    height: 150px;
+}
+.srch-img img{
+    height: 150px;
+    max-width: 100% !important;
+}
 .col-md-3{
 	height: 250px;
 }
@@ -88,4 +95,11 @@
 	margin-top: 10px;
 	color: black;
 	font-size: 1.2em;
+}
+
+.img-con{
+    height: 440px;
+}
+.img-con img{
+    height: 440px;
 }

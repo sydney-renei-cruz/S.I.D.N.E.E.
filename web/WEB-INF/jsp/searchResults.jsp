@@ -20,34 +20,35 @@
                 Search Results
             </div>
             <div class="col-lg-12">
-            <table>
-                
-                    <tr>
-                        <th>Name</th>
-                        <th>Name</th>
-                        <th>Name</th>
-                    </tr>
-               
-            </table>
+                <div class="col-lg-12 page-header" style="margin-top: 0 !important; font-size: 2em !important;">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-2">Name</div>
+                    <div class="col-lg-2">MSRP</div>
+                    <div class="col-lg-4">Description</div>
+                    <div class="col-lg-1">View</div>
+                    <%  if(session.getAttribute("userID")!=null){  %>
+                    <div class="col-lg-1">Edit</div>
+                    <% } %>
+                </div>
+                <c:forEach items="${queryResults}" var="product" varStatus="loop">
+                <div class="col-lg-12 page-header" style="margin-top: 0 !important; font-size: 1em !important;">
+                    <div class="col-lg-2 srch-img"><img class="img-responsive img" src="image?pid=${product.productID}" alt=""></div>
+                        <div class="col-lg-2">${product.productName}</div>
+                        <div class="col-lg-2">${product.MSRP}</div>
+                        <div class="col-lg-4" >${product.description}</div>
+                        <div class="col-lg-1"><a href="productRetrieve?pid=${product.productID}" class="label label-danger" rel="tooltip" title="View Product"> View Product</a></div>
+                        <%  if(session.getAttribute("userID")!=null){  %>
+                            <div class="col-lg-1">
+                                <a href="editBranchProduct.jsp" class="label label-info" rel="tooltip" title="View Product"> Edit Product</a>
+                            </div>
+                        <%}%>                    
+                </div>
+                        </c:forEach>
+            
             </div>
-            <table>
-            <tr>
-                <th>Name</th>
-                <th>MSRP</th>
-                <th>Description</th>
-            </tr>
-        <c:forEach items="${queryResults}" var="product" varStatus="loop">
-            <tr>
-                <td>${product.productName}</td>
-                <td>${product.MSRP}</td>
-                <td>${product.description}</td>
-            </tr>
-        </c:forEach>
-        </table>
             
         </div>
-        <br>
-        <br>
+       
         
     </body>
 </html>

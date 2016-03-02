@@ -77,7 +77,13 @@
 							</ul>
 						</li>
 						<li>
-                               <a href="Login"><span class="glyphicon glyphicon-user"></span> <span id="uname"><script>getCookie("username")</script></span></a>
+                                                    <%  if(session.getAttribute("userID")==null){  %>
+                                                        <a href="Login"> <span class="glyphicon glyphicon-user"></span> <span id="uname">Account</span></a>
+                                                    <% } %>
+                                                    <% if(session.getAttribute("userID")!=null){ %>
+                                                    <a href="userRetrieve"> <span class="glyphicon glyphicon-user"></span> <span id="uname"><script>getCookie("username")</script></span></a>
+                                                    <% } %>
+                                                        
 						</li>
 					</ul>
 				</div>

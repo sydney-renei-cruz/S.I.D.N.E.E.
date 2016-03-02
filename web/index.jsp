@@ -63,7 +63,13 @@
 					</ul>
 				</div>
 				<div class="col-sm-4" style="border-left: 10px solid #E4717A; border-right: 10px solid #E4717A;">
-					<a href="Login"> <h2 class="home_navbut">Account</h2> </a>
+                                    <%  if(session.getAttribute("userID")==null){  %>
+                                                        <a href="Login"> <h2 class="home_navbut">Account</h2> </a>
+                                                    <% } %>
+                                                    <% if(session.getAttribute("userID")!=null){ %>
+                                                    <a href="userRetrieve"> <h2 class="home_navbut">Account</h2></a>
+                                                    <% } %>
+					
 				</div>
 				<div class="col-sm-4 dropdown" style="padding-left: 3%;">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <h2 class="home_navbut">Branch</h2> </a>
@@ -169,7 +175,12 @@
                                                     }                                                   
                                                 </script>
 						<li>
-                                                    <a href="Login"><span class="glyphicon glyphicon-user"></span> <element id="uname"><script> getCookie("username ")</script></element></a>
+                                                    <%  if(session.getAttribute("userID")==null){  %>
+                                                        <a href="Login"> <span class="glyphicon glyphicon-user"></span> <span id="uname">Account</span></a>
+                                                    <% } %>
+                                                    <% if(session.getAttribute("userID")!=null){ %>
+                                                    <a href="userRetrieve"> <span class="glyphicon glyphicon-user"></span> <span id="uname"><script>getCookie("username")</script></span></a>
+                                                    <% } %>
 						</li>
 					</ul>
 				</div>
