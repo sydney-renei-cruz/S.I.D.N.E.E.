@@ -119,9 +119,9 @@
 					<!-- navbar buttons-->
 					<ul class="nav navbar-nav navbar-left">
 						<li style="overflow: hidden;">
-							<form class="search-bar navbar-form" role="search" style="border: 1px solid transparent;">
+							<form class="search-bar navbar-form" method="post" action="Search" role="search" style="border: 1px solid transparent;">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Search Me!" name="srch" id="srch">
+									<input type="text" class="form-control" placeholder="Search Me!" name="query" id="srch">
 									<div class="input-group-btn">
 										<button class="btn btn-default" type="submit" onClick="location.href='productPage.html'">
 											<i class="glyphicon glyphicon-search"></i>
