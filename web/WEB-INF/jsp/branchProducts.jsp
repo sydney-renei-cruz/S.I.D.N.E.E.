@@ -63,8 +63,9 @@
                                 <h4>Price: <%= branchProductList.get(i).getMSRP()%></h4>
                                 <h4>Discount Rate: <%= branchProductList.get(i).getDiscountRate()%>%</h4>
                                 <a href="productRetrieve?pid=<%=branchProductList.get(i).getProductID()%>" class="label label-danger" rel="tooltip" title="View Product"> View Product</a>
-                                
+                                <%  if(session.getAttribute("userID")!=null){  %>
                                 <a href="editBranchProduct.jsp" class="label label-info" rel="tooltip" title="View Product"> Edit Product</a>
+                                <% } %>
                             </div>
                             
 			</div>

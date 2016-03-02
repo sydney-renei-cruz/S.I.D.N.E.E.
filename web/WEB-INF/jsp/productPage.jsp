@@ -89,6 +89,9 @@
 												<th>Price</th>
 												<th>In Stock?</th>
 												<th>Discounted Price</th>
+                                                                                                <%  if(session.getAttribute("userID")!=null){  %>
+                                                                                                <th></th>
+                                                                                                <% } %>
 											</tr>
 										</thead>
 										<tbody class="compTable">
@@ -115,6 +118,12 @@
                                                                                                 <td>
                                                                                                     <%=productData.get(j).getBranchDiscountRate()%>%
                                                                                                 </td>
+                                                                                                <%  if(session.getAttribute("userID")!=null){  %>
+                                                                                                <td>
+                                                                                                    <a href="editBranchProduct.jsp" class="label label-info" rel="tooltip" title="View Product"> Edit Product</a>
+                                                                                                </td>
+                                                                                                <%}%>
+                                                                                    
                                                                                        <%}%>
                                                                                     
 										</tbody>

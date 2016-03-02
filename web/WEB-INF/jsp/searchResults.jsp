@@ -19,6 +19,17 @@
             <div class="col-lg-12 page-header text-center">
                 Search Results
             </div>
+            <div class="col-lg-12">
+            <table>
+                
+                    <tr>
+                        <th>Name</th>
+                        <th>Name</th>
+                        <th>Name</th>
+                    </tr>
+               
+            </table>
+            </div>
             <table>
             <tr>
                 <th>Name</th>
