@@ -1,3 +1,14 @@
+@font-face{
+    font-family: Hattori Hanzo;
+    src: url("/css/fonts/Hattori_Hanzo.otf") 
+        format("opentype");
+}
+
+@font-face{
+    font-family: Nevis;
+    src: url("/css/fonts/nevis.ttf") 
+        format("truetype");
+}
 /*color of icon bar*/
 .icon-bar{
     background-color: #fff !important;
@@ -12,11 +23,12 @@
 	margin-bottom: 0;
 	letter-spacing: 0.3px;
 	border: 0;
-	font-family: Segoe UI, impact;
 	font-size: 1.2em;
+        
 }
 /*adjusting height of the brand logo*/
 .navbar-brand{
+    font-family: Nevis;
     font-size: 1.7em;
     color: #fff;
     font-variant: small-caps;
@@ -25,7 +37,8 @@
 }
 
 /*put font-color on links*/
-.navbar li a, .navbar .navbar-brand { 
+.navbar li a{ 
+    font-family: Hattori Hanzo;
     color: #fff !important;
 }
 /*hover color*/
@@ -49,7 +62,7 @@
 }
 /*bgcolor of the dropdown-menu*/
 .dropdown-menu{
-	font-family: Segoe UI, impact;
+    
 	font-size: 1em;
     background-color: #E4717A;
 }

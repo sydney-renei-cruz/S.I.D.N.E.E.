@@ -1,3 +1,11 @@
+*{
+	font-family: Hattori Hanzo;
+}
+@font-face{
+    font-family: Hattori Hanzo;
+    src: url("/css/fonts/Hattori_Hanzo.otf") 
+        format("opentype");
+}
 body{
 	background-color: #E4717A !important;
 }

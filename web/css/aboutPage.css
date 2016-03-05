@@ -14,8 +14,11 @@ and open the template in the editor.
 *           *
 *           *
 \***********/
-*{
-	font-family: Segoe UI, impact;
+
+@font-face{
+    font-family: Hattori Hanzo;
+    src: url("/css/fonts/Hattori_Hanzo.otf") 
+        format("opentype");
 }
 h1{
 	font-size: 13em;

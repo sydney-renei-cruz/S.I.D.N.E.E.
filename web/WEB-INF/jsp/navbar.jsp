@@ -37,7 +37,7 @@
 								<div class="input-group">
 									<input type="text" class="form-control" placeholder="Search Me!" name="query" id="srch">
 									<div class="input-group-btn">
-										<button class="btn btn-default" type="submit" onClick="location.href='productPage.html'">
+										<button class="btn btn-default" type="submit">
 											<i class="glyphicon glyphicon-search"></i>
 										</button>
 									</div>
@@ -89,5 +89,7 @@
 				</div>
 			</div>
 		</nav>
+                                                    <!-- back to top link  -->
+		
     </body>
 </html>

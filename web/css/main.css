@@ -1,5 +1,13 @@
-*{
-	font-family: Segoe UI, impact;
+@font-face{
+    font-family: Hattori Hanzo;
+    src: url("/css/fonts/Hattori_Hanzo.otf") 
+        format("opentype");
+}
+
+@font-face{
+    font-family: Nevis;
+    src: url("/css/fonts/nevis.ttf") 
+        format("truetype");
 }
 
 /*********************************
@@ -15,11 +23,13 @@
 	font-variant: small-caps;
 	margin-top: 5% !important;
 	font-size: 5em;
+        font-family: Nevis;
 }
 
 .thumbnail {
     position:relative;
     overflow:hidden;
+    
 }
 /*********************************
 *                                *
@@ -63,11 +73,11 @@
     max-width: 100% !important;
 }
 .col-md-3{
-	height: 250px;
+	height: 280px;
 }
 .col-md-3 img{
 	max-width: 100% !important;
-	height: 230px !important;
+	height: 255px !important;
 }
 .branch-img{
     height: 653px;

@@ -10,6 +10,7 @@
     <head>
         <%@include file="WEB-INF/jsp/commonHeadTags.jsp" %>
         <link type="text/css" rel="stylesheet" href="css/aboutPage.css"/>
+        <link rel="stylesheet" type="text/css" href="css/default-navbar.css"/>
     </head>
     <body>
         <div class="container-fluid">
@@ -23,18 +24,40 @@
                                 <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Product <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li><a href="allProductsRetrieve">All Products</a></li>
-                                    <li><a href="addProduct.jsp">Add Product</a></li>
+                                    <%  if(session.getAttribute("userID")!=null){  %>
+                                    <li><a href="AddProduct">Add Product</a></li>
+                                    <% } %>
                                 </ul>
                             </div>
                             <div class="btn-group dropdown">
                                 <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Branch <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li><a href="allBranchesRetrieve">All Branches</a></li>
+                                    <%  if(session.getAttribute("userID")!=null){  %>
                                     <li><a href="addBranch">Add Branch</a></li>
                                     <li><a href="AddProductBranch">Add Product to Branch</a></li>
+                                    <% } %>
                                 </ul>
                             </div>
-                            <a href="#" class="btn btn-warning">Account</a>
+                                <script>
+                                                    function getCookie(cname){
+                                                        var name = cname + "=";
+                                                        var ca = document.cookie.split(';');
+                                                        for(var i=0; i<ca.length; i++) {
+                                                            var c = ca[i];
+                                                            while (c.charAt(0)==' ') c = c.substring(1);
+                                                            if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+                                                        }
+                                                        return "Account";
+                                                    }                                                   
+                                                </script>
+                                                <%  if(session.getAttribute("userID")==null){  %>
+                                                        <a href="Login" class="btn btn-warning"> <span class="glyphicon glyphicon-user"></span> <span id="uname">Account</span></a>
+                                                    <% } %>
+                                                    <% if(session.getAttribute("userID")!=null){ %>
+                                                    <a href="userRetrieve" class="btn btn-warning"> <span class="glyphicon glyphicon-user"></span> <span id="uname"><script>getCookie("username")</script></span></a>
+                                                    <% } %>
+                            
                         </div>
 			<h1>S.I.D.N.E.E.</h1>
                         <div>
@@ -165,18 +188,18 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index.jsp">S.I.D.N.E.E.</a>
+					<a class="navbar-brand" href="indexRetrieveProductNBranch">S.I.D.N.E.E.</a>
 				</div>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<!-- navbar buttons-->
 					<ul class="nav navbar-nav navbar-left">
 						<li style="overflow: hidden;">
-							<form class="search-bar navbar-form" role="search" style="border: 1px solid transparent;">
+							<form class="search-bar navbar-form" role="search" action="Search" method="POST" style="border: 1px solid transparent;">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Search Me!" name="srch" id="srch">
+									<input type="text" class="form-control" placeholder="Search Me!" name="query" id="srch">
 									<div class="input-group-btn">
-										<button class="btn btn-default" type="submit" onClick="location.href='productPage.html'">
+										<button class="btn btn-default" type="submit">
 											<i class="glyphicon glyphicon-search"></i>
 										</button>
 									</div>
@@ -191,7 +214,9 @@
 							</a>
 							<ul class="dropdown-menu">
 								<li><a href="allProductsRetrieve"><span class="glyphicon glyphicon-eye-open"> All Products</span></a></li>
+                                                                <%  if(session.getAttribute("userID")!=null){  %>
 								<li><a href="addProduct.jsp"><span class="glyphicon glyphicon-plus"> Add Product</span></a></li>
+                                                                <% } %>
 							</ul>
 						</li>
 						<li class="dropdown">
@@ -200,7 +225,10 @@
 							</a>
 							<ul class="dropdown-menu">
 								<li><a href="allBranchesRetrieve"><span class="glyphicon glyphicon-eye-open"> All Branches</span></a></li>
+                                                                <%  if(session.getAttribute("userID")!=null){  %>
                                                                 <li><a href="addBranch.jsp"><span class="glyphicon glyphicon-plus"> Add Branch</span></a></li>
+                                                                <li><a href="AddProductBranch"><span class="glyphicon glyphicon-plus"> Add Product to Branch</span></a></li>
+                                                                <% } %>
 							</ul>
 						</li>
 						<li class="dropdown">
@@ -238,6 +266,21 @@
 				});
 			}(jQuery));
 		</script>
+                <span id="top-link-block" class="hidden">
+			<a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0},'slow');return false;">
+			<i class="glyphicon glyphicon-chevron-up"></i>
+			</a>
+		</span>
+        <script>
+            // Only enable if the document has a long scroll bar
+            // Note the window height + offset
+            if ( ($(window).height() + 100) < $(document).height() ) {
+                $('#top-link-block').removeClass('hidden').affix({
+                // how far to scroll down before link "slides" into view
+		offset: {top:100}
+		});
+            }
+	</script>
 		
     </body>
 </html>

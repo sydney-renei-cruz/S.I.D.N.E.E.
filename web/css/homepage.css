@@ -5,8 +5,15 @@
 *           *
 *           *
 \***********/
-*{
-	font-family: Segoe UI, impact;
+@font-face{
+    font-family: Nevis;
+    src: url("/css/fonts/nevis.ttf") 
+        format("truetype");
+}
+@font-face{
+    font-family: Hattori Hanzo;
+    src: url("/css/fonts/Hattori_Hanzo.otf") 
+        format("opentype");
 }
 /*set home navbut style, and when hovering*/
 .home_navbut{
@@ -20,12 +27,15 @@
 /*font-size*/
 h1{
 	font-size: 13em;
+        font-family: Nevis;
 }
 h2{
 	font-size: 1.9em;
+        font-family: Nevis;
 }
 h3{
 	font-size: 1.5em;
+        font-family: Hattori Hanzo;
 }
 .panel-body p{
 	color: #000000 !important;
@@ -68,6 +78,7 @@ h3{
 #homnav .col-sm-4{
 	padding: 0 2% 1%;
 	display: block;
+        
 }
 /*adjust search box*/
 .input-group{
@@ -90,6 +101,7 @@ h3{
 /*toggle button style*/
 .homenav{
 	background-color: #E4717A;
+        
 }
 
 /**************************\
