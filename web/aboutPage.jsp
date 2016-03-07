@@ -56,7 +56,7 @@
                                                         <a href="Login" class="btn btn-warning"> <span class="glyphicon glyphicon-user"></span> <span id="uname">Account</span></a>
                                                     <% } %>
                                                     <% if(session.getAttribute("userID")!=null){ %>
-                                                    <a href="userRetrieve" class="btn btn-warning"> <span class="glyphicon glyphicon-user"></span> <span id="uname"><script>getCookie("username")</script></span></a>
+                                                    <a href="userRetrieve" class="btn btn-warning"> <span class="glyphicon glyphicon-user"></span> <span id="uname"><script>document.write(getCookie("username"))</script></span></a>
                                                     <% } %>
                             
                         </div>
