@@ -10,7 +10,6 @@
     <head>
         <%@include file="commonHeadTags.jsp" %>
         <script src="js/main.js"></script>
-        
 	<link rel="stylesheet" type="text/css" href="css/default-navbar.css"/>
     </head>
     <body>

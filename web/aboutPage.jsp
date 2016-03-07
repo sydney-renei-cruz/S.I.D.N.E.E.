@@ -10,6 +10,7 @@
     <head>
         <%@include file="WEB-INF/jsp/commonHeadTags.jsp" %>
         <link type="text/css" rel="stylesheet" href="css/aboutPage.css"/>
+        
         <link rel="stylesheet" type="text/css" href="css/default-navbar.css"/>
     </head>
     <body>

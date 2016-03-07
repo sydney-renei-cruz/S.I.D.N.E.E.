@@ -11,7 +11,6 @@
     <head>
         <%@include file="WEB-INF/jsp/commonHeadTags.jsp" %>
 		<link rel="stylesheet" type="text/css" href="css/homepage.css"/>
-                
 		<link rel="stylesheet" type="text/css" href="css/default-navbar.css"/>
         
 	</head>
