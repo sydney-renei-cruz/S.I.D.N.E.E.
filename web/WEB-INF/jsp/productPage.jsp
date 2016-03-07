@@ -53,11 +53,38 @@
 						<hr style="margin: 0px 0px 70px 0px;">
 						<p class="lead" style="font-size: 2em;"> Price: <label class="MSRP"><%= df.format(product.getMSRP() - (product.getMSRP()*product.getDiscountRate())/100)%></label> <br> MSRP: <%=product.getMSRP()%> Discount rate: <%=product.getDiscountRate()%>%</p>
 						<hr style="margin: 70px 0px 0px 0px;">
+                                                
                                                 <%  if(session.getAttribute("userID")!=null){  %>
-                                                    <form action="editProduct">
-                                                        <input type="hidden" name="productID" value="${product.getProductID()}">
-                                                        <button type="submit" class="btn btn-primary">Edit</button>
-                                                    </form>
+                                                <table>
+                                                    <td>
+                                                        <form action="editProduct">
+                                                            <input type="hidden" name="productID" value="${product.getProductID()}">
+                                                            <button type="submit" class="btn btn-primary">Edit Product</button>
+                                                        </form>
+                                                    </td>
+                                                    <td style="float: right; margin-left: 100%;">
+                                                        <% 
+                                                                                        ArrayList<ProductInventoryBean> productData = (ArrayList)request.getAttribute("productBranchData"); 
+                                                                                        
+                                                                                        for(int j = 0; j<productData.size(); j++){
+                                                                                            
+                                                                                            %>
+                                                        <form>
+                                                            <td class="styled-select">
+                                                                <select>
+                                                                    <option selected>---</option>
+                                                                    <option><%=productData.get(j).getBranchNum()%></option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <button type="submit" class="btn btn-danger"> Edit Product in Branch</button>
+                                                            </td>
+                                                        </form>
+                                                        <% } %>
+                                                    </td>
+                                                    
+                                                </table>
+                                                                                          
                                                 <%}%>
 					</div>
 				</div>
@@ -89,9 +116,7 @@
 												<th>Price</th>
 												<th>In Stock?</th>
 												<th>Discounted Price</th>
-                                                                                                <%  if(session.getAttribute("userID")!=null){  %>
-                                                                                                <th></th>
-                                                                                                <% } %>
+                                                                                                
 											</tr>
 										</thead>
 										<tbody class="compTable">
@@ -118,11 +143,7 @@
                                                                                                 <td>
                                                                                                     <%=productData.get(j).getBranchDiscountRate()%>%
                                                                                                 </td>
-                                                                                                <%  if(session.getAttribute("userID")!=null){  %>
-                                                                                                <td>
-                                                                                                    <a href="editBranchProduct.jsp" class="label label-info" rel="tooltip" title="Edit Product"> Edit</a>
-                                                                                                </td>
-                                                                                                <%}%>
+                                                                                                
                                                                                     
                                                                                        <%}%>
                                                                                     
