@@ -60,7 +60,7 @@ public class MySQL {
         return cb;
     }
     
-    public static LoginBean register(String userID, String username, String password, Part image, HttpServletRequest request, HttpServletResponse response){
+    public static LoginBean register(String userID, String username, String password, Part image, HttpServletRequest request, HttpServletResponse response) throws Exception{
         LoginBean lb = new LoginBean();
         lb.setStatus(false);
         ServletContext context = request.getSession().getServletContext();
@@ -159,7 +159,9 @@ public class MySQL {
             conn.close();
         }
         catch(Exception ex) {
-            ex.printStackTrace(out);
+            StackTraceElement[] elements = ex.getStackTrace();
+            request.setAttribute("msg", elements[0]);
+            request.getRequestDispatcher("errorPage.jsp").forward(request,response);
         }
         return lb;
         
@@ -171,7 +173,7 @@ public class MySQL {
         ServletContext context = request.getSession().getServletContext();
         
         LoginBean lb = new LoginBean();
-        
+        LinkedList branchNum = new LinkedList();
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -233,18 +235,33 @@ public class MySQL {
                 else
                     lb.setStatus(false);
             }
+            rs.close();
+            ps.close();
             
+            inText = "select branchNum from branchUserEdit where userID=?;";
+            ps = conn.prepareStatement(inText);
+            ps.setString(1, lb.getUserID());
+            
+            if(ps.execute()){
+                rs = ps.getResultSet();
+                while(rs.next()){
+                    branchNum.add(rs.getString("branchNum"));
+                }
+            }
+            lb.setBranch(branchNum);
             rs.close();
             ps.close();
             conn.close();
         }
         catch(Exception ex) {
-            ex.printStackTrace(out);
+            StackTraceElement[] elements = ex.getStackTrace();
+            request.setAttribute("msg", elements[0]);
+            request.getRequestDispatcher("errorPage.jsp").forward(request,response);
         }
         return lb;
     }
     
-    public static ConnectionBean search(String phrase, HttpServletRequest request, HttpServletResponse response){
+    public static ConnectionBean search(String phrase, HttpServletRequest request, HttpServletResponse response) throws Exception{
         ConnectionBean cb = new ConnectionBean();
         
         ServletContext context = request.getSession().getServletContext();
@@ -275,7 +292,9 @@ public class MySQL {
             cb.setConn(conn);
         }
         catch(Exception ex){
-            ex.printStackTrace(out);
+            StackTraceElement[] elements = ex.getStackTrace();
+            request.setAttribute("msg", elements[0]);
+            request.getRequestDispatcher("errorPage.jsp").forward(request,response);
         }
         return cb;
     }

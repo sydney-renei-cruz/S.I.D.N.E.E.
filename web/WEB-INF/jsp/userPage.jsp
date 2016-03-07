@@ -15,17 +15,17 @@
         <div class="container page-header">
             <center>
                 <div class="img-con">
-                    <img src="img/syd.jpg" class="img-circle" style=""> 
+                    <img src="image?uid=${uid}" class="img-circle" style=""> 
                 </div>
             </center>
         </div>
         <div class="container">
             <center>
-                <h1 class="userName">Sydney Cruz</h1>
-                <h2 class="userID" style="font-size: 1.5em;">1111</h2>
+                <h1 class="userName">${uname}</h1>
+                <h2 class="userID" style="font-size: 1.5em;">${uid}</h2>
                 <div style="font-size: 2em">
-                    <a class="btn-lg btn btn-info" href="registerUser.jsp" style="color: #fff !important;"> Register Another User </a>
-                    <a class="btn-lg btn btn-warning" href="#" style="color: #fff !important;"> Log Out </a>
+                    <a class="btn-lg btn btn-info" href="Register" style="color: #fff !important;"> Register Another User </a>
+                    <a class="btn-lg btn btn-warning" href="Login" style="color: #fff !important;"> Log Out </a>
                 </div>
             </center> 
         </div>

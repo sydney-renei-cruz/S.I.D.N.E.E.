@@ -83,8 +83,9 @@ public class productRetrieve extends HttpServlet {
 	}
 	catch (Exception ex){
 	// handle any errors
-		out.write("Error: empty parameters or no product ID with that name");
-                ex.printStackTrace(out);
+		StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
 	}
         cb.close();
     }

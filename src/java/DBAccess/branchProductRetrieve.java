@@ -70,7 +70,7 @@ public class branchProductRetrieve extends HttpServlet {
                 rs.first();
                 
                 request.setAttribute("branchName",rs.getString("branchName"));
-                
+                request.setAttribute("branch", branchinput);
                 rs.close();
                 cb.close();
                 

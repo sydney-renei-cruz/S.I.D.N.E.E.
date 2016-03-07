@@ -5,6 +5,8 @@
  */
 package Beans;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author host
@@ -13,6 +15,7 @@ public class LoginBean implements java.io.Serializable{
      private String username;
      private String userID;
      private boolean status;
+     private LinkedList branch;
      
      public LoginBean(){
          username = null;
@@ -42,5 +45,13 @@ public class LoginBean implements java.io.Serializable{
      
      public boolean getStatus(){
          return status;
+     }
+     
+     public void setBranch(LinkedList brh){
+         branch = brh;
+     }
+     
+     public LinkedList getBranch(){
+         return branch;
      }
 }

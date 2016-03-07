@@ -45,6 +45,9 @@ public class ImageRetrieve extends HttpServlet {
         else if(request.getParameter("branchNum")!=null){
             imagePath = context.getInitParameter("imgPath") + "branch\\" + request.getParameter("branchNum") + ".png";
         }
+        else if(request.getParameter("uid")!=null){
+            imagePath = context.getInitParameter("imgPath") + "user\\" + request.getParameter("uid") + ".png";
+        }
         
 	File file = new File(imagePath);
         BufferedImage bi;

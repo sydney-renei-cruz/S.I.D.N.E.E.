@@ -75,9 +75,15 @@ public class Search extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException{
         String query = request.getParameter("query");
-        ConnectionBean cb = MySQL.search(query,request,response);
+        ConnectionBean cb = null;
+        try{
+            cb = MySQL.search(query,request,response);
+        }
+        catch(Exception ex){
+            
+        }
         LinkedList<ProductBean>queryResults = new LinkedList();
         PrintWriter out = null;
         try{
@@ -88,7 +94,9 @@ public class Search extends HttpServlet {
             }
         }
         catch(Exception ex){
-            ex.printStackTrace(out);
+            StackTraceElement[] elements = ex.getStackTrace();
+            request.setAttribute("msg", elements[0]);
+            request.getRequestDispatcher("errorPage.jsp").forward(request,response);
         }
         
         request.setAttribute("queryResults", queryResults);

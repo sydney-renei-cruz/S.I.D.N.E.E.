@@ -62,7 +62,9 @@ public class editProduct extends HttpServlet {
                 //Class.forName("com.mysql.jdbc.Driver");
                 Class.forName(context.getInitParameter("jdbcDriver"));
             } catch(Exception ex) {
-                ex.printStackTrace(out);
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
 
             Connection conn = null;
@@ -70,7 +72,9 @@ public class editProduct extends HttpServlet {
             try {
                 conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
             } catch(SQLException ex) {
-                out.println(ex);
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
 
             try {
@@ -124,7 +128,9 @@ public class editProduct extends HttpServlet {
 
             catch (Exception ex){
             // handle any errors
-                ex.printStackTrace(out);
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
 
             finally {
@@ -165,7 +171,9 @@ public class editProduct extends HttpServlet {
                 rs.close();
             }
             catch(Exception ex){
-                
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
             cb.close();
             request.getRequestDispatcher("WEB-INF/jsp/editProduct.jsp").forward(request,response);

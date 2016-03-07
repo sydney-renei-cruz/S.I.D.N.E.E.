@@ -9,6 +9,7 @@ import Beans.LoginBean;
 import Utilities.MySQL;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -80,8 +81,9 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //set the MIME type for the response message
+        
         HttpSession session = request.getSession(true);
-        session = request.getSession(true);
+        
         Cookie cookie = new Cookie("userID", null);
         response.addCookie(cookie);
             //---------------
@@ -94,7 +96,9 @@ public class Login extends HttpServlet {
         try {
             lb = MySQL.login(input, pass, request, response);
         } catch (Exception ex) {
-        
+            StackTraceElement[] elements = ex.getStackTrace();
+            request.setAttribute("msg", elements[0]);
+            request.getRequestDispatcher("errorPage.jsp").forward(request,response);
         }
 
         if(lb.getStatus()){
@@ -105,6 +109,7 @@ public class Login extends HttpServlet {
             response.addCookie(uiCookie);
             response.addCookie(unCookie);
             session.setAttribute("userID", lb.getUserID());
+            session.setAttribute("branch", lb.getBranch());
             response.sendRedirect("indexRetrieveProductNBranch");
         }
         else{

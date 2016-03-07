@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Utilities.BeanUtils;
+import java.io.StringWriter;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -65,7 +66,9 @@ public class AddProductBranch extends HttpServlet {
                 Class.forName(context.getInitParameter("jdbcDriver"));
                 conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
             } catch(Exception ex) {
-                ex.printStackTrace(out);
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
 
             try {
@@ -92,7 +95,9 @@ public class AddProductBranch extends HttpServlet {
 
             catch (Exception ex){
             // handle any errors
-                ex.printStackTrace(out);
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
 
             finally {
@@ -143,7 +148,9 @@ public class AddProductBranch extends HttpServlet {
                 rs.close();
             }
             catch(Exception ex){
-                
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
             cbB.close();
             cbP.close();

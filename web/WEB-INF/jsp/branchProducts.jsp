@@ -30,7 +30,8 @@
         <%@page import="DBAccess.*"%>
 		<div class="col-lg-12">
 			<h1 class="page-header text-center">
-                            <%  String branchName = (String)request.getAttribute("branchName");
+                            <%  LinkedList branchList = (LinkedList)request.getSession().getAttribute("branch");
+                                String branchName = (String)request.getAttribute("branchName");
                                 if(branchName.substring(branchName.length()-1).equals("s")){
                             %>
                                 <%=branchName%>' Products
@@ -63,8 +64,12 @@
                                 <h4>Price: <%= branchProductList.get(i).getMSRP()%></h4>
                                 <h4>Discount Rate: <%= branchProductList.get(i).getDiscountRate()%>%</h4>
                                 <a href="productRetrieve?pid=<%=branchProductList.get(i).getProductID()%>" class="label label-danger" rel="tooltip" title="View Product"> View Product</a>
-                                <%  if(session.getAttribute("userID")!=null){  %>
-                                <a href="editBranchProduct.jsp" class="label label-info" rel="tooltip" title="Edit Product"> Edit</a>
+                                <%  if(session.getAttribute("userID")!=null && branchList.contains(request.getAttribute("branch"))){  %>
+                                <form action="EditProductBranch" method="POST">
+                                    <input type="hidden" value="${branch}" name="branchNum">
+                                    <input type="hidden" value="<%=branchProductList.get(i).getProductID()%>" name="productID">
+                                    <button type="submit" class="label label-info" rel="tooltip" title="Edit Product">Edit</a>
+                                </form>
                                 <% } %>
                             </div>
                             

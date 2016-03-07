@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -46,24 +47,26 @@ public class userRetrieve extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         
-        String inText = "SELECT * FROM user";
+        HttpSession session = request.getSession();
+        
+        String userID = (String) session.getAttribute("userID");
+        String inText = "SELECT username FROM user WHERE userID=\"" + userID + "\";";
         ConnectionBean cb = MySQL.query(inText, request, response);
-        ArrayList<UserBean> resultList = new ArrayList<>();
         ResultSet rs = cb.getRS();
         
         try {
-                while(rs.next()){
-                    resultList.add(BeanUtils.createUserBean(rs.getString("userID"), rs.getString("username")));
-                    
-                }
-                rs.close();
+                rs.first();
+                request.setAttribute("uname", rs.getString("username"));
+                request.setAttribute("uid", userID);
+                cb.close();
 	}
 	catch (Exception ex){
 	// handle any errors
-		out.write("SQLException: " + ex);
+		StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
 	}
         cb.close();
-        request.setAttribute("userList",resultList);
         request.getRequestDispatcher("WEB-INF/jsp/userPage.jsp").forward(request, response);
         
     }

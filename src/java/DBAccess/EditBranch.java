@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -93,13 +94,17 @@ public class EditBranch extends HttpServlet {
                 //Class.forName("com.mysql.jdbc.Driver");
                 Class.forName(context.getInitParameter("jdbcDriver"));
             } catch(Exception ex) {
-                ex.printStackTrace(out);
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
             
             try {
                 conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
             } catch(SQLException ex) {
-                out.println(ex);
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
 
             try {
@@ -149,7 +154,9 @@ public class EditBranch extends HttpServlet {
 
             catch (Exception ex){
             // handle any errors
-                ex.printStackTrace(out);
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
 
             finally {
@@ -189,7 +196,9 @@ public class EditBranch extends HttpServlet {
                 rs.close();
             }
             catch(Exception ex){
-                
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
             cb.close();
             request.getRequestDispatcher("WEB-INF/jsp/editBranch.jsp").forward(request,response);

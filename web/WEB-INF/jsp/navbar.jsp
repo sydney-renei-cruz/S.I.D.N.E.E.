@@ -13,6 +13,18 @@
 	<link rel="stylesheet" type="text/css" href="css/default-navbar.css"/>
     </head>
     <body>
+        <script>
+                function getCookie(cname){
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+                    for(var i=0; i<ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0)==' ') c = c.substring(1);
+                        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+                    }
+                    return "";
+                }
+        </script>
         <!-- Navigation -->
 		<nav class="navbar  navbar-fixed-top" role="navigation" id="myNavbar">
 			<div class="container-fluid">
@@ -88,7 +100,6 @@
 				</div>
 			</div>
 		</nav>
-                                                    <!-- back to top link  -->
-		
+                                                    <!-- back to top link  -->	
     </body>
 </html>

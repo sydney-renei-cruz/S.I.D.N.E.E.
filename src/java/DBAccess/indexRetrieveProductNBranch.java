@@ -10,6 +10,7 @@ import Beans.ProductBean;
 import Utilities.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -54,7 +55,9 @@ public class indexRetrieveProductNBranch extends HttpServlet {
             
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }catch(Exception e){
-            e.printStackTrace();
+            StackTraceElement[] elements = e.getStackTrace();
+            request.setAttribute("msg", elements[0]);
+            request.getRequestDispatcher("errorPage.jsp").forward(request,response);
         }
     }
 

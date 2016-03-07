@@ -5,23 +5,21 @@
  */
 package DBAccess;
 
-import Beans.LoginBean;
+import Beans.ConnectionBean;
 import Utilities.MySQL;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 
 /**
  *
  * @author Admin
  */
-public class Register extends HttpServlet {
+public class EditProductBranch extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,18 +32,39 @@ public class Register extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Register</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Register at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String stock = request.getParameter("stock");
+        String bdr = request.getParameter("branchDiscountRate");
+        String prodID = request.getParameter("productID");
+        String branchNum = request.getParameter("branchNum");
+        
+        if(prodID != null && branchNum != null){
+            String inText = "SELECT branchDiscountRate, stock FROM branchInventory WHERE branchNum = \"" + branchNum + "\" AND productID = \""+ prodID +"\";";
+            ConnectionBean cb = MySQL.query(inText, request, response);
+            try{
+                ResultSet rs = cb.getRS();
+                rs.first();
+                request.setAttribute("branch", branchNum);
+                request.setAttribute("product", prodID);
+                request.setAttribute("stock", rs.getString("stock"));
+                request.setAttribute("bdr", rs.getString("branchDiscountRate"));
+                request.getRequestDispatcher("WEB-INF/jsp/editBranchProduct.jsp").forward(request,response);
+            }catch(Exception ex){
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
+            }
+        }
+        
+        else if(stock!=null && bdr!=null){
+            String inText = "UPDATE branchInventory SET stock=\""+stock+"\", branchDiscountRate=\""+bdr+"\" WHERE branchNum = \"" + branchNum + "\" AND productID = \""+ prodID +"\";";
+            ConnectionBean cb = MySQL.query(inText, request, response);
+            request.setAttribute("msg", "Update successful");
+            request.getRequestDispatcher("GenPage.jsp").forward(request,response);
+        }
+        
+        else{
+            request.setAttribute("msg", "Please select a branch and select the product to edit first.");
+            request.getRequestDispatcher("GenPage.jsp").forward(request,response);
         }
     }
 
@@ -61,7 +80,7 @@ public class Register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/jsp/Register.jsp").forward(request,response);
+        processRequest(request, response);
     }
 
     /**
@@ -75,31 +94,7 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userID = request.getParameter("userID");
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        Part filePart = request.getPart("image");
-        
-        LoginBean lb = null;
-        
-        try{
-        lb = MySQL.register(userID, username, password, filePart, request, response);
-        }
-        catch(Exception ex){
-        }
-        
-        HttpSession session = request.getSession();
-        
-        if(lb.getStatus()){
-            Cookie uiCookie = new Cookie("userID", lb.getUserID());
-            uiCookie.setMaxAge(3600);
-            Cookie unCookie = new Cookie("username", lb.getUsername());
-            uiCookie.setMaxAge(3600);
-            response.addCookie(uiCookie);
-            response.addCookie(unCookie);
-            session.setAttribute("userID", lb.getUserID());
-            response.sendRedirect("index.html");
-        }
+        processRequest(request, response);
     }
 
     /**

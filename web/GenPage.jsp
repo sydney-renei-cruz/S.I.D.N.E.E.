@@ -17,8 +17,6 @@
                 Oops!
             </h1>
             <h2 class="text-center">
-                Something went wrong...
-                Please send the following to the developers: 
                 <br>
                 <br>
                 ${msg}

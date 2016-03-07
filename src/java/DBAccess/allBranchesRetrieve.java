@@ -77,7 +77,9 @@ public class allBranchesRetrieve extends HttpServlet {
 	}
 	catch (Exception ex){
 	// handle any errors
-		out.write("SQLException: " + ex);
+		StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
 	}
         
 	

@@ -74,8 +74,9 @@ public class addProduct extends HttpServlet {
                 //Class.forName("com.mysql.jdbc.Driver");
                 Class.forName(context.getInitParameter("jdbcDriver"));
             } catch(Exception ex) {
-                out.println("Error (jdbcDriver):\n");
-                ex.printStackTrace(out);
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
 
             Connection conn = null;
@@ -83,8 +84,9 @@ public class addProduct extends HttpServlet {
             try {
                 conn = DriverManager.getConnection(context.getInitParameter("dbURL"),context.getInitParameter("user"),context.getInitParameter("password"));
             } catch(SQLException ex) {
-                out.println("Error (conn): \n");
-                ex.printStackTrace(out);
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
 
             try {
@@ -145,8 +147,9 @@ public class addProduct extends HttpServlet {
             // handle any errors
                 /**request.setAttribute("msg", " Error: " + ex);
                 request.getRequestDispatcher("WEB-INF/Output.jsp").forward(request, response);**/
-                out.println("Error (DB connection): ");
-                ex.printStackTrace(out);
+                StackTraceElement[] elements = ex.getStackTrace();
+                request.setAttribute("msg", elements[0]);
+                request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
 
             finally {

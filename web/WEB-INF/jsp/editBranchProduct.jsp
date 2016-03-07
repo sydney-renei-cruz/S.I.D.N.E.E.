@@ -11,11 +11,11 @@
         <link rel="stylesheet" type="text/css" href="css/main.css">
     </head>
     <body>
-        <%@include file="WEB-INF/jsp/navbar.jsp" %>
+        <%@include file="navbar.jsp" %>
         <div class="container text-center">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header"> Edit Product of the Branch Name</h1>
+					<h1 class="page-header"> Edit Product Branch</h1>
 				</div>
 			</div>
                         <form class="form-horizontal" role="form" action = "AddProductBranch" method = "post" style="font-size: 1.1em; font-family: 'arial' !important;" enctype="multipart/form-data">
@@ -31,25 +31,25 @@
 						<div class="form-group">
 							<label class="col-lg-3 control-label">Branch:</label>
 							<div class="col-lg-8">
-                                                            Name
+                                                            ${branch}
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-lg-3 control-label">Product:</label>
 							<div class="col-lg-8">
-                                                            Name
+                                                            ${product}
                                                         </div>
 						</div>
                                                 <div class="form-group">
 							<label class="col-lg-3 control-label">Branch Discount Rate:</label>
 							<div class="col-lg-8">
-								<input class="form-control" type="number" step="0.01" min=0 max=100 name="branchDiscountRate" required>
+								<input class="form-control" type="number" step="0.01" min=0 max=100 name="branchDiscountRate" value="${bdr}" required>
 							</div>
 						</div>
                                                 <div class="form-group">
 							<label class="col-lg-3 control-label">Stock:</label>
 							<div class="col-lg-8">
-								<input class="form-control" type="number" step="1" min=0 name="stock" required>
+								<input class="form-control" type="number" step="1" min=0 name="stock" value="${stock}" required>
 							</div>
 						</div>
 						<div class="form-group">
