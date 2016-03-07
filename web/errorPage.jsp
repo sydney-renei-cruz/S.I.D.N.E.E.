@@ -19,7 +19,7 @@
             <h2 class="text-center">
                 Something went wrong...
             </h2>
-            <a href="index.jsp" class="text-center go-back"><span class="glyphicon glyphicon-chevron-left"></span>Go back to home</a>
+            <a href="indexRetrieveProductNBranch" class="text-center go-back"><span class="glyphicon glyphicon-chevron-left"></span>Go back to home</a>
             <a href="allProductsRetrieve" class="text-center go-back"><span class="glyphicon glyphicon-chevron-left"></span>Go back to all products</a>
             <a href="allBranchesRetrieve" class="text-center go-back"><span class="glyphicon glyphicon-chevron-left"></span>Go back to all branches</a>
         </div>
