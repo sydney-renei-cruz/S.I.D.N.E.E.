@@ -72,8 +72,11 @@
                                                         <form>
                                                             <td class="styled-select">
                                                                 <select>
-                                                                    <option selected>---</option>
+                                                                    <% LinkedList branchlist = (LinkedList)request.getSession().getAttribute("branch");
+                                                                    if (branchlist.contains(productData.get(j).getBranchNum())){ %>
                                                                     <option><%=productData.get(j).getBranchNum()%></option>
+                                                                    <%}%>
+                                                                
                                                                 </select>
                                                             </td>
                                                             <td>

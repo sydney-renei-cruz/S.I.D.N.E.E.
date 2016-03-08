@@ -22,6 +22,11 @@
 	<%@page import="Beans.*"%>
         <%@page import="DBAccess.*"%>
         <% 
+            LinkedList branchesList = null;
+            if((LinkedList)request.getSession().getAttribute("branch") != null){
+                branchesList = (LinkedList)request.getSession().getAttribute("branch");
+            }
+            
             List <BranchBean> branchList = (List)request.getAttribute("branchList"); 
             for(BranchBean branch: branchList) {
         %>
@@ -38,12 +43,13 @@
             <h5><label class="phoneNumber"><%=branch.getBranchPhoneNum()%></label></h5>
             <p></p>
             <a class="btn btn-primary" href="branchProductRetrieve?branch=<%=branch.getBranchNum()%>">View Products <span class="glyphicon glyphicon-chevron-right"></span></a>
-            <%  if(session.getAttribute("userID")!=null){  %>
+            <%  if(branchesList!=null){
+                    if(branchesList.contains(branch.getBranchNum())){  %>
                                                 <form action="editBranch" method="post">
                                                     <input type="hidden" name="branchNum" value="<%=branch.getBranchNum()%>">
                                                     <button type="submit" class="btn btn-primary">Edit</button>
                                                 </form>
-                                                <%}
+                                                <%}}
                                                 %>
             <hr>
             </div>

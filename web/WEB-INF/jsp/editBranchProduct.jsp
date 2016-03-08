@@ -18,7 +18,7 @@
 					<h1 class="page-header"> Edit Product Branch</h1>
 				</div>
 			</div>
-                        <form class="form-horizontal" role="form" action = "AddProductBranch" method = "post" style="font-size: 1.1em; font-family: 'arial' !important;" enctype="multipart/form-data">
+                        <form class="form-horizontal" role="form" action = "EditProductBranch" method = "post" style="font-size: 1.1em; font-family: 'arial' !important;" enctype="multipart/form-data">
 			<div class="row">
 				<!-- left column -->
 					<div class="alert alert-info alert-dismissable">
@@ -31,12 +31,14 @@
 						<div class="form-group">
 							<label class="col-lg-3 control-label">Branch:</label>
 							<div class="col-lg-8">
+                                                            <input type="hidden" name="branchNum" value="${branch}">
                                                             ${branch}
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-lg-3 control-label">Product:</label>
 							<div class="col-lg-8">
+                                                            <input type="hidden" name="productID" value="${product}">
                                                             ${product}
                                                         </div>
 						</div>
@@ -60,7 +62,7 @@
 								<input type="reset" class="btn btn-default" value="Cancel">
 							</div>
 						</div>
-					</form>	
+					</form>
 			</div>
 		</div>
         <span id="top-link-block" class="hidden">

@@ -37,7 +37,14 @@ public class EditProductBranch extends HttpServlet {
         String prodID = request.getParameter("productID");
         String branchNum = request.getParameter("branchNum");
         
-        if(prodID != null && branchNum != null){
+        if(stock!=null && bdr!=null){
+            String inText = "UPDATE branchInventory SET stock=\""+stock+"\", branchDiscountRate=\""+bdr+"\" WHERE branchNum = \"" + branchNum + "\" AND productID = \""+ prodID +"\";";
+            ConnectionBean cb = MySQL.query(inText, request, response);
+            request.setAttribute("msg", "Update");
+            request.setAttribute("msg", "Update successful<br><br><a href=productRetrieve?pid=" + prodID +">Back to Product</a><br><a href=branchProductRetrieve?branch=" + branchNum+">Back to Branch</a>");
+            request.getRequestDispatcher("GenPage.jsp").forward(request,response);
+        }
+        else if(prodID != null && branchNum != null){
             String inText = "SELECT branchDiscountRate, stock FROM branchInventory WHERE branchNum = \"" + branchNum + "\" AND productID = \""+ prodID +"\";";
             ConnectionBean cb = MySQL.query(inText, request, response);
             try{
@@ -54,14 +61,6 @@ public class EditProductBranch extends HttpServlet {
                 request.getRequestDispatcher("errorPage.jsp").forward(request,response);
             }
         }
-        
-        else if(stock!=null && bdr!=null){
-            String inText = "UPDATE branchInventory SET stock=\""+stock+"\", branchDiscountRate=\""+bdr+"\" WHERE branchNum = \"" + branchNum + "\" AND productID = \""+ prodID +"\";";
-            ConnectionBean cb = MySQL.query(inText, request, response);
-            request.setAttribute("msg", "Update successful");
-            request.getRequestDispatcher("GenPage.jsp").forward(request,response);
-        }
-        
         else{
             request.setAttribute("msg", "Please select a branch and select the product to edit first.");
             request.getRequestDispatcher("GenPage.jsp").forward(request,response);

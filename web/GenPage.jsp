@@ -14,7 +14,7 @@
     <body>
         <div class="col-lg-12">
             <h1 class="page-header text-center">
-                Oops!
+                ${title}
             </h1>
             <h2 class="text-center">
                 <br>

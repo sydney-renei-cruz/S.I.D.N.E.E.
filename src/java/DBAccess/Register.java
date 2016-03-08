@@ -7,8 +7,12 @@ package DBAccess;
 
 import Beans.LoginBean;
 import Utilities.MySQL;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -98,8 +102,29 @@ public class Register extends HttpServlet {
             response.addCookie(uiCookie);
             response.addCookie(unCookie);
             session.setAttribute("userID", lb.getUserID());
-            response.sendRedirect("index.html");
+            response.sendRedirect("userRetrieve");
         }
+        
+        if(filePart.getSize()!=0){
+            
+                InputStream inputStream = null;
+                ServletContext context = request.getSession().getServletContext();
+                        String imagePath =  context.getInitParameter("imgPath") + "user\\" + lb.getUserID() +".png";
+                        File file = new File(imagePath);
+
+                        FileOutputStream outFile = new FileOutputStream(file);
+                        inputStream = filePart.getInputStream();          
+
+                        int read = 0;         
+                        int bufferSize = 1024;             
+                        byte[] buffer = new byte[bufferSize];              
+                        while ((read = inputStream.read(buffer)) != -1) {    
+                            outFile.write(buffer, 0, read);             
+                        }
+
+                        inputStream.close(); 
+                        outFile.close();
+                    }
     }
 
     /**

@@ -61,6 +61,14 @@
         <servlet-name>Search</servlet-name>
         <servlet-class>DBAccess.Search</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditProductBranch</servlet-name>
+        <servlet-class>DBAccess.EditProductBranch</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditProductBranch</servlet-name>
+        <url-pattern>/EditProductBranch</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -151,6 +159,6 @@
     </context-param>
     <context-param>
         <param-name>imgPath</param-name>
-        <param-value>/home/user/img/</param-value>
+        <param-value>/home/host/img/</param-value>
     </context-param>
 </web-app>
